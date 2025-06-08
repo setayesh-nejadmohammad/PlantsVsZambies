@@ -1,16 +1,21 @@
 package game.plantsvszambies;
 
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Cell;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainApplication extends Application {
     public static int rowNum = 5;
@@ -18,7 +23,7 @@ public class MainApplication extends Application {
     public static int CELL_SIZE = 81;
     @Override
     public void start(Stage stage) throws IOException {
-
+        AtomicInteger num = new AtomicInteger(0);
         Image frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
         BorderPane borderPane = new BorderPane();
         BackgroundImage bgImage = new BackgroundImage(
@@ -47,17 +52,86 @@ public class MainApplication extends Application {
                 rect.setStroke(Color.BLACK);
                 rect.setStrokeWidth(0.5);
                 grid.add(rect, col, row);
+                StackPane cell = new StackPane();
+                Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
+                ImageView sunflowerView = new ImageView(sunflower);
+
+                Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
+                ImageView peashooterView = new ImageView(peashooter);
+                cell.setOnMouseClicked((MouseEvent e) -> {
+                    System.out.println("salmammmmmmm");
+                    if(num.intValue() == 1){
+                        num.set(0);
+                        cell.getChildren().addAll(sunflowerView);
+
+                    }
+                    else if(num.intValue() == 2){
+                        num.set(0);
+                        cell.getChildren().addAll(peashooterView);
+                    }
+
+                });
+                grid.add(cell,col, row);
             }
         }
 
+
+
         VBox vbox = new VBox();
+        borderPane.setLeft(vbox);
 
 
         Scene scene = new Scene(borderPane, 1024, 626);
         stage.setTitle("Map");
         stage.setScene(scene);
         stage.show();
+
+        Image sunflowerCard = new Image(getClass().getResourceAsStream("images/Cards/sunflowerCard.png"));
+        ImageView sunflowerCardView = new ImageView(sunflowerCard);
+        sunflowerCardView.setFitWidth(CELL_SIZE*2);
+        sunflowerCardView.setFitHeight(CELL_SIZE*2/1.5);
+        Image peashooterCard = new Image(getClass().getResourceAsStream("images/Cards/peashooterCard.png"));
+        ImageView peashooterCardView = new ImageView(peashooterCard);
+        peashooterCardView.setFitWidth(CELL_SIZE*2);
+        peashooterCardView.setFitHeight(CELL_SIZE*2/1.5);
+
+        Button sunFlowerButton = new Button();
+        Button peashooterButton = new Button();
+
+        sunFlowerButton.setGraphic(sunflowerCardView);
+        peashooterButton.setGraphic(peashooterCardView);
+
+        sunFlowerButton.setOnAction(event -> {
+                    num.set(1);
+
+        });
+
+        peashooterButton.setOnAction(event -> {
+            num.set(2);
+        });
+
+
+        vbox.getChildren().add(sunFlowerButton);
+        vbox.getChildren().add(peashooterButton);
+
     }
+
+    private StackPane createCell(AtomicInteger num) {
+
+        Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
+        ImageView sunflowerView = new ImageView(sunflower);
+
+        Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
+        ImageView peashooterView = new ImageView(peashooter);
+
+
+        final StackPane cell = new StackPane();
+
+
+
+        return cell;
+    }
+
 
     public static void main(String[] args) {
         launch();
