@@ -21,9 +21,10 @@ public class MainApplication extends Application {
     public static int rowNum = 5;
     public static int colNum = 9;
     public static int CELL_SIZE = 81;
+    private static AtomicInteger num = new AtomicInteger(0);
     @Override
     public void start(Stage stage) throws IOException {
-        AtomicInteger num = new AtomicInteger(0);
+
         Image frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
         BorderPane borderPane = new BorderPane();
         BackgroundImage bgImage = new BackgroundImage(
@@ -52,25 +53,8 @@ public class MainApplication extends Application {
                 rect.setStroke(Color.BLACK);
                 rect.setStrokeWidth(0.5);
                 grid.add(rect, col, row);
-                StackPane cell = new StackPane();
-                Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
-                ImageView sunflowerView = new ImageView(sunflower);
+                StackPane cell = createCell();
 
-                Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
-                ImageView peashooterView = new ImageView(peashooter);
-                cell.setOnMouseClicked((MouseEvent e) -> {
-                    System.out.println("salmammmmmmm");
-                    if(num.intValue() == 1){
-                        num.set(0);
-                        cell.getChildren().addAll(sunflowerView);
-
-                    }
-                    else if(num.intValue() == 2){
-                        num.set(0);
-                        cell.getChildren().addAll(peashooterView);
-                    }
-
-                });
                 grid.add(cell,col, row);
             }
         }
@@ -116,18 +100,26 @@ public class MainApplication extends Application {
 
     }
 
-    private StackPane createCell(AtomicInteger num) {
+    private StackPane createCell() {
 
         Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
         ImageView sunflowerView = new ImageView(sunflower);
-
         Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
         ImageView peashooterView = new ImageView(peashooter);
+        StackPane cell = new StackPane();
+        cell.setOnMouseClicked((MouseEvent e) -> {
+            System.out.println("salmammmmmmm");
+            if(num.intValue() == 1){
+                num.set(0);
+                cell.getChildren().addAll(sunflowerView);
 
+            }
+            else if(num.intValue() == 2){
+                num.set(0);
+                cell.getChildren().addAll(peashooterView);
+            }
 
-        final StackPane cell = new StackPane();
-
-
+        });
 
         return cell;
     }
