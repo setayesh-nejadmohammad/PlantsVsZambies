@@ -45,20 +45,20 @@ public class MainApplication extends Application {
 
         borderPane.getChildren().add(grid);
 
-        // Create 5x9 grid of squares
+
         for (int row = 0; row < rowNum; row++) {
             for (int col = 0; col < colNum; col++) {
                 Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE+10);
                 rect.setFill(null);
                 rect.setStroke(Color.BLACK);
                 rect.setStrokeWidth(0.5);
+
                 grid.add(rect, col, row);
                 StackPane cell = createCell();
 
                 grid.add(cell,col, row);
             }
         }
-
 
 
         VBox vbox = new VBox();
