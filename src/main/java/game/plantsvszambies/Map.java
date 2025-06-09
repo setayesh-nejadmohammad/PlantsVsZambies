@@ -26,6 +26,9 @@ public class Map {
     private final Cell[][] gridCells;
     public GridPane grid;
     public BorderPane borderPane = new BorderPane();
+    //GameController gameController;
+    GameController gameController = new GameController(borderPane);
+
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
     Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
     Image frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
@@ -39,7 +42,6 @@ public class Map {
         grid.setVgap(0);
         grid.setLayoutX(250);
         grid.setLayoutY(85);
-
         this.gridCells = new Cell[ROWS][COLS];
 
         for (int row = 0; row < ROWS; row++) {
@@ -61,7 +63,7 @@ public class Map {
     }
 
     public void drawMap() {
-        GameController gameController = new GameController();
+
         Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             double x = Math.random() * (borderPane.getWidth() - 50);
             new Sun(borderPane, gameController, x); // `this` is GameController
@@ -172,13 +174,15 @@ public class Map {
         StackPane cell = new StackPane();
         cell.setOnMouseClicked((MouseEvent e) -> {
             System.out.println("salmammmmmmm");
-            if (num.intValue() == 1 && cell.getChildren().size() == 0) {
+            if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
                 cell.getChildren().addAll(sunflowerView);
+                gameController.reduceScore(50);
 
-            } else if (num.intValue() == 2 && cell.getChildren().size() == 0) {
+            } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
                 cell.getChildren().addAll(peashooterView);
+                gameController.reduceScore(100);
             }
         });
 

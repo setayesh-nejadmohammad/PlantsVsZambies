@@ -8,8 +8,9 @@ import javafx.stage.Stage;
 public class Game {
     Stage stage;
     Map map;
-    BorderPane borderPane = new BorderPane();
+    //BorderPane borderPane;
     Image frontYard;
+
 
     public Game(Stage stage){
         this.stage = stage;

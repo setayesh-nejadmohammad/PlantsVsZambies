@@ -36,8 +36,10 @@ public class Sun extends ImageView {
 
         // Handle click
         this.setOnMouseClicked(event -> {
-            gameController.addScore(SUN_POINTS); // Your method to update score
-            destroy();
+            if(gameController != null) {
+                gameController.addScore(SUN_POINTS); // Your method to update score
+                destroy();
+            }
         });
     }
 
