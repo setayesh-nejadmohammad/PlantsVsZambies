@@ -1,5 +1,7 @@
 package game.plantsvszambies;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -10,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -58,6 +61,16 @@ public class Map {
     }
 
     public void drawMap() {
+        GameController gameController = new GameController();
+        Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+            double x = Math.random() * (borderPane.getWidth() - 50);
+            new Sun(borderPane, gameController, x); // `this` is GameController
+        }));
+        sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
+        sunSpawnTimeline.play();
+
+        //Sun sun = new Sun(borderPane, gameController, 400);
+
         BackgroundImage bgImage = new BackgroundImage(
                 frontYard,
                 BackgroundRepeat.NO_REPEAT,
