@@ -9,6 +9,8 @@ module game.plantsvszambies {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires javafx.graphics;
+    requires javafx.base;
     //requires com.almasb.fxgl.all;
 
     opens game.plantsvszambies to javafx.fxml;

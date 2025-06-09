@@ -13,14 +13,12 @@ public class Game {
 
     public Game(Stage stage){
         this.stage = stage;
-        map = new Map(borderPane);
+        this.map = new Map(stage);
         frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
-
     }
 
     public void startGame(){
-        stage.setTitle("PlantsVsZambies");
-        Scene scene = new Scene(borderPane, 800, 600);
+        map.drawMap();
 
     }
 
