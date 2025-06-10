@@ -1,9 +1,12 @@
 package game.plantsvszambies;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -19,6 +22,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Map {
     public static final int ROWS = 5;
+    Button sunFlowerButton = new Button();
+    Button peashooterButton = new Button();
+    StackPane sunFlowerPane = new StackPane(sunFlowerButton);
+    StackPane peashooterPane = new StackPane(peashooterButton);
     public static final int COLS = 9;
     public static final int CELL_SIZE = 80;
     private static AtomicInteger num = new AtomicInteger(0);
@@ -80,12 +87,15 @@ public class Map {
         sunflowerCardView.setFitWidth(CELL_SIZE * 1.5);
         sunflowerCardView.setFitHeight(CELL_SIZE);
 
+        sunFlowerButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
+
+        peashooterButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
         ImageView peashooterCardView = new ImageView(peashooterCard);
         peashooterCardView.setFitWidth(CELL_SIZE * 1.5);
         peashooterCardView.setFitHeight(CELL_SIZE);
 
-        Button sunFlowerButton = new Button();
-        Button peashooterButton = new Button();
+
+
 
         sunFlowerButton.setGraphic(sunflowerCardView);
         peashooterButton.setGraphic(peashooterCardView);
@@ -101,8 +111,8 @@ public class Map {
 
         VBox vbox = new VBox();
         borderPane.setLeft(vbox);
-        vbox.getChildren().add(sunFlowerButton);
-        vbox.getChildren().add(peashooterButton);
+        vbox.getChildren().add(sunFlowerPane);
+        vbox.getChildren().add(peashooterPane);
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
         vbox.setPadding(new Insets(10));
@@ -124,10 +134,10 @@ public class Map {
 
         NormalZombie zombie1 = new NormalZombie(0, 9, this);
         NormalZombie zombie2 = new NormalZombie(2, 9, this);
-        
+
         grid.add(zombie2.getImageView(), 9, 2);
         zombie2.start();
-        
+
         grid.add(zombie1.getImageView(), 9, 0);
         zombie1.start();
 
@@ -166,12 +176,14 @@ public class Map {
     private StackPane createCell() {
         ImageView sunflowerView = new ImageView(sunflower);
         ImageView peashooterView = new ImageView(peashooter);
+
         StackPane cell = new StackPane();
         cell.setOnMouseClicked((MouseEvent e) -> {
             System.out.println("salmammmmmmm");
             if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
                 cell.getChildren().addAll(sunflowerView);
+                createCardWithCooldown(sunFlowerPane,sunFlowerButton, 3);
                 gameController.reduceScore(50);
                 Bounds boundsInScene = cell.localToScene(cell.getBoundsInLocal());
                 double x = boundsInScene.getMinX();
@@ -180,12 +192,63 @@ public class Map {
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
+                createCardWithCooldown(peashooterPane,peashooterButton, 3);
                 cell.getChildren().addAll(peashooterView);
                 gameController.reduceScore(100);
             }
         });
 
         return cell;
+    }
+
+    private void createCardWithCooldown(StackPane cardButton,Button b1,double cooldownSeconds) {
+        Rectangle overlay = new Rectangle(sunFlowerButton.getWidth(), CELL_SIZE); // Adjust size to match button
+        overlay.setFill(Color.color(0, 0, 0, 0.5)); // semi-transparent black
+        overlay.setTranslateY(0);
+        overlay.setViewOrder(-1); // Make sure it's above the button
+
+        overlay.setVisible(false); // Hide until used
+        cardButton.getChildren().addAll(overlay);
+        cardButton.setAlignment(overlay, Pos.TOP_CENTER);
+        b1.setDisable(true);
+        overlay.setVisible(true);
+        overlay.setHeight(cardButton.getHeight());
+        overlay.setTranslateY(0);
+        overlay.setOpacity(1.0);
+
+
+        // Animation: overlay shrinks upwards
+//        Timeline shrink = new Timeline(
+//                new KeyFrame(Duration.seconds(0),
+//                        new KeyValue(overlay.heightProperty(), overlay.getHeight()),
+//                        new KeyValue(overlay.translateYProperty(), 0)
+//                ),
+//                new KeyFrame(Duration.seconds(cooldownSeconds),
+//                        new KeyValue(overlay.heightProperty(), 0),
+//                        new KeyValue(overlay.translateYProperty(), -overlay.getHeight())
+//                )
+//        );
+        Timeline shrink = new Timeline(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(overlay.heightProperty(), cardButton.getHeight())
+                ),
+                new KeyFrame(Duration.seconds(cooldownSeconds),
+                        new KeyValue(overlay.heightProperty(), 0)
+                )
+        );
+        // Fade out opacity (optional)
+        FadeTransition fade = new FadeTransition(Duration.seconds(cooldownSeconds), overlay);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+
+        // After both animations: enable button
+        shrink.setOnFinished(ev -> {
+            b1.setDisable(false);
+            overlay.setVisible(false);
+        });
+
+        shrink.play();
+        fade.play();
     }
 
     public void sunFalling(){
