@@ -1,5 +1,9 @@
 package game.plantsvszambies;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -10,10 +14,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Map {
+    private Button sunFlowerButton = new Button();
+    private Button peashooterButton = new Button();
+    private StackPane sunView = new StackPane(sunFlowerButton);
+    private StackPane flowerView = new StackPane(peashooterButton);
     public static final int ROWS = 5;
     public static final int COLS = 9;
     public static final int CELL_SIZE = 80;
@@ -74,8 +83,7 @@ public class Map {
         peashooterCardView.setFitWidth(CELL_SIZE * 1.5);
         peashooterCardView.setFitHeight(CELL_SIZE);
 
-        Button sunFlowerButton = new Button();
-        Button peashooterButton = new Button();
+
 
         sunFlowerButton.setGraphic(sunflowerCardView);
         peashooterButton.setGraphic(peashooterCardView);
@@ -90,9 +98,11 @@ public class Map {
         });
 
         VBox vbox = new VBox();
+
         borderPane.setLeft(vbox);
-        vbox.getChildren().add(sunFlowerButton);
-        vbox.getChildren().add(peashooterButton);
+        vbox.getChildren().add(sunView);
+        vbox.getChildren().add(flowerView);
+
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
         vbox.setPadding(new Insets(10));
@@ -115,10 +125,10 @@ public class Map {
         NormalZombie zombie1 = new NormalZombie(0, 9, this);
         NormalZombie zombie2 = new NormalZombie(2, 9, this);
 
-        grid.add(zombie2.getImageView(), 9, 2);
+        //grid.add(zombie2.getImageView(), 9, 2);
         zombie2.start();
 
-        grid.add(zombie1.getImageView(), 9, 0);
+        //grid.add(zombie1.getImageView(), 9, 0);
         zombie1.start();
 
         stage.setTitle("plant vs zambies");
@@ -160,10 +170,12 @@ public class Map {
         cell.setOnMouseClicked((MouseEvent e) -> {
             System.out.println("salmammmmmmm");
             if (num.intValue() == 1 && cell.getChildren().size() == 0) {
+                createCardWithCooldown(sunView,3);
                 num.set(0);
                 cell.getChildren().addAll(sunflowerView);
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0) {
+                createCardWithCooldown(flowerView,3);
                 num.set(0);
                 cell.getChildren().addAll(peashooterView);
             }
@@ -171,4 +183,47 @@ public class Map {
 
         return cell;
     }
+    private void createCardWithCooldown(StackPane cardButton,double cooldownSeconds) {
+        Rectangle overlay = new Rectangle(2.2 * CELL_SIZE, CELL_SIZE); // Adjust size to match button
+        overlay.setFill(Color.color(0, 0, 0, 0.5)); // semi-transparent black
+        overlay.setTranslateY(0);
+        overlay.setViewOrder(-1); // Make sure it's above the button
+
+        overlay.setVisible(false); // Hide until used
+        cardButton.getChildren().addAll(overlay);
+
+        sunFlowerButton.setDisable(true);
+        overlay.setVisible(true);
+        overlay.setHeight(cardButton.getHeight());
+        overlay.setTranslateY(0);
+        overlay.setOpacity(1.0);
+        num.set(1);
+
+        // Animation: overlay shrinks upwards
+        Timeline shrink = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new KeyValue(overlay.heightProperty(), overlay.getHeight()),
+                        new KeyValue(overlay.translateYProperty(), 0)
+                ),
+                new KeyFrame(Duration.seconds(cooldownSeconds),
+                        new KeyValue(overlay.heightProperty(), 0),
+                        new KeyValue(overlay.translateYProperty(), -overlay.getHeight())
+                )
+        );
+
+        // Fade out opacity (optional)
+        FadeTransition fade = new FadeTransition(Duration.seconds(cooldownSeconds), overlay);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+
+        // After both animations: enable button
+        shrink.setOnFinished(ev -> {
+            sunFlowerButton.setDisable(false);
+            overlay.setVisible(false);
+        });
+
+        shrink.play();
+        fade.play();
+    }
+
 }
