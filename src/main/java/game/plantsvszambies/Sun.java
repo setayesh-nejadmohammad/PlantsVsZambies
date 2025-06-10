@@ -43,6 +43,33 @@ public class Sun extends ImageView {
         });
     }
 
+    public Sun(Pane parent, GameController gameController, int row, int col){
+        this.gameController = gameController;
+        this.parent = parent;
+
+        parent.getChildren().add(this);
+
+        // Set image
+        this.setImage(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/sun.png"))); // Make sure this path is correct
+        this.setFitWidth(50);
+        this.setFitHeight(50);
+        this.setX(row);
+        this.setY(col);
+
+        // Handle click
+        this.setOnMouseClicked(event -> {
+            if(gameController != null) {
+                gameController.addScore(SUN_POINTS); // Update score
+                destroy();
+            }
+        });
+
+        // destroy the sun after 3 sec if the pleyer didt'n take it
+        PauseTransition pause = new PauseTransition(STAY_DURATION);
+        pause.setOnFinished(e -> destroy());
+        pause.play();
+    }
+
     private void startFalling() {
         fallTimeline = new Timeline(new KeyFrame(Duration.millis(50), event -> {
             setY(getY() + FALL_SPEED * 0.05); // Move sun downward

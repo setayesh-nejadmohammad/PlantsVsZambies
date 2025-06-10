@@ -2,6 +2,7 @@ package game.plantsvszambies;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -63,13 +64,7 @@ public class Map {
     }
 
     public void drawMap() {
-
-        Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-            double x = Math.random() * (borderPane.getWidth() - 50);
-            new Sun(borderPane, gameController, x); // `this` is GameController
-        }));
-        sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
-        sunSpawnTimeline.play();
+        sunFalling();
 
         //Sun sun = new Sun(borderPane, gameController, 400);
 
@@ -178,6 +173,10 @@ public class Map {
                 num.set(0);
                 cell.getChildren().addAll(sunflowerView);
                 gameController.reduceScore(50);
+                Bounds boundsInScene = cell.localToScene(cell.getBoundsInLocal());
+                double x = boundsInScene.getMinX();
+                double y = boundsInScene.getMinY();
+                sunFromSunflowers((int)x, (int)y);
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
@@ -187,5 +186,24 @@ public class Map {
         });
 
         return cell;
+    }
+
+    public void sunFalling(){
+        Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+            double x = Math.random() * (borderPane.getWidth() - 50);
+            new Sun(borderPane, gameController, x); // `this` is GameController
+        }));
+        sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
+        sunSpawnTimeline.play();
+    }
+
+    public void sunFromSunflowers(int row, int col){
+        System.out.println("spawn sun from sunflowers at (" + row + "," + col + ")");
+        Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+            double x = Math.random() * (borderPane.getWidth() - 50);
+            new Sun(borderPane, gameController, row, col); // `this` is GameController
+        }));
+        sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
+        sunSpawnTimeline.play();
     }
 }
