@@ -216,18 +216,6 @@ public class Map {
         overlay.setTranslateY(0);
         overlay.setOpacity(1.0);
 
-
-        // Animation: overlay shrinks upwards
-//        Timeline shrink = new Timeline(
-//                new KeyFrame(Duration.seconds(0),
-//                        new KeyValue(overlay.heightProperty(), overlay.getHeight()),
-//                        new KeyValue(overlay.translateYProperty(), 0)
-//                ),
-//                new KeyFrame(Duration.seconds(cooldownSeconds),
-//                        new KeyValue(overlay.heightProperty(), 0),
-//                        new KeyValue(overlay.translateYProperty(), -overlay.getHeight())
-//                )
-//        );
         Timeline shrink = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(overlay.heightProperty(), cardButton.getHeight())

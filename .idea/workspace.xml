@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="hello" />
+    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="add animation to cards">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,21 +49,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "setayesh",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/XMART/Desktop/Plants and zombies/PlantsVsZambies/src/main/java/game/plantsvszambies",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;setayesh&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/XMART/Desktop/Plants and zombies/PlantsVsZambies/src/main/java/game/plantsvszambies&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\XMART\Desktop\Plants and zombies\PlantsVsZambies\src\main\java\game\plantsvszambies" />
@@ -119,6 +123,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="hello" />
-    <option name="LAST_COMMIT_MESSAGE" value="hello" />
+    <MESSAGE value="add animation to cards" />
+    <option name="LAST_COMMIT_MESSAGE" value="add animation to cards" />
   </component>
 </project>
