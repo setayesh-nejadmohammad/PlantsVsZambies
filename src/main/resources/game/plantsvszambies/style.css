@@ -1,0 +1,22 @@
+.button{
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+    -fx-cursor: hand; /* change the pointer into hand */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 5, 0, 0, 1); /* add shadow */
+}
+
+.button:hover{
+    -fx-animated: 2;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-transition: transform 1s ease;
+}
+
+
+.text{
+    -fx-font-family: notche;
+    -fx-font-size: 30px;
+    -fx-text-fill: BLACK;
+    -fx-font-weight: 900;
+}

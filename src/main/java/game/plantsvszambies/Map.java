@@ -18,35 +18,78 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Map {
     public static final int ROWS = 5;
-    Button sunFlowerButton = new Button();
+    Button sunflowerButton = new Button();
     Button peashooterButton = new Button();
-    StackPane sunFlowerPane = new StackPane(sunFlowerButton);
+    Button snowpeaButton = new Button();
+    Button tallnutButton = new Button();
+    Button cherrybombButton = new Button();
+    Button repeaterButton = new Button();
+    Button jalapenoButton = new Button();
+    Button wallnutButton = new Button();
+
+    StackPane sunFlowerPane = new StackPane(sunflowerButton);
     StackPane peashooterPane = new StackPane(peashooterButton);
+    StackPane snowpeaPane = new StackPane(snowpeaButton);
+    StackPane tallnutPane = new StackPane(tallnutButton);
+    StackPane wallnutPane = new StackPane(wallnutButton);
+    StackPane repeaterPane = new StackPane(repeaterButton);
+    StackPane jalapenoPane = new StackPane(jalapenoButton);
+    StackPane cherrybombPane = new StackPane(cherrybombButton);
     public static final int COLS = 9;
     public static final int CELL_SIZE = 80;
     private static AtomicInteger num = new AtomicInteger(0);
     Stage stage;
 
     private final Cell[][] gridCells;
-    public GridPane grid = new GridPane();
+    public GridPane grid;
     public BorderPane borderPane = new BorderPane();
-    Pane pane = new Pane();
-
+    ArrayList chosenCards;
+    // GameController gameController;
     GameController gameController = new GameController(borderPane, grid);
 
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
     Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
+    Image snowpea = new Image(getClass().getResourceAsStream("images/Plants/SnowPea.gif"));
+    Image tallnut = new Image(getClass().getResourceAsStream("images/Plants/TallNut.gif"));
+    Image wallnut = new Image(getClass().getResourceAsStream("images/Plants/wallnut.gif"));
+    Image repeater = new Image(getClass().getResourceAsStream("images/Plants/repeater.gif"));
+    Image jalapeno = new Image(getClass().getResourceAsStream("images/Plants/jalapeno.gif"));
+    Image cherrybomb = new Image(getClass().getResourceAsStream("images/Plants/cherrybomb.gif"));
     Image frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     Image sunflowerCard = new Image(getClass().getResourceAsStream("images/Cards/sunflowerCard.png"));
     Image peashooterCard = new Image(getClass().getResourceAsStream("images/Cards/peashooterCard.png"));
+    Image snowpeaCard = new Image(getClass().getResourceAsStream("images/Cards/snowpeaCard.jpg"));
+    Image tallnutCard = new Image(getClass().getResourceAsStream("images/Cards/tallnutCard.jpg"));
+    Image wallnutCard = new Image(getClass().getResourceAsStream("images/Cards/wallnutCard.png"));
+    Image repeaterCard = new Image(getClass().getResourceAsStream("images/Cards/repeaterCard.png"));
+    Image jalapenoCard = new Image(getClass().getResourceAsStream("images/Cards/jalapenoCard.png"));
+    Image cherrybombCard = new Image(getClass().getResourceAsStream("images/Cards/cherrybombCard.png"));
+    ImageView sunflowerCardImageView = new ImageView(sunflowerCard);
+    ImageView peashooterCardImageView = new ImageView(peashooterCard);
+    ImageView snowpeaCardImageView = new ImageView(snowpeaCard);
+    ImageView tallnutCardImageView = new ImageView(tallnutCard);
+    ImageView wallnutCardImageView = new ImageView(wallnutCard);
+    ImageView repeaterCardImageView = new ImageView(repeaterCard);
+    ImageView jalapenoCardImageView = new ImageView(jalapenoCard);
+    ImageView cherrybombCardImageView = new ImageView(cherrybombCard);
 
-    public Map(Stage stage) {
+    ImageView sunflowerView = new ImageView(sunflower);
+    ImageView peashooterView = new ImageView(peashooter);
+    ImageView snowpeaView = new ImageView(snowpea);
+    ImageView tallnutImageView = new ImageView(tallnut);
+    ImageView wallnutImageView = new ImageView(wallnut);
+    ImageView repeaterView = new ImageView(repeater);
+    ImageView jalapenoView = new ImageView(jalapeno);
+    ImageView cherrybombView = new ImageView(cherrybomb);
+
+    public Map(Stage stage, ArrayList<String> chosenCards) {
+        this.chosenCards = chosenCards;
         this.stage = stage;
-        this.stage.setResizable(false);
         this.grid = new GridPane();
         grid.setHgap(0);
         grid.setVgap(0);
@@ -72,12 +115,10 @@ public class Map {
         }
     }
 
-
     public void drawMap() {
         sunFalling();
-//        pane.getChildren().add(borderPane);
 
-        //Sun sun = new Sun(borderPane, gameController, 400);
+        // Sun sun = new Sun(borderPane, gameController, 400);
 
         BackgroundImage bgImage = new BackgroundImage(
                 frontYard,
@@ -87,36 +128,27 @@ public class Map {
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
         borderPane.setBackground(new Background(bgImage));
 
-        ImageView sunflowerCardView = new ImageView(sunflowerCard);
-        sunflowerCardView.setFitWidth(CELL_SIZE * 1.5);
-        sunflowerCardView.setFitHeight(CELL_SIZE);
+        // ImageView sunflowerCardView = new ImageView(sunflowerCard);
+        // sunflowerCardView.setFitWidth(CELL_SIZE * 1.5);
+        // sunflowerCardView.setFitHeight(CELL_SIZE);
 
-        sunFlowerButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
+        // sunflowerButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
 
-        peashooterButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
-        ImageView peashooterCardView = new ImageView(peashooterCard);
-        peashooterCardView.setFitWidth(CELL_SIZE * 1.5);
-        peashooterCardView.setFitHeight(CELL_SIZE);
+        // peashooterButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
+        // ImageView peashooterCardView = new ImageView(peashooterCard);
+        // peashooterCardView.setFitWidth(CELL_SIZE * 1.5);
+        // peashooterCardView.setFitHeight(CELL_SIZE);
+
+        // sunflowerButton.setGraphic(sunflowerCardView);
+        // peashooterButton.setGraphic(peashooterCardView);
 
 
-
-
-        sunFlowerButton.setGraphic(sunflowerCardView);
-        peashooterButton.setGraphic(peashooterCardView);
-
-        sunFlowerButton.setOnAction(event -> {
-            num.set(1);
-
-        });
-
-        peashooterButton.setOnAction(event -> {
-            num.set(2);
-        });
 
         VBox vbox = new VBox();
         borderPane.setLeft(vbox);
-        vbox.getChildren().add(sunFlowerPane);
-        vbox.getChildren().add(peashooterPane);
+        //vbox.getChildren().add(sunFlowerPane);
+        //vbox.getChildren().add(peashooterPane);
+        buttonsHandler(vbox);
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
         vbox.setPadding(new Insets(10));
@@ -140,6 +172,7 @@ public class Map {
 
         stage.setTitle("plant vs zambies");
         Scene scene = new Scene(borderPane, 1024, 626);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
 
@@ -164,9 +197,9 @@ public class Map {
     }
 
 
+
     private StackPane createCell() {
-        ImageView sunflowerView = new ImageView(sunflower);
-        ImageView peashooterView = new ImageView(peashooter);
+
 
         StackPane cell = new StackPane();
         cell.setOnMouseClicked((MouseEvent e) -> {
@@ -174,26 +207,64 @@ public class Map {
             if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
                 cell.getChildren().addAll(sunflowerView);
-                createCardWithCooldown(sunFlowerPane,sunFlowerButton, 3);
+                createCardWithCooldown(sunFlowerPane, sunflowerButton, 5);
                 gameController.reduceScore(50);
+
+                // get the exact position on sunflower to put sun
                 Bounds boundsInScene = cell.localToScene(cell.getBoundsInLocal());
                 double x = boundsInScene.getMinX();
                 double y = boundsInScene.getMinY();
-                sunFromSunflowers((int)x, (int)y);
+                sunFromSunflowers((int) x, (int) y);
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
-                createCardWithCooldown(peashooterPane,peashooterButton, 3);
+                createCardWithCooldown(peashooterPane, peashooterButton, 10);
                 cell.getChildren().addAll(peashooterView);
                 gameController.reduceScore(100);
+            }
+            else if(num.intValue() == 3 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
+                num.set(0);
+                createCardWithCooldown(snowpeaPane, snowpeaButton, 17.5);
+                cell.getChildren().addAll(snowpeaView);
+                gameController.reduceScore(175);
+            }
+            else if(num.intValue() == 4 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
+                num.set(0);
+                createCardWithCooldown(tallnutPane, tallnutButton, 12.5);
+                cell.getChildren().addAll(tallnutImageView);
+                gameController.reduceScore(125);
+            }
+            else if(num.intValue() == 5 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
+                num.set(0);
+                createCardWithCooldown(wallnutPane, wallnutButton, 50);
+                cell.getChildren().addAll(wallnutImageView);
+                gameController.reduceScore(50);
+            }
+            else if(num.intValue() == 6 && cell.getChildren().size() == 0 && gameController.totalScore >= 200) {
+                num.set(0);
+                createCardWithCooldown(repeaterPane, repeaterButton, 20);
+                cell.getChildren().addAll(repeaterView);
+                gameController.reduceScore(200);
+            }
+            else if(num.intValue() == 7 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
+                num.set(0);
+                createCardWithCooldown(jalapenoPane, jalapenoButton, 12.5);
+                cell.getChildren().addAll(jalapenoView);
+                gameController.reduceScore(125);
+            }
+            else if(num.intValue() == 8 && cell.getChildren().size() == 0 && gameController.totalScore >= 150) {
+                num.set(0);
+                createCardWithCooldown(cherrybombPane, cherrybombButton,15 );
+                cell.getChildren().addAll(cherrybombView);
+                gameController.reduceScore(150);
             }
         });
 
         return cell;
     }
 
-    private void createCardWithCooldown(StackPane cardButton,Button b1,double cooldownSeconds) {
-        Rectangle overlay = new Rectangle(sunFlowerButton.getWidth(), CELL_SIZE); // Adjust size to match button
+    private void createCardWithCooldown(StackPane cardButton, Button b1, double cooldownSeconds) {
+        Rectangle overlay = new Rectangle(sunflowerButton.getWidth(), CELL_SIZE); // Adjust size to match button
         overlay.setFill(Color.color(0, 0, 0, 0.5)); // semi-transparent black
         overlay.setTranslateY(0);
         overlay.setViewOrder(-1); // Make sure it's above the button
@@ -207,26 +278,11 @@ public class Map {
         overlay.setTranslateY(0);
         overlay.setOpacity(1.0);
 
-
-        // Animation: overlay shrinks upwards
-//        Timeline shrink = new Timeline(
-//                new KeyFrame(Duration.seconds(0),
-//                        new KeyValue(overlay.heightProperty(), overlay.getHeight()),
-//                        new KeyValue(overlay.translateYProperty(), 0)
-//                ),
-//                new KeyFrame(Duration.seconds(cooldownSeconds),
-//                        new KeyValue(overlay.heightProperty(), 0),
-//                        new KeyValue(overlay.translateYProperty(), -overlay.getHeight())
-//                )
-//        );
         Timeline shrink = new Timeline(
                 new KeyFrame(Duration.ZERO,
-                        new KeyValue(overlay.heightProperty(), cardButton.getHeight())
-                ),
+                        new KeyValue(overlay.heightProperty(), cardButton.getHeight())),
                 new KeyFrame(Duration.seconds(cooldownSeconds),
-                        new KeyValue(overlay.heightProperty(), 0)
-                )
-        );
+                        new KeyValue(overlay.heightProperty(), 0)));
         // Fade out opacity (optional)
         FadeTransition fade = new FadeTransition(Duration.seconds(cooldownSeconds), overlay);
         fade.setFromValue(1.0);
@@ -242,7 +298,7 @@ public class Map {
         fade.play();
     }
 
-    public void sunFalling(){
+    public void sunFalling() {
         Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             double x = Math.random() * (borderPane.getWidth() - 50);
             new Sun(borderPane, gameController, x); // `this` is GameController
@@ -251,7 +307,7 @@ public class Map {
         sunSpawnTimeline.play();
     }
 
-    public void sunFromSunflowers(int row, int col){
+    public void sunFromSunflowers(int row, int col) {
         System.out.println("spawn sun from sunflowers at (" + row + "," + col + ")");
         Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             double x = Math.random() * (borderPane.getWidth() - 50);
@@ -259,5 +315,96 @@ public class Map {
         }));
         sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
         sunSpawnTimeline.play();
+    }
+
+    public void buttonsHandler(VBox vbox) {
+        sunflowerCardImageView.setFitWidth(CELL_SIZE * 1.5);
+        sunflowerCardImageView.setFitHeight(CELL_SIZE);
+        peashooterCardImageView.setFitWidth(CELL_SIZE * 1.5);
+        peashooterCardImageView.setFitHeight(CELL_SIZE);
+        snowpeaCardImageView.setFitWidth(CELL_SIZE * 1.5);
+        snowpeaCardImageView.setFitHeight(CELL_SIZE);
+        tallnutCardImageView.setFitWidth(CELL_SIZE * 1.5);
+        tallnutCardImageView.setFitHeight(CELL_SIZE);
+        wallnutCardImageView.setFitWidth(CELL_SIZE * 1.5);
+        wallnutCardImageView.setFitHeight(CELL_SIZE);
+        repeaterCardImageView.setFitWidth(CELL_SIZE * 1.5);
+        repeaterCardImageView.setFitHeight(CELL_SIZE);
+        jalapenoCardImageView.setFitWidth(CELL_SIZE * 1.5);
+        jalapenoCardImageView.setFitHeight(CELL_SIZE);
+        cherrybombCardImageView.setFitWidth(CELL_SIZE * 1.5);
+        cherrybombCardImageView.setFitHeight(CELL_SIZE);
+
+        sunflowerButton.getStyleClass().add("button");
+        peashooterButton.getStyleClass().add("button");
+        snowpeaButton.getStyleClass().add("button");
+        tallnutButton.getStyleClass().add("button");
+        cherrybombButton.getStyleClass().add("button");
+        repeaterButton.getStyleClass().add("button");
+        jalapenoButton.getStyleClass().add("button");
+        wallnutButton.getStyleClass().add("button");
+
+        sunflowerButton.setGraphic(sunflowerCardImageView);
+        peashooterButton.setGraphic(peashooterCardImageView);
+        snowpeaButton.setGraphic(snowpeaCardImageView);
+        tallnutButton.setGraphic(tallnutCardImageView);
+        cherrybombButton.setGraphic(cherrybombCardImageView);
+        repeaterButton.setGraphic(repeaterCardImageView);
+        jalapenoButton.setGraphic(jalapenoCardImageView);
+        wallnutButton.setGraphic(wallnutCardImageView);
+
+        for (int i = 0; i < chosenCards.size(); i++) {
+            if (chosenCards.get(i).equals("sunflower")) {
+                vbox.getChildren().add(sunFlowerPane);
+            }
+            else if (chosenCards.get(i).equals("peashooter")) {
+                vbox.getChildren().add(peashooterPane);
+            }
+            else if (chosenCards.get(i).equals("snowpea")) {
+                vbox.getChildren().add(snowpeaPane);
+            }
+            else if (chosenCards.get(i).equals("tallnut")) {
+                vbox.getChildren().add(tallnutPane);
+            }
+            else if (chosenCards.get(i).equals("wallnut")) {
+                vbox.getChildren().add(wallnutPane);
+            }
+            else if (chosenCards.get(i).equals("repeater")) {
+                vbox.getChildren().add(repeaterPane);
+            }
+            else if (chosenCards.get(i).equals("jalapeno")) {
+                vbox.getChildren().add(jalapenoPane);
+            }
+            else if (chosenCards.get(i).equals("cherrybomb")) {
+                vbox.getChildren().add(cherrybombPane);
+            }
+
+        }
+
+        sunflowerButton.setOnAction(event -> {
+            num.set(1);
+
+        });
+        peashooterButton.setOnAction(event -> {
+            num.set(2);
+        });
+        snowpeaButton.setOnAction(event -> {
+            num.set(3);
+        });
+        tallnutButton.setOnAction(event -> {
+            num.set(4);
+        });
+        wallnutButton.setOnAction(event -> {
+            num.set(5);
+        });
+        repeaterButton.setOnAction(event -> {
+            num.set(6);
+        });
+        jalapenoButton.setOnAction(event -> {
+            num.set(7);
+        });
+        cherrybombButton.setOnAction(event -> {
+            num.set(8);
+        });
     }
 }
