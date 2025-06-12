@@ -49,6 +49,7 @@ public class Map {
     public GridPane grid;
     public BorderPane borderPane = new BorderPane();
     ArrayList chosenCards;
+    // GameController gameController;
     GameController gameController = new GameController(borderPane, grid);
 
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
@@ -117,6 +118,8 @@ public class Map {
     public void drawMap() {
         sunFalling();
 
+        // Sun sun = new Sun(borderPane, gameController, 400);
+
         BackgroundImage bgImage = new BackgroundImage(
                 frontYard,
                 BackgroundRepeat.NO_REPEAT,
@@ -125,10 +128,26 @@ public class Map {
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
         borderPane.setBackground(new Background(bgImage));
 
+        // ImageView sunflowerCardView = new ImageView(sunflowerCard);
+        // sunflowerCardView.setFitWidth(CELL_SIZE * 1.5);
+        // sunflowerCardView.setFitHeight(CELL_SIZE);
+
+        // sunflowerButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
+
+        // peashooterButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
+        // ImageView peashooterCardView = new ImageView(peashooterCard);
+        // peashooterCardView.setFitWidth(CELL_SIZE * 1.5);
+        // peashooterCardView.setFitHeight(CELL_SIZE);
+
+        // sunflowerButton.setGraphic(sunflowerCardView);
+        // peashooterButton.setGraphic(peashooterCardView);
+
 
 
         VBox vbox = new VBox();
         borderPane.setLeft(vbox);
+        //vbox.getChildren().add(sunFlowerPane);
+        //vbox.getChildren().add(peashooterPane);
         buttonsHandler(vbox);
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
@@ -148,6 +167,8 @@ public class Map {
                 grid.add(cell, col, row);
             }
         }
+
+
 
         stage.setTitle("plant vs zambies");
         Scene scene = new Scene(borderPane, 1024, 626);
@@ -176,8 +197,24 @@ public class Map {
     }
 
 
-    private StackPane createCell() {
 
+    private StackPane createCell() {
+        ImageView sunflowerView = new ImageView(sunflower);
+        ImageView peashooterView = new ImageView(peashooter);
+        ImageView snowpeaView = new ImageView(snowpea);
+        ImageView tallnutImageView = new ImageView(tallnut);
+        ImageView wallnutImageView = new ImageView(wallnut);
+        ImageView repeaterView = new ImageView(repeater);
+        ImageView jalapenoView = new ImageView(jalapeno);
+        ImageView cherrybombView = new ImageView(cherrybomb);
+        sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
+        peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
+        snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
+        tallnutImageView.setFitHeight(CELL_SIZE); tallnutImageView.setFitWidth(CELL_SIZE);
+        wallnutImageView.setFitWidth(CELL_SIZE); wallnutImageView.setFitWidth(CELL_SIZE);
+        repeaterView.setFitHeight(CELL_SIZE); repeaterView.setFitWidth(CELL_SIZE);
+        jalapenoView.setFitHeight(CELL_SIZE); jalapenoView.setFitWidth(CELL_SIZE);
+        cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
 
         StackPane cell = new StackPane();
         cell.setOnMouseClicked((MouseEvent e) -> {
@@ -328,31 +365,31 @@ public class Map {
         tallnutButton.setGraphic(tallnutCardImageView);
         cherrybombButton.setGraphic(cherrybombCardImageView);
         repeaterButton.setGraphic(repeaterCardImageView);
-        jalapenoButton.setGraphic(jalapenoCardImageView);        
+        jalapenoButton.setGraphic(jalapenoCardImageView);
         wallnutButton.setGraphic(wallnutCardImageView);
 
         for (int i = 0; i < chosenCards.size(); i++) {
             if (chosenCards.get(i).equals("sunflower")) {
                 vbox.getChildren().add(sunFlowerPane);
-            } 
+            }
             else if (chosenCards.get(i).equals("peashooter")) {
                 vbox.getChildren().add(peashooterPane);
-            } 
+            }
             else if (chosenCards.get(i).equals("snowpea")) {
                 vbox.getChildren().add(snowpeaPane);
             }
             else if (chosenCards.get(i).equals("tallnut")) {
                 vbox.getChildren().add(tallnutPane);
-            } 
+            }
             else if (chosenCards.get(i).equals("wallnut")) {
                 vbox.getChildren().add(wallnutPane);
-            } 
+            }
             else if (chosenCards.get(i).equals("repeater")) {
                 vbox.getChildren().add(repeaterPane);
-            } 
+            }
             else if (chosenCards.get(i).equals("jalapeno")) {
                 vbox.getChildren().add(jalapenoPane);
-            } 
+            }
             else if (chosenCards.get(i).equals("cherrybomb")) {
                 vbox.getChildren().add(cherrybombPane);
             }
