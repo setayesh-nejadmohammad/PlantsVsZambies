@@ -28,7 +28,7 @@ public class Sun extends ImageView {
         this.setFitHeight(50);
         this.setX(startX);
         this.setY(0); // Start at the top
-
+        this.setViewOrder(-3);
         parent.getChildren().add(this);
 
         // Start falling

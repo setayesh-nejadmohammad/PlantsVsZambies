@@ -32,10 +32,11 @@ public class Map {
     Stage stage;
 
     private final Cell[][] gridCells;
-    public GridPane grid;
+    public GridPane grid = new GridPane();
     public BorderPane borderPane = new BorderPane();
-    //GameController gameController;
-    GameController gameController = new GameController(borderPane);
+    Pane pane = new Pane();
+
+    GameController gameController = new GameController(borderPane, grid);
 
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
     Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
@@ -45,6 +46,7 @@ public class Map {
 
     public Map(Stage stage) {
         this.stage = stage;
+
         this.grid = new GridPane();
         grid.setHgap(0);
         grid.setVgap(0);
@@ -70,8 +72,10 @@ public class Map {
         }
     }
 
+
     public void drawMap() {
         sunFalling();
+//        pane.getChildren().add(borderPane);
 
         //Sun sun = new Sun(borderPane, gameController, 400);
 
@@ -132,14 +136,7 @@ public class Map {
             }
         }
 
-        NormalZombie zombie1 = new NormalZombie(0, 9, this);
-        NormalZombie zombie2 = new NormalZombie(2, 9, this);
 
-        grid.add(zombie2.getImageView(), 9, 2);
-        zombie2.start();
-
-        grid.add(zombie1.getImageView(), 9, 0);
-        zombie1.start();
 
         stage.setTitle("plant vs zambies");
         Scene scene = new Scene(borderPane, 1024, 626);
@@ -166,12 +163,6 @@ public class Map {
         return grid;
     }
 
-    public void moveZombieForward(Zombie zombie) {
-        int row = zombie.getRow();
-        int col = zombie.getCol();
-        Cell cell = getCell(row, col);
-        zombie.setCol(col + 1);
-    }
 
     private StackPane createCell() {
         ImageView sunflowerView = new ImageView(sunflower);
