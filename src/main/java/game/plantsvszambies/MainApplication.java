@@ -25,7 +25,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Game game = new Game(stage);
-        game.startGame();
+        //game.startGame();
     }
 
     public static void main(String[] args) {

@@ -1,14 +1,19 @@
 package game.plantsvszambies;
 
+import com.almasb.fxgl.core.collection.grid.Grid;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 
 public class GameController {
     int totalScore = 0;
     BorderPane borderPane;
+    GridPane grid;
     Label scoreLabel = new Label("Score: " + totalScore);
-    public GameController(BorderPane borderPane) {
+    public GameController(BorderPane borderPane, GridPane grid) {
+        this.grid = grid;
         this.borderPane = borderPane;
         borderPane.setTop(scoreLabel);
         borderPane.setPadding(new Insets(10));
