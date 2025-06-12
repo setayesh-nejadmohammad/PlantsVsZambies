@@ -46,7 +46,7 @@ public class Map {
 
     public Map(Stage stage) {
         this.stage = stage;
-
+        this.stage.setResizable(false);
         this.grid = new GridPane();
         grid.setHgap(0);
         grid.setVgap(0);

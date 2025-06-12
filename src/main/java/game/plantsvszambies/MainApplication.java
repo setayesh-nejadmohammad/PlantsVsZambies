@@ -112,6 +112,7 @@ public class MainApplication extends Application {
         StackPane cell = new StackPane();
         cell.setOnMouseClicked((MouseEvent e) -> {
             System.out.println("salmammmmmmm");
+
             if(num.intValue() == 1){
                 num.set(0);
                 cell.getChildren().addAll(sunflowerView);
