@@ -49,7 +49,6 @@ public class Map {
     public GridPane grid;
     public BorderPane borderPane = new BorderPane();
     ArrayList chosenCards;
-    // GameController gameController;
     GameController gameController = new GameController(borderPane, grid);
 
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
@@ -118,8 +117,6 @@ public class Map {
     public void drawMap() {
         sunFalling();
 
-        // Sun sun = new Sun(borderPane, gameController, 400);
-
         BackgroundImage bgImage = new BackgroundImage(
                 frontYard,
                 BackgroundRepeat.NO_REPEAT,
@@ -128,26 +125,10 @@ public class Map {
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
         borderPane.setBackground(new Background(bgImage));
 
-        // ImageView sunflowerCardView = new ImageView(sunflowerCard);
-        // sunflowerCardView.setFitWidth(CELL_SIZE * 1.5);
-        // sunflowerCardView.setFitHeight(CELL_SIZE);
-
-        // sunflowerButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
-
-        // peashooterButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
-        // ImageView peashooterCardView = new ImageView(peashooterCard);
-        // peashooterCardView.setFitWidth(CELL_SIZE * 1.5);
-        // peashooterCardView.setFitHeight(CELL_SIZE);
-
-        // sunflowerButton.setGraphic(sunflowerCardView);
-        // peashooterButton.setGraphic(peashooterCardView);
-
 
 
         VBox vbox = new VBox();
         borderPane.setLeft(vbox);
-        //vbox.getChildren().add(sunFlowerPane);
-        //vbox.getChildren().add(peashooterPane);
         buttonsHandler(vbox);
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
@@ -167,15 +148,6 @@ public class Map {
                 grid.add(cell, col, row);
             }
         }
-
-        NormalZombie zombie1 = new NormalZombie(0, 9, this);
-        NormalZombie zombie2 = new NormalZombie(2, 9, this);
-
-        grid.add(zombie2.getImageView(), 9, 2);
-        zombie2.start();
-
-        grid.add(zombie1.getImageView(), 9, 0);
-        zombie1.start();
 
         stage.setTitle("plant vs zambies");
         Scene scene = new Scene(borderPane, 1024, 626);
@@ -203,12 +175,6 @@ public class Map {
         return grid;
     }
 
-    public void moveZombieForward(Zombie zombie) {
-        int row = zombie.getRow();
-        int col = zombie.getCol();
-        Cell cell = getCell(row, col);
-        zombie.setCol(col + 1);
-    }
 
     private StackPane createCell() {
 

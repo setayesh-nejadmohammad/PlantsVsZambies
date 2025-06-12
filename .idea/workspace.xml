@@ -4,32 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="hello">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/style.css" afterDir="false" />
+    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="add choose cardscene and send the list of chosen card to map">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/images/Plants/walnut_full_life.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/MainApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Plants/powie.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Plants/walnut_full_life.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Cell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Cell.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/ConeheadZombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/ConeheadZombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/HelloController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/HelloController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/MainApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/MainApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/NormalZombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/NormalZombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Peashooter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Peashooter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Plant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Plant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sun.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sun.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Plants/powie.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Plants/walnut_full_life.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +108,8 @@
       <workItem from="1749539040555" duration="2044000" />
       <workItem from="1749626034930" duration="1454000" />
       <workItem from="1749663009413" duration="1911000" />
-      <workItem from="1749716745605" duration="3351000" />
+      <workItem from="1749716745605" duration="3531000" />
+      <workItem from="1749728962822" duration="4246000" />
     </task>
     <task id="LOCAL-00002" summary="hello">
       <option name="closed" value="true" />
@@ -149,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749568797049</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add choose cardscene and send the list of chosen card to map">
+      <option name="closed" value="true" />
+      <created>1749722486528</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1749722486528</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,6 +144,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add animation to cards" />
     <MESSAGE value="hello" />
-    <option name="LAST_COMMIT_MESSAGE" value="hello" />
+    <MESSAGE value="add choose cardscene and send the list of chosen card to map" />
+    <option name="LAST_COMMIT_MESSAGE" value="add choose cardscene and send the list of chosen card to map" />
   </component>
 </project>
