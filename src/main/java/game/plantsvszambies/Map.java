@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Map {
     public static final int ROWS = 5;
+
     Button sunflowerButton = new Button();
     Button peashooterButton = new Button();
     Button snowpeaButton = new Button();
@@ -115,10 +116,11 @@ public class Map {
         }
     }
 
+    //private Map instance = new Map(stage, chosenCards);
+
+
     public void drawMap() {
         sunFalling();
-
-        // Sun sun = new Sun(borderPane, gameController, 400);
 
         BackgroundImage bgImage = new BackgroundImage(
                 frontYard,
@@ -128,26 +130,8 @@ public class Map {
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
         borderPane.setBackground(new Background(bgImage));
 
-        // ImageView sunflowerCardView = new ImageView(sunflowerCard);
-        // sunflowerCardView.setFitWidth(CELL_SIZE * 1.5);
-        // sunflowerCardView.setFitHeight(CELL_SIZE);
-
-        // sunflowerButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
-
-        // peashooterButton.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
-        // ImageView peashooterCardView = new ImageView(peashooterCard);
-        // peashooterCardView.setFitWidth(CELL_SIZE * 1.5);
-        // peashooterCardView.setFitHeight(CELL_SIZE);
-
-        // sunflowerButton.setGraphic(sunflowerCardView);
-        // peashooterButton.setGraphic(peashooterCardView);
-
-
-
         VBox vbox = new VBox();
         borderPane.setLeft(vbox);
-        //vbox.getChildren().add(sunFlowerPane);
-        //vbox.getChildren().add(peashooterPane);
         buttonsHandler(vbox);
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
@@ -163,12 +147,10 @@ public class Map {
                 rect.setStroke(Color.BLACK);
                 rect.setStrokeWidth(0.5);
                 grid.add(rect, col, row);
-                StackPane cell = createCell();
+                StackPane cell = createCell(row, col);
                 grid.add(cell, col, row);
             }
         }
-
-
 
         stage.setTitle("plant vs zambies");
         Scene scene = new Scene(borderPane, 1024, 626);
@@ -198,7 +180,7 @@ public class Map {
 
 
 
-    private StackPane createCell() {
+    private StackPane createCell(int row, int col) {
         ImageView sunflowerView = new ImageView(sunflower);
         ImageView peashooterView = new ImageView(peashooter);
         ImageView snowpeaView = new ImageView(snowpea);
@@ -221,6 +203,8 @@ public class Map {
             System.out.println("salmammmmmmm");
             if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
+                gridCells[row][col].setPlant(new Sunflower(row, col, gameController, cell));
+
                 cell.getChildren().addAll(sunflowerView);
                 createCardWithCooldown(sunFlowerPane, sunflowerButton, 5);
                 gameController.reduceScore(50);
@@ -229,7 +213,7 @@ public class Map {
                 Bounds boundsInScene = cell.localToScene(cell.getBoundsInLocal());
                 double x = boundsInScene.getMinX();
                 double y = boundsInScene.getMinY();
-                sunFromSunflowers((int) x, (int) y);
+                //sunFromSunflowers((int) x, (int) y);
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
@@ -322,7 +306,7 @@ public class Map {
         sunSpawnTimeline.play();
     }
 
-    public void sunFromSunflowers(int row, int col) {
+    /*public void sunFromSunflowers(int row, int col) {
         System.out.println("spawn sun from sunflowers at (" + row + "," + col + ")");
         Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             double x = Math.random() * (borderPane.getWidth() - 50);
@@ -330,7 +314,7 @@ public class Map {
         }));
         sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
         sunSpawnTimeline.play();
-    }
+    }*/
 
     public void buttonsHandler(VBox vbox) {
         sunflowerCardImageView.setFitWidth(CELL_SIZE * 1.5);
