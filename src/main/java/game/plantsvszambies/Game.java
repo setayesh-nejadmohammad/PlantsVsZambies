@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -235,10 +236,14 @@ public class Game {
         int currentPhase = getCurrentPhase(); // Implement based on game time
         int row = (new Random()).nextInt(5); // Random row (0-4)
 
-        Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row);
+        Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row, map);
         zombies.add(zombie);
         map.borderPane.getChildren().add(zombie.getView());
         positionZombie(zombie);
+
+        // add Zobmie to my grid
+        Cell myCell = getCellFromGridPane(map.grid, 9, row);
+        if(myCell != null) myCell.addZombie(zombie);
     }
 
     private int getCurrentPhase() {
@@ -267,6 +272,11 @@ public class Game {
         gameLoop.start();
     }
 
+    public void updateZombiePosOnGrid(Zombie zombie) {
+        //Cell myCell = getCellFromGridPane(map.grid, (int)zombie.getColumn(), zombie.getRow());
+        //?????
+    }
+
     private void checkReachedEnd(Zombie zombie) {
         if (zombie.getColumn() <= 0) {
             removeZombie(zombie);
@@ -276,11 +286,22 @@ public class Game {
     public void removeZombie(Zombie zombie) {
         zombies.remove(zombie);
         map.borderPane.getChildren().remove(zombie.getView());
-}
+    }
 
 //    private void checkCollisions(Zombie zombie) {
 //
 //    }
+
+    public Cell getCellFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col &&
+                    GridPane.getRowIndex(node) == row &&
+                    node instanceof Cell) {
+                return (Cell) node;
+            }
+        }
+        return null;
+    }
 
 
 }

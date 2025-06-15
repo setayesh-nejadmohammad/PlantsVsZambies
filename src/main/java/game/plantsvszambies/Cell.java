@@ -5,7 +5,7 @@ import javafx.scene.layout.StackPane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cell {
+public class Cell extends Node{
     private final int row;
     private final int col;
     private Plant plant;

@@ -4,22 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="update">
+    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="spawn sun from sunflowers in the sunflower class">
+      <change afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/BombPlants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/MainApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sunflower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sunflower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Cell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Cell.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/ConeheadZombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/ConeheadZombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/NormalZombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/NormalZombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Zombie/coneheadzombie.gif" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Zombie/coneheadzombie.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Zombie/normalzombie.gif" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Zombie/normalzombie.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ConeheadZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ConeheadZombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ImpZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ImpZombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/NormalZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/NormalZombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ScreenDoorZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ScreenDoorZombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ZombieFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ZombieFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sun.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sun.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,22 +59,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainApplication.executor": "Run",
-    "Application.ZombieMovement.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "setayesh",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/resources/game/plantsvszambies",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ZombieMovement.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;setayesh&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/resources/game/plantsvszambies&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\FUM\projects\PlantsVsZambies\PlantsVsZambies\src\main\resources\game\plantsvszambies" />
@@ -124,7 +122,8 @@
       <workItem from="1749663009413" duration="1911000" />
       <workItem from="1749716745605" duration="3531000" />
       <workItem from="1749728962822" duration="4246000" />
-      <workItem from="1749931012705" duration="3975000" />
+      <workItem from="1749931012705" duration="8991000" />
+      <workItem from="1749964236311" duration="3967000" />
     </task>
     <task id="LOCAL-00002" summary="hello">
       <option name="closed" value="true" />
@@ -150,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749722486528</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="spawn sun from sunflowers in the sunflower class">
+      <option name="closed" value="true" />
+      <created>1749935205377</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749935205378</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,6 +167,7 @@
     <MESSAGE value="add animation to cards" />
     <MESSAGE value="hello" />
     <MESSAGE value="add choose cardscene and send the list of chosen card to map" />
-    <option name="LAST_COMMIT_MESSAGE" value="add choose cardscene and send the list of chosen card to map" />
+    <MESSAGE value="spawn sun from sunflowers in the sunflower class" />
+    <option name="LAST_COMMIT_MESSAGE" value="spawn sun from sunflowers in the sunflower class" />
   </component>
 </project>

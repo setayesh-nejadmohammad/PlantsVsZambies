@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ScreenDoorZombie extends Zombie {
-    public ScreenDoorZombie(int row) {
-        super(150, 25, 0.25, row);
+    public ScreenDoorZombie(int row, Map map) {
+        super(150, 25, 0.25, row, map);
     }
 
     @Override
