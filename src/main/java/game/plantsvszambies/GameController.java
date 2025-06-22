@@ -13,8 +13,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class GameController {
-    private List<Zombie> activeZombies = new ArrayList<>();
-    int totalScore = 1000;
+    //private List<Zombie> activeZombies = new ArrayList<>();
+    int totalScore = 99999999;
     GridPane gridPane;
 
     BorderPane borderPane;

@@ -2,6 +2,7 @@ package game.plantsvszambies;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -86,8 +87,15 @@ public class CherryBomb extends Plant{
     private int col;
     private Timeline explosionTimeline;
 
-    public CherryBomb(int row, int col, Map map, List<Zombie> zombies, StackPane pane) {
+    private double x;
+    private double y;
+
+    public CherryBomb(int row, int col, Map map, StackPane pane) {
         super(row, col, 5, 150, 15);
+
+        Bounds boundsInScene = pane.localToScene(pane.getBoundsInLocal());
+        this.x = boundsInScene.getMinX();
+        this.y = boundsInScene.getMinY();
 
         // Load cherry bomb image
         Image image = new Image(getClass().getResourceAsStream("images/Plants/cherrybomb.gif"));
@@ -101,31 +109,37 @@ public class CherryBomb extends Plant{
         pane.getChildren().add(this.imageView);
 
         // Setup explosion animation
-        setupExplosion(zombies, pane);
+        setupExplosion(pane);
 
         System.out.println("a New Cherry at row: " + row + ", col: " + col);
     }
 
-    private void setupExplosion(List<Zombie> zombies, StackPane pane) {
+    private void setupExplosion(StackPane pane) {
         // After 1.5 seconds, explode
         explosionTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.7), e -> explode(zombies, pane))
+                new KeyFrame(Duration.seconds(0.7), e -> explode(pane))
         );
         explosionTimeline.setCycleCount(1);
         explosionTimeline.play();
     }
 
-    public void explode(List<Zombie> zombies, StackPane pane) {
+    public void explode(StackPane pane) {
         // Change to explosion image
         Image explosionImage = new Image(getClass().getResourceAsStream("images/Plants/Boom.gif"));
         imageView.setImage(explosionImage);
 
         // Damage zombies in 3x3 area
-        for (Zombie zombie : zombies) {
-            if(zombie.getRow() == row+2){
+        for (Zombie zombie : Game.getInstance().getZombies()) {
+            //System.out.println("Zombie at row: "+ zombie.getView().getLayoutX()+250 + "col: " + zombie.getView().getLayoutY()+85);
+            if(zombie.getView().getLayoutX()+200 < x+130 && zombie.getView().getLayoutY()+50 < y+130
+               && zombie.getView().getLayoutX()+200 > x-130 && zombie.getView().getLayoutY()+50 > y-100) {
                 zombie.die();
             }
-            /*if (isInExplosionRange(zombie)) {
+            /*if(zombie.getView().getLayoutX()+250 < pane.getLayoutX()+80 && zombie.getView().getLayoutY()+85 < pane.getLayoutY()+90
+               && zombie.getView().getLayoutX()+250 > pane.getLayoutX()-80 && zombie.getView().getLayoutY()+85 > pane.getLayoutY()-90) {
+                zombie.die();
+            }
+            if (isInExplosionRange(zombie)) {
                 System.out.println("cheery found a zombie to kill!");
                 zombie.die();
             }*/

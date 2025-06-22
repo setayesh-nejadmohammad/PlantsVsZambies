@@ -31,7 +31,7 @@ public abstract class Zombie {
         this.row = row;
         this.column = 9.3; // Starts at rightmost column
         this.view = createImageView();
-        System.out.println("Zombie num "+ID+"is at row "+row+" and column "+column);
+        //System.out.println("Zombie num "+ID+"is at row "+row+" and column "+column);
     }
 
     protected abstract ImageView createImageView();
@@ -87,7 +87,7 @@ public abstract class Zombie {
         isEating = true;
 
         // 2 sec pause before remove zombie
-        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        PauseTransition delay = new PauseTransition(Duration.seconds(5));
         delay.setOnFinished(event -> {
             // remove Zombie's ImageView from the Main pane
             if (view.getParent() != null) {
@@ -95,7 +95,7 @@ public abstract class Zombie {
             }
 
             // remove the zombie from zombies List
-            map.zombies.remove(this);
+            Game.getInstance().getZombies().remove(this);
 
 
             // remove zombie from the cell

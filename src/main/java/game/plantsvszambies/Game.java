@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
+    private static Game instance;
     Stage stage;
     int CELL_SIZE = 80;
     Image frontYard;
@@ -28,7 +29,7 @@ public class Game {
     private long startTime;
     private static final double SPAWN_INTERVAL = 3.0;
     private Timeline spawnTimeline;
-    private static List<Zombie> zombies = new ArrayList<>();
+    private List<Zombie> zombies = new ArrayList<>();
 
 
     public Game(Stage stage){
@@ -37,6 +38,15 @@ public class Game {
         ChooseCard();
 
     }
+
+    public static Game getInstance(){
+        if(instance == null){
+            instance = new Game(new Stage());
+        }
+        return instance;
+    }
+
+
     public void ChooseCard(){
         StackPane pane = new StackPane();
         Scene ChooseCardScene = new Scene(pane, 1024, 626);
@@ -202,7 +212,7 @@ public class Game {
 
     public void startGame(){
         startTime = System.currentTimeMillis();
-        this.map = new Map(stage, chosenCards, zombies);
+        this.map = new Map(stage, chosenCards);
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
@@ -265,7 +275,7 @@ public class Game {
                     zombie.update(deltaTime);
                     //checkCollisions(zombie);
                     checkReachedEnd(zombie);
-                    Map.updateZombies();
+                    //Map.updateZombies();
                 }
             }
         };
@@ -303,9 +313,8 @@ public class Game {
         return null;
     }
 
-    public static List<Zombie> getZombies() {
+    public List<Zombie> getZombies() {
         return zombies;
     }
-
 
 }

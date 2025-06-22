@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="give Map to Zombies">
+    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="add update List of zombies in Map and static the List of Zombie">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/MainApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Plants/cherrybomb.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Plants/cherrybomb.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/GameController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" afterDir="false" />
@@ -127,7 +127,7 @@
       <workItem from="1750162925036" duration="5761000" />
       <workItem from="1750171046268" duration="3160000" />
       <workItem from="1750331583885" duration="335000" />
-      <workItem from="1750568901676" duration="2400000" />
+      <workItem from="1750568901676" duration="15389000" />
     </task>
     <task id="LOCAL-00002" summary="hello">
       <option name="closed" value="true" />
@@ -169,7 +169,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749969960682</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add update List of zombies in Map and static the List of Zombie">
+      <option name="closed" value="true" />
+      <created>1750573133883</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1750573133883</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,6 +189,7 @@
     <MESSAGE value="add choose cardscene and send the list of chosen card to map" />
     <MESSAGE value="spawn sun from sunflowers in the sunflower class" />
     <MESSAGE value="give Map to Zombies" />
-    <option name="LAST_COMMIT_MESSAGE" value="give Map to Zombies" />
+    <MESSAGE value="add update List of zombies in Map and static the List of Zombie" />
+    <option name="LAST_COMMIT_MESSAGE" value="add update List of zombies in Map and static the List of Zombie" />
   </component>
 </project>

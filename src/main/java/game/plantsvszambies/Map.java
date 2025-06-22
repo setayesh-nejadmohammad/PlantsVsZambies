@@ -89,10 +89,10 @@ public class Map {
     ImageView jalapenoView = new ImageView(jalapeno);
     ImageView cherrybombView = new ImageView(cherrybomb);
 
-    static List<Zombie> zombies;
+    //static List<Zombie> zombies;
 
-    public Map(Stage stage, ArrayList<String> chosenCards, List<Zombie> zombies) {
-        this.zombies = zombies;
+    public Map(Stage stage, ArrayList<String> chosenCards) {
+        //this.zombies = zombies;
         this.chosenCards = chosenCards;
         this.stage = stage;
         this.grid = new GridPane();
@@ -121,9 +121,9 @@ public class Map {
     }
 
     //private Map instance = new Map(stage, chosenCards);
-    public static void updateZombies() {
+    /*public static void updateZombies() {
         zombies = Game.getZombies();
-    }
+    }*/
 
 
     public void drawMap() {
@@ -260,7 +260,7 @@ public class Map {
             }
             else if(num.intValue() == 8 && cell.getChildren().size() == 0 && gameController.totalScore >= 150) {
                 num.set(0);
-                gridCells[row][col].setPlant(new CherryBomb(row, col, this, zombies, cell));
+                gridCells[row][col].setPlant(new CherryBomb(row, col, this, cell));
                 createCardWithCooldown(cherrybombPane, cherrybombButton,5);
                 //cell.getChildren().addAll(cherrybombView);
                 gameController.reduceScore(150);
