@@ -16,8 +16,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Game {
     private static Game instance;
@@ -25,11 +27,16 @@ public class Game {
     int CELL_SIZE = 80;
     Image frontYard;
     Map map;
+    private long lastFrameTime = 0;
+    private double accumulatedTime = 0;
+    private static final double FRAME_TIME = 1.0 / 60.0;
     ArrayList<String> chosenCards = new ArrayList<String>();
+    private List<Bullet> activeBullets = new ArrayList<>();
     private long startTime;
     private static final double SPAWN_INTERVAL = 3.0;
     private Timeline spawnTimeline;
     private List<Zombie> zombies = new ArrayList<>();
+    private List<Plant> plants = new ArrayList<>();
 
 
     public Game(Stage stage){
@@ -46,6 +53,55 @@ public class Game {
         return instance;
     }
 
+    public void addBullet(Bullet bullet) {
+        activeBullets.add(bullet);
+        map.borderPane.getChildren().add(bullet.getView());
+
+    }
+
+    private void sleepRemainingFrameTime(double actualDelta) {
+        try {
+            double targetTime = 1_000_000_000 / 60.0; // 16.67ms
+            double elapsed = actualDelta * 1_000_000_000;
+            if (elapsed < targetTime) {
+                Thread.sleep((long)((targetTime - elapsed) / 1_000_000));
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void updateBullets(double deltaTime) {
+        Iterator<Bullet> iterator = activeBullets.iterator();
+        while (iterator.hasNext()) {
+            Bullet bullet = iterator.next();
+
+            // Update position
+            bullet.update(deltaTime);
+
+            // Check collisions
+            for (Zombie zombie : getZombiesInRow(bullet.getRow())) {
+                if (bullet.checkCollision(zombie)) {
+                    bullet.applyEffect(zombie);
+                    iterator.remove();
+                    map.borderPane.getChildren().remove(bullet.getView());
+                    break;
+                }
+            }
+
+            // Remove if out of bounds
+            if (bullet.isOutOfBounds(map.borderPane.getWidth())) {
+                iterator.remove();
+                map.borderPane.getChildren().remove(bullet.getView());
+            }
+        }
+    }
+
+    private List<Zombie> getZombiesInRow(int row) {
+        return zombies.stream()
+                .filter(z -> z.getRow() == row)
+                .collect(Collectors.toList());
+    }
 
     public void ChooseCard(){
         StackPane pane = new StackPane();
@@ -118,11 +174,22 @@ public class Game {
         wallnutButton.getStyleClass().add("button");
         wallnutButton.setGraphic(wallnutImageView);
 
+        boolean[] checkButtonPressed = {false, false, false, false, false, false, false, false, false};
+
         sunflowerButton.setOnAction(e->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("sunflower");
-                sunflowerImageView.setOpacity(1);
+            if(!checkButtonPressed[0]){
+                checkButtonPressed[0] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("sunflower");
+                    sunflowerImageView.setOpacity(1);
+                }
             }
+            else{
+                checkButtonPressed[0] = false;
+                chosenCards.remove("sunflower");
+                sunflowerImageView.setOpacity(0.5);
+            }
+
         });
         peashooterButton.setOnAction(e -> {
             if(chosenCards.size() < 6){
@@ -212,7 +279,7 @@ public class Game {
 
     public void startGame(){
         startTime = System.currentTimeMillis();
-        this.map = new Map(stage, chosenCards);
+        this.map = new Map(stage, chosenCards, plants);
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
@@ -241,6 +308,7 @@ public class Game {
         spawnTimeline.setCycleCount(Animation.INDEFINITE);
         spawnTimeline.play();
     }
+
     private void spawnZombie() {
         int currentPhase = getCurrentPhase(); // Implement based on game time
         int row = (new Random()).nextInt(5); // Random row (0-4)
@@ -266,20 +334,50 @@ public class Game {
 
     private void startGameLoop() {
         AnimationTimer gameLoop = new AnimationTimer() {
+            private long lastUpdate = 0;
             @Override
             public void handle(long now) {
-                double deltaTime = 1.0 / 60; // Assuming 60 FPS
-
-                // Update all zombies
-                for (Zombie zombie : new ArrayList<>(zombies)){
-                    zombie.update(deltaTime);
-                    //checkCollisions(zombie);
-                    checkReachedEnd(zombie);
-                    //Map.updateZombies();
+                if (lastUpdate == 0) {
+                    lastUpdate = now;
+                    return;
                 }
+
+                double deltaTime = (now - lastUpdate) / 1_000_000_000.0;
+                lastUpdate = now;
+
+                // Update all game systems
+                updatePlants(deltaTime);
+                updateBullets(deltaTime);
+                updateZombies(deltaTime);
+
+                // Cap at 60 FPS if needed
+//                try {
+//                    Thread.sleep((long)(16.67 - deltaTime*1000));
+//                } catch (InterruptedException e) {}
             }
         };
         gameLoop.start();
+    }
+
+    private void updateZombies(double deltaTime) {
+        for (Iterator<Zombie> iterator = zombies.iterator(); iterator.hasNext();) {
+            Zombie zombie = iterator.next();
+            zombie.update(deltaTime);
+            if(checkReachedEnd(zombie)) {
+                map.borderPane.getChildren().remove(zombie.getView());
+                iterator.remove();
+
+            }
+        }
+    }
+
+    private void updatePlants(double deltaTime) {
+        plants.forEach(plant -> {
+            plant.update(deltaTime);
+
+            // Plants automatically shoot via their update()
+            // (ShooterPlant handles its own fire rate timing)
+        });
     }
 
     public void updateZombiePosOnGrid(Zombie zombie) {
@@ -287,10 +385,8 @@ public class Game {
         //?????
     }
 
-    private void checkReachedEnd(Zombie zombie) {
-        if (zombie.getColumn() <= 0) {
-            removeZombie(zombie);
-        }
+    private boolean checkReachedEnd(Zombie zombie) {
+        return zombie.getColumn() <= 0;
     }
 
     public void removeZombie(Zombie zombie) {
