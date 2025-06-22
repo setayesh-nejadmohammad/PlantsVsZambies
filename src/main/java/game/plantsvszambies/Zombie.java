@@ -74,8 +74,12 @@ public abstract class Zombie {
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0) {
-           die();
+           dieWithShooter();
         }
+    }
+
+    public void dieWithShooter(){
+        Game.getInstance().removeZombie(this);
     }
 
     public void die() {
@@ -105,6 +109,12 @@ public abstract class Zombie {
             }
         });
         delay.play();
+    }
+    public double getX(){
+        return view.getLayoutX();
+    }
+    public double getY(){
+        return view.getY();
     }
 
 //    private void die() {

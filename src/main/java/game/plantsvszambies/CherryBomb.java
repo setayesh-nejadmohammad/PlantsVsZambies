@@ -11,62 +11,6 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-public class CherryBomb extends Plant{
-    private Timeline explosionTimeline;
-    public CherryBomb(int row, int col, Map map, List<Zombie> zombies){
-        super(row, col, 7, 150, 15);
-        setupExplosionTimeline(map);
-    }
-
-    private void setupExplosionTimeline(Map map) {
-        explosionTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(1), // هر 1 ثانیه
-                        event -> explodeZombies(map)
-                ));
-        explosionTimeline.setCycleCount(Timeline.INDEFINITE); // تکرار بی‌نهایت
-        explosionTimeline.play();
-    }
-
-    public void explodeZombies(Map map) {
-        */
-/*Cell cell1 = getCellFromGridPane(map.grid, col+1, row);
-        if(cell1 != null) {
-            List<Zombie> zombies1 = cell1.getZombies();
-            for(Zombie zombie : zombies1) {
-                System.out.println("explode zombie");
-                cell1.removeZombie(zombie);
-                map.borderPane.getChildren().remove(zombie.getView());
-            }
-        }*//*
-
-        for(int i = 0; i < 5; i++){
-            for(int j = 0; j < 9; j++){
-
-            }
-        }
-    }
-
-    public Cell getCellFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col &&
-                    GridPane.getRowIndex(node) == row &&
-                    node instanceof Cell) {
-                return (Cell) node;
-            }
-        }
-        return null;
-    }
-
-
-    public void destroy() {
-        if (explosionTimeline != null) {
-            explosionTimeline.stop();
-        }
-    }
-}
-*/
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -90,8 +34,8 @@ public class CherryBomb extends Plant{
     private double x;
     private double y;
 
-    public CherryBomb(int row, int col, Map map, StackPane pane) {
-        super(row, col, 5, 150, 15);
+    public CherryBomb(int row, int col, Map map, StackPane pane, ImageView imageView) {
+        super(row, col, 5, 150, 15, imageView);
 
         Bounds boundsInScene = pane.localToScene(pane.getBoundsInLocal());
         this.x = boundsInScene.getMinX();
@@ -99,14 +43,17 @@ public class CherryBomb extends Plant{
 
         // Load cherry bomb image
         Image image = new Image(getClass().getResourceAsStream("images/Plants/cherrybomb.gif"));
-        this.imageView = new ImageView(image);
-        this.imageView.setFitWidth(80);
-        this.imageView.setFitHeight(80);
+        //this.imageView = new ImageView(image);
+        //this.imageView.setFitWidth(80);
+        //this.imageView.setFitHeight(80);
+        view.setImage(image);
+        view.setFitWidth(80);
+        view.setFitHeight(80);
 
         // Set position
-        this.imageView.setX(col * 100 + 10); // Assuming each cell is 100px wide
-        this.imageView.setY(row * 120 + 20); // Assuming each row is 120px tall
-        pane.getChildren().add(this.imageView);
+        view.setX(col * 100 + 10); // Assuming each cell is 100px wide
+        view.setY(row * 120 + 20); // Assuming each row is 120px tall
+        pane.getChildren().add(view);
 
         // Setup explosion animation
         setupExplosion(pane);
@@ -117,16 +64,20 @@ public class CherryBomb extends Plant{
     private void setupExplosion(StackPane pane) {
         // After 1.5 seconds, explode
         explosionTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.7), e -> explode(pane))
+                new KeyFrame(Duration.seconds(0.6), e -> explode(pane))
         );
         explosionTimeline.setCycleCount(1);
         explosionTimeline.play();
     }
 
+    public void update(double deltaTime){
+        // سرکاریه
+    }
+
     public void explode(StackPane pane) {
         // Change to explosion image
         Image explosionImage = new Image(getClass().getResourceAsStream("images/Plants/Boom.gif"));
-        imageView.setImage(explosionImage);
+        view.setImage(explosionImage);
 
         // Damage zombies in 3x3 area
         for (Zombie zombie : Game.getInstance().getZombies()) {
@@ -147,7 +98,7 @@ public class CherryBomb extends Plant{
 
         // Remove explosion image after animation
         Timeline removeTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.7), e -> pane.getChildren().remove(this.imageView))
+                new KeyFrame(Duration.seconds(0.7), e -> pane.getChildren().remove(view))
         );
         removeTimeline.play();
 
@@ -165,7 +116,7 @@ public class CherryBomb extends Plant{
     }
 
     public ImageView getImageView() {
-        return imageView;
+        return view;
     }
 
     public static int getCooldown() {

@@ -53,6 +53,7 @@ public class Map {
     ArrayList chosenCards;
     // GameController gameController;
     GameController gameController = new GameController(borderPane, grid);
+    List<Plant> plants = new ArrayList<>();
 
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
     Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
@@ -89,10 +90,8 @@ public class Map {
     ImageView jalapenoView = new ImageView(jalapeno);
     ImageView cherrybombView = new ImageView(cherrybomb);
 
-    //static List<Zombie> zombies;
-
-    public Map(Stage stage, ArrayList<String> chosenCards) {
-        //this.zombies = zombies;
+    public Map(Stage stage, ArrayList<String> chosenCards, List<Plant> plants) {
+        this.plants = plants;
         this.chosenCards = chosenCards;
         this.stage = stage;
         this.grid = new GridPane();
@@ -119,12 +118,6 @@ public class Map {
             }
         }
     }
-
-    //private Map instance = new Map(stage, chosenCards);
-    /*public static void updateZombies() {
-        zombies = Game.getZombies();
-    }*/
-
 
     public void drawMap() {
         sunFalling();
@@ -210,8 +203,9 @@ public class Map {
             System.out.println("salmammmmmmm");
             if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
-                gridCells[row][col].setPlant(new Sunflower(row, col, gameController, cell));
-
+                Sunflower sunflower1 = new Sunflower(row, col, gameController, cell, sunflowerView);
+                gridCells[row][col].setPlant(sunflower1);
+                plants.add(sunflower1);
                 cell.getChildren().addAll(sunflowerView);
                 createCardWithCooldown(sunFlowerPane, sunflowerButton, 5);
                 gameController.reduceScore(50);
@@ -220,10 +214,12 @@ public class Map {
                 Bounds boundsInScene = cell.localToScene(cell.getBoundsInLocal());
                 double x = boundsInScene.getMinX();
                 double y = boundsInScene.getMinY();
-                //sunFromSunflowers((int) x, (int) y);
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
+                Peashooter peashooter1 = new Peashooter(row, col, peashooterView);
+                plants.add(peashooter1);
+                gridCells[row][col].setPlant(peashooter1);
                 createCardWithCooldown(peashooterPane, peashooterButton, 10);
                 cell.getChildren().addAll(peashooterView);
                 gameController.reduceScore(100);
@@ -260,7 +256,7 @@ public class Map {
             }
             else if(num.intValue() == 8 && cell.getChildren().size() == 0 && gameController.totalScore >= 150) {
                 num.set(0);
-                gridCells[row][col].setPlant(new CherryBomb(row, col, this, cell));
+                gridCells[row][col].setPlant(new CherryBomb(row, col, this, cell, cherrybombView));
                 createCardWithCooldown(cherrybombPane, cherrybombButton,5);
                 //cell.getChildren().addAll(cherrybombView);
                 gameController.reduceScore(150);
@@ -313,16 +309,6 @@ public class Map {
         sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
         sunSpawnTimeline.play();
     }
-
-    /*public void sunFromSunflowers(int row, int col) {
-        System.out.println("spawn sun from sunflowers at (" + row + "," + col + ")");
-        Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-            double x = Math.random() * (borderPane.getWidth() - 50);
-            new Sun(borderPane, gameController, row, col); // `this` is GameController
-        }));
-        sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
-        sunSpawnTimeline.play();
-    }*/
 
     public void buttonsHandler(VBox vbox) {
         sunflowerCardImageView.setFitWidth(CELL_SIZE * 1.5);

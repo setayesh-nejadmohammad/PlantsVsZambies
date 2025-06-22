@@ -1,15 +1,17 @@
 package game.plantsvszambies;
 
-public class Peashooter extends Plant {
+import javafx.scene.image.ImageView;
 
-    public Peashooter(int row, int col) {
-        super(row, col, 5, 100, 7); // health, cost, rechargeTime
+public class Peashooter extends ShooterPlant {
+    private double timeSinceLastShot;
+    private double fireRate;      // Shots per second
+    private int damage;
+    private boolean isSnowPea;
+
+    public Peashooter(int row, int col, ImageView imageView) {
+        super(row, col, 5, 100, 7, imageView);
+        this.fireRate = 1.5;      // Shots per second
+        this.damage = 20;
+        this.isSnowPea = false;
     }
-
-    /*@Override
-    public void act(Map map) {
-        Bullet bullet = new Bullet(row, col + 1, 1, BulletType.NORMAL);
-        map.getCell(row, col).addBullet(bullet);
-        new Thread(bullet).start();
-    }*/
 }
