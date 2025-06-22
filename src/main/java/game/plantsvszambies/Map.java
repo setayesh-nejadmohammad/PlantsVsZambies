@@ -19,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Map {
@@ -31,7 +32,7 @@ public class Map {
     Button repeaterButton = new Button();
     Button jalapenoButton = new Button();
     Button wallnutButton = new Button();
-
+    List<Plant> plants = new ArrayList<>();
     StackPane sunFlowerPane = new StackPane(sunflowerButton);
     StackPane peashooterPane = new StackPane(peashooterButton);
     StackPane snowpeaPane = new StackPane(snowpeaButton);
@@ -87,12 +88,13 @@ public class Map {
     ImageView jalapenoView = new ImageView(jalapeno);
     ImageView cherrybombView = new ImageView(cherrybomb);
 
-    public Map(Stage stage, ArrayList<String> chosenCards) {
+    public Map(Stage stage, ArrayList<String> chosenCards, List<Plant> plants) {
         this.chosenCards = chosenCards;
         this.stage = stage;
         this.grid = new GridPane();
         grid.setHgap(0);
         grid.setVgap(0);
+        this.plants = plants;
         grid.setLayoutX(250);
         grid.setLayoutY(85);
         this.gridCells = new Cell[ROWS][COLS];
@@ -163,7 +165,7 @@ public class Map {
                 rect.setStroke(Color.BLACK);
                 rect.setStrokeWidth(0.5);
                 grid.add(rect, col, row);
-                StackPane cell = createCell();
+                StackPane cell = createCell(row, col);
                 grid.add(cell, col, row);
             }
         }
@@ -198,8 +200,23 @@ public class Map {
 
 
 
-    private StackPane createCell() {
-
+    private StackPane createCell(int row, int col) {
+        ImageView sunflowerView = new ImageView(sunflower);
+        ImageView peashooterView = new ImageView(peashooter);
+        ImageView snowpeaView = new ImageView(snowpea);
+        ImageView tallnutImageView = new ImageView(tallnut);
+        ImageView wallnutImageView = new ImageView(wallnut);
+        ImageView repeaterView = new ImageView(repeater);
+        ImageView jalapenoView = new ImageView(jalapeno);
+        ImageView cherrybombView = new ImageView(cherrybomb);
+        sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
+        peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
+        snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
+        tallnutImageView.setFitHeight(CELL_SIZE); tallnutImageView.setFitWidth(CELL_SIZE);
+        wallnutImageView.setFitWidth(CELL_SIZE); wallnutImageView.setFitWidth(CELL_SIZE);
+        repeaterView.setFitHeight(CELL_SIZE); repeaterView.setFitWidth(CELL_SIZE);
+        jalapenoView.setFitHeight(CELL_SIZE); jalapenoView.setFitWidth(CELL_SIZE);
+        cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
 
         StackPane cell = new StackPane();
         cell.setOnMouseClicked((MouseEvent e) -> {
@@ -218,6 +235,7 @@ public class Map {
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
+                plants.add(new Peashooter(row, col , peashooterView));
                 createCardWithCooldown(peashooterPane, peashooterButton, 10);
                 cell.getChildren().addAll(peashooterView);
                 gameController.reduceScore(100);
@@ -236,7 +254,7 @@ public class Map {
             }
             else if(num.intValue() == 5 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
-                createCardWithCooldown(wallnutPane, wallnutButton, 50);
+                createCardWithCooldown(wallnutPane, wallnutButton, 5);
                 cell.getChildren().addAll(wallnutImageView);
                 gameController.reduceScore(50);
             }

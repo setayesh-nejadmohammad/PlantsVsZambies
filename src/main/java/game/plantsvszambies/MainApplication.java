@@ -24,7 +24,7 @@ public class MainApplication extends Application {
     private static AtomicInteger num = new AtomicInteger(0);
     @Override
     public void start(Stage stage) throws IOException {
-        Game game = new Game(stage);
+        Game game = Game.getInstance();
         //game.startGame();
 
         // Image frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));

@@ -28,7 +28,7 @@ public class Sun extends ImageView {
         this.setFitHeight(50);
         this.setX(startX);
         this.setY(0); // Start at the top
-        this.setViewOrder(-3);
+
         parent.getChildren().add(this);
 
         // Start falling
@@ -48,7 +48,7 @@ public class Sun extends ImageView {
         this.parent = parent;
 
         parent.getChildren().add(this);
-
+        this.setViewOrder(-3);
         // Set image
         this.setImage(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/sun.png"))); // Make sure this path is correct
         this.setFitWidth(50);

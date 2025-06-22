@@ -1,12 +1,14 @@
 package game.plantsvszambies;
 
+import javafx.scene.image.ImageView;
+
 import java.util.concurrent.*;
 
 public class Sunflower extends Plant {
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-    public Sunflower(int row, int col) {
-        super(row, col, 5, 50, 7);
+    public Sunflower(int row, int col, ImageView imageView) {
+        super(row, col, 5, 50, 7, imageView);
         startProducing();
     }
 
@@ -25,6 +27,11 @@ public class Sunflower extends Plant {
 
     public void stop() {
         scheduler.shutdown();
+    }
+
+    @Override
+    void update(double deltaTime) {
+
     }
 }
 

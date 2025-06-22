@@ -45,14 +45,19 @@ public abstract class Zombie {
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0) {
-           // die();
+            die();
         }
     }
+    public double getX(){
+        return view.getLayoutX();
+    }
+    public double getY(){
+        return view.getY();
+    }
 
-//    private void die() {
-//        // Remove from game
-//        Game.getInstance().removeZombie(this);
-//    }
+    private void die() {
+        Game.getInstance().removeZombie(this);
+    }
 
     // Getters
     public ImageView getView() { return view; }
