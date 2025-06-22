@@ -4,23 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="updateeeeeeeeeee">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/BombPlants.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" afterDir="false" />
+    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="Merge setayesh &amp; Parham branches">
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Peashooter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Peashooter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Plant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Plant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sunflower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sunflower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/MainApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/MainApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Peashooter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Plant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Plant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +118,7 @@
       <workItem from="1750171046268" duration="3160000" />
       <workItem from="1750331583885" duration="335000" />
       <workItem from="1750568901676" duration="18421000" />
-      <workItem from="1750606321976" duration="3897000" />
+      <workItem from="1750606321976" duration="4530000" />
     </task>
     <task id="LOCAL-00002" summary="hello">
       <option name="closed" value="true" />
@@ -191,7 +176,23 @@
       <option name="project" value="LOCAL" />
       <updated>1750587548258</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="merge setayesh &amp; Parham branches">
+      <option name="closed" value="true" />
+      <created>1750610405186</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1750610405186</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Merge setayesh &amp; Parham branches">
+      <option name="closed" value="true" />
+      <created>1750610438446</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1750610438446</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -205,6 +206,8 @@
     <MESSAGE value="give Map to Zombies" />
     <MESSAGE value="add update List of zombies in Map and static the List of Zombie" />
     <MESSAGE value="updateeeeeeeeeee" />
-    <option name="LAST_COMMIT_MESSAGE" value="updateeeeeeeeeee" />
+    <MESSAGE value="merge setayesh &amp; Parham branches" />
+    <MESSAGE value="Merge setayesh &amp; Parham branches" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge setayesh &amp; Parham branches" />
   </component>
 </project>

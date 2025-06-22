@@ -192,45 +192,99 @@ public class Game {
 
         });
         peashooterButton.setOnAction(e -> {
-            if(chosenCards.size() < 6){
-                chosenCards.add("peashooter");
-                peashooterImageView.setOpacity(1);
+            if(!checkButtonPressed[1]){
+                checkButtonPressed[1] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("peashooter");
+                    peashooterImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[1] = false;
+                chosenCards.remove("peashooter");
+                peashooterImageView.setOpacity(0.5);
             }
         });
         snowpeaButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("snowpea");
-                snowpeaImageView.setOpacity(1);
+            if(!checkButtonPressed[2]){
+                checkButtonPressed[2] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("snowpea");
+                    snowpeaImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[2] = false;
+                chosenCards.remove("snowpea");
+                snowpeaImageView.setOpacity(0.5);
             }
         });
         tallnutButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("tallnut");
-                tallnutImageView.setOpacity(1);
+            if(!checkButtonPressed[3]){
+                checkButtonPressed[3] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("tallnut");
+                    tallnutImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[3] = false;
+                chosenCards.remove("tallnut");
+                tallnutImageView.setOpacity(0.5);
             }
         });
         wallnutButton.setOnAction(e -> {
-            if(chosenCards.size() < 6){
-                chosenCards.add("wallnut");
-                wallnutImageView.setOpacity(1);
+            if(!checkButtonPressed[4]){
+                checkButtonPressed[4] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("wallnut");
+                    wallnutImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[4] = false;
+                chosenCards.remove("wallnut");
+                wallnutImageView.setOpacity(0.5);
             }
         });
         cherrybombButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("cherrybomb");
-                cherrybombImageView.setOpacity(1);
+            if(!checkButtonPressed[5]){
+                checkButtonPressed[5] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("cherrybomb");
+                    cherrybombImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[5] = false;
+                chosenCards.remove("cherrybomb");
+                cherrybombImageView.setOpacity(0.5);
             }
         });
         jalapenoButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
+            if(!checkButtonPressed[6]){
+                checkButtonPressed[6] = true;
                 chosenCards.add("jalapeno");
                 jalapenoImageView.setOpacity(1);
             }
+            else{
+                checkButtonPressed[6] = false;
+                chosenCards.remove("jalapeno");
+                jalapenoImageView.setOpacity(0.5);
+            }
         });
         repeaterButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("repeater");
-                repeaterImageView.setOpacity(1);
+            if(!checkButtonPressed[7]){
+                checkButtonPressed[7] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("repeater");
+                    repeaterImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[7] = false;
+                chosenCards.remove("repeater");
+                repeaterImageView.setOpacity(0.5);
             }
         });
 
