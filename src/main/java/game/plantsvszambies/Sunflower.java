@@ -29,12 +29,6 @@ public class Sunflower extends Plant {
     public void update(double deltaTime){
         // سرکاریه
     }
-
-    /*@Override
-    public void act(Map map) {
-        // Sunflower عمل مستقیم ندارد، ولی act را می‌توان برای انیمیشن استفاده کرد.
-    }*/
-
     public void stop() {
         sunSpawnTimeline.stop();
     }
