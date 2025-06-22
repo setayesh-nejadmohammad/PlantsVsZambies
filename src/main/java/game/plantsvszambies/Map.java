@@ -19,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Map {
@@ -46,7 +47,7 @@ public class Map {
     private static AtomicInteger num = new AtomicInteger(0);
     Stage stage;
 
-    private final Cell[][] gridCells;
+    public final Cell[][] gridCells;
     public GridPane grid;
     public BorderPane borderPane = new BorderPane();
     ArrayList chosenCards;
@@ -88,7 +89,10 @@ public class Map {
     ImageView jalapenoView = new ImageView(jalapeno);
     ImageView cherrybombView = new ImageView(cherrybomb);
 
-    public Map(Stage stage, ArrayList<String> chosenCards) {
+    static List<Zombie> zombies;
+
+    public Map(Stage stage, ArrayList<String> chosenCards, List<Zombie> zombies) {
+        this.zombies = zombies;
         this.chosenCards = chosenCards;
         this.stage = stage;
         this.grid = new GridPane();
@@ -117,6 +121,9 @@ public class Map {
     }
 
     //private Map instance = new Map(stage, chosenCards);
+    public static void updateZombies() {
+        zombies = Game.getZombies();
+    }
 
 
     public void drawMap() {
@@ -180,7 +187,7 @@ public class Map {
 
 
 
-    private StackPane createCell(int row, int col) {
+    private StackPane createCell(int row, int col){
         ImageView sunflowerView = new ImageView(sunflower);
         ImageView peashooterView = new ImageView(peashooter);
         ImageView snowpeaView = new ImageView(snowpea);
@@ -253,8 +260,9 @@ public class Map {
             }
             else if(num.intValue() == 8 && cell.getChildren().size() == 0 && gameController.totalScore >= 150) {
                 num.set(0);
-                createCardWithCooldown(cherrybombPane, cherrybombButton,15 );
-                cell.getChildren().addAll(cherrybombView);
+                gridCells[row][col].setPlant(new CherryBomb(row, col, this, zombies, cell));
+                createCardWithCooldown(cherrybombPane, cherrybombButton,5);
+                //cell.getChildren().addAll(cherrybombView);
                 gameController.reduceScore(150);
             }
         });

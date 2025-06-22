@@ -1,9 +1,12 @@
 package game.plantsvszambies;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 // Base Zombie class
 public abstract class Zombie {
@@ -28,6 +31,7 @@ public abstract class Zombie {
         this.row = row;
         this.column = 9.3; // Starts at rightmost column
         this.view = createImageView();
+        System.out.println("Zombie num "+ID+"is at row "+row+" and column "+column);
     }
 
     protected abstract ImageView createImageView();
@@ -44,7 +48,7 @@ public abstract class Zombie {
             // check if zombies col has changed
             double newCol = column - speed * deltaTime;
             if((int)newCol != (int)column) { // if the col is changed
-                System.out.println("Zombie number "+ ID +" updated to " + (int)newCol);
+                //System.out.println("Zombie number "+ ID +" updated to " + (int)newCol);
                 if(myCell != null) myCell.removeZombie(this);
                 myCell = getCellFromGridPane(map.grid, (int)newCol, this.getRow());
                 if(myCell != null) myCell.addZombie(this);
@@ -70,8 +74,37 @@ public abstract class Zombie {
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0) {
-           // die();
+           die();
         }
+    }
+
+    public void die() {
+        System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);
+
+        // change imageView to DEATH MOD
+        Image deathImage = new Image(getClass().getResourceAsStream("images/Zombie/burntZombie.gif"));
+        view.setImage(deathImage);
+        isEating = true;
+
+        // 2 sec pause before remove zombie
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(event -> {
+            // remove Zombie's ImageView from the Main pane
+            if (view.getParent() != null) {
+                ((BorderPane)view.getParent()).getChildren().remove(view);
+            }
+
+            // remove the zombie from zombies List
+            map.zombies.remove(this);
+
+
+            // remove zombie from the cell
+            Cell currentCell = getCellFromGridPane(map.grid, (int)column, row);
+            if (currentCell != null) {
+                currentCell.removeZombie(this);
+            }
+        });
+        delay.play();
     }
 
 //    private void die() {

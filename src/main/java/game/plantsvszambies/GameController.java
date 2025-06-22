@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 public class GameController {
     private List<Zombie> activeZombies = new ArrayList<>();
-    int totalScore = 100;
+    int totalScore = 1000;
     GridPane gridPane;
 
     BorderPane borderPane;

@@ -28,7 +28,7 @@ public class Game {
     private long startTime;
     private static final double SPAWN_INTERVAL = 3.0;
     private Timeline spawnTimeline;
-    private List<Zombie> zombies = new ArrayList<>();
+    private static List<Zombie> zombies = new ArrayList<>();
 
 
     public Game(Stage stage){
@@ -202,13 +202,12 @@ public class Game {
 
     public void startGame(){
         startTime = System.currentTimeMillis();
-        this.map = new Map(stage, chosenCards);
+        this.map = new Map(stage, chosenCards, zombies);
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
-
-
     }
+
     private void positionZombie(Zombie zombie) {
         ImageView view = zombie.getView();
         view.setTranslateX(180);
@@ -262,10 +261,11 @@ public class Game {
                 double deltaTime = 1.0 / 60; // Assuming 60 FPS
 
                 // Update all zombies
-                for (Zombie zombie : new ArrayList<>(zombies)) {
+                for (Zombie zombie : new ArrayList<>(zombies)){
                     zombie.update(deltaTime);
                     //checkCollisions(zombie);
                     checkReachedEnd(zombie);
+                    Map.updateZombies();
                 }
             }
         };
@@ -301,6 +301,10 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public static List<Zombie> getZombies() {
+        return zombies;
     }
 
 
