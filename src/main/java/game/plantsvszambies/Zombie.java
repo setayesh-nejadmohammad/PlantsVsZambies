@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 // Base Zombie class
@@ -80,6 +81,32 @@ public abstract class Zombie {
 
     public void dieWithShooter(){
         Game.getInstance().removeZombie(this);
+
+        // make the head
+        ImageView headGif = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/ZombieHead.gif")));
+        headGif.setFitWidth(80);
+        headGif.setFitHeight(90);
+
+        // make the body
+        ImageView bodyGif = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/ZombieDie.gif")));
+        bodyGif.setFitWidth(80);
+        bodyGif.setFitHeight(90);
+
+        // put in stackPane
+        StackPane animationPane = new StackPane();
+        animationPane.getChildren().addAll(bodyGif, headGif); // ترتیب مهمه: بدن زیر، کله بالا
+
+        // Put in Zombies Pos
+        animationPane.setLayoutX(view.getX());
+        animationPane.setLayoutY(view.getY());
+
+        // add it to the scene
+        Game.getInstance().map.grid.add(animationPane, (int)getColumn(), getRow());
+
+        // remove it after a few sec
+        PauseTransition delay = new PauseTransition(Duration.seconds(2.6));
+        delay.setOnFinished(e -> Game.getInstance().map.grid.getChildren().remove(animationPane));
+        delay.play();
     }
 
     public void die() {
