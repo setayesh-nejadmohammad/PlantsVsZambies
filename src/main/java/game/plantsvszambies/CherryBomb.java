@@ -82,18 +82,18 @@ public class CherryBomb extends Plant{
         // Damage zombies in 3x3 area
         for (Zombie zombie : Game.getInstance().getZombies()) {
             //System.out.println("Zombie at row: "+ zombie.getView().getLayoutX()+250 + "col: " + zombie.getView().getLayoutY()+85);
-            if(zombie.getView().getLayoutX()+200 < x+130 && zombie.getView().getLayoutY()+50 < y+130
+            /*if(zombie.getView().getLayoutX()+200 < x+130 && zombie.getView().getLayoutY()+50 < y+130
                && zombie.getView().getLayoutX()+200 > x-130 && zombie.getView().getLayoutY()+50 > y-100) {
                 zombie.die();
             }
-            /*if(zombie.getView().getLayoutX()+250 < pane.getLayoutX()+80 && zombie.getView().getLayoutY()+85 < pane.getLayoutY()+90
+            if(zombie.getView().getLayoutX()+250 < pane.getLayoutX()+80 && zombie.getView().getLayoutY()+85 < pane.getLayoutY()+90
                && zombie.getView().getLayoutX()+250 > pane.getLayoutX()-80 && zombie.getView().getLayoutY()+85 > pane.getLayoutY()-90) {
                 zombie.die();
-            }
+            }*/
             if (isInExplosionRange(zombie)) {
                 System.out.println("cheery found a zombie to kill!");
                 zombie.die();
-            }*/
+            }
         }
 
         // Remove explosion image after animation
@@ -108,10 +108,15 @@ public class CherryBomb extends Plant{
         int zombieRow = zombie.getRow();
         int zombieCol = (int)zombie.getColumn();
 
-        if(zombieRow >= row - 1 && zombieRow <= row + 1 && zombieCol >= col - 1 && zombieCol <= col + 1){
-            System.out.println("find a Zombie in the area!!!!");
+        if(zombie.getView().getLayoutX()+200 < x+130 && zombie.getView().getLayoutX()+200 > x-130
+            && ((zombie.getView().getLayoutY()+50 < y+130 && zombie.getView().getLayoutY()+50 > y-100) ||
+                (zombieRow >= row-1.1 && zombieRow <= row+0.9)) ) {
             return true;
         }
+        /*if(zombieRow >= row - 1 && zombieRow <= row + 1 && zombieCol >= col - 1 && zombieCol <= col + 1){
+            System.out.println("find a Zombie in the area!!!!");
+            return true;
+        }*/
         return false;
     }
 
