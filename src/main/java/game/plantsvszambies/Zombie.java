@@ -88,6 +88,8 @@ public abstract class Zombie {
         // change imageView to DEATH MOD
         Image deathImage = new Image(getClass().getResourceAsStream("images/Zombie/burntZombie.gif"));
         view.setImage(deathImage);
+        view.setFitWidth(60);
+        view.setLayoutX(view.getLayoutX()+30);
         isEating = true;
 
         // 2 sec pause before remove zombie

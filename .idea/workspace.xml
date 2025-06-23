@@ -4,31 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="fixed the Choosing Card Problem" />
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="HMMMMM">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/HelloController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/HelloController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Parham" />
+        <entry key="$PROJECT_DIR$" value="setayesh" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;ParhamMT&quot;
+    &quot;assignee&quot;: &quot;setayesh-nejadmohammad&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
@@ -38,9 +38,9 @@
   }
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
+  &quot;associatedIndex&quot;: 8
 }</component>
-  <component name="ProjectId" id="2yIyMoa1XIHoMrnZISm3682hp2R" />
+  <component name="ProjectId" id="2ys8vLogMwDCVzaR9YBWe07XQcI" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -48,25 +48,20 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.MainApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ZombieMovement.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;setayesh&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/resources/game/plantsvszambies&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/java/game/plantsvszambies/Sunflower.java&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/java/game/plantsvszambies/Sunflower.java&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\FUM\projects\PlantsVsZambies\PlantsVsZambies\src\main\resources\game\plantsvszambies" />
-      <recent name="C:\Users\XMART\Desktop\Plants and zombies\PlantsVsZambies\src\main\java\game\plantsvszambies" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
@@ -88,133 +83,60 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task id="LOCAL-00001" summary="hello">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="HMMMMM" />
+      <created>1750612154210</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750612154210</updated>
+      <workItem from="1750612156112" duration="2974000" />
+      <workItem from="1750616173572" duration="580000" />
+      <workItem from="1750664855099" duration="867000" />
+    </task>
+    <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
-      <created>1749485722817</created>
+      <created>1750614059352</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1749485722817</updated>
+      <updated>1750614059352</updated>
     </task>
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="a2f33f6b-20d7-4453-8339-ac262aca662e" name="Changes" comment="hello" />
-      <created>1749536338935</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1749536338935</updated>
-      <workItem from="1749536341137" duration="1467000" />
-      <workItem from="1749539040555" duration="2044000" />
-      <workItem from="1749626034930" duration="1454000" />
-      <workItem from="1749663009413" duration="1911000" />
-      <workItem from="1749716745605" duration="3531000" />
-      <workItem from="1749728962822" duration="4246000" />
-      <workItem from="1749931012705" duration="8991000" />
-      <workItem from="1749964236311" duration="3967000" />
-      <workItem from="1749968903633" duration="10964000" />
-      <workItem from="1749991179536" duration="4749000" />
-      <workItem from="1750162925036" duration="5761000" />
-      <workItem from="1750171046268" duration="3160000" />
-      <workItem from="1750331583885" duration="335000" />
-      <workItem from="1750568901676" duration="18421000" />
-      <workItem from="1750606321976" duration="5318000" />
-    </task>
-    <task id="LOCAL-00002" summary="hello">
-      <option name="closed" value="true" />
-      <created>1749538978939</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1749538978939</updated>
-    </task>
-    <task id="LOCAL-00003" summary="hello">
-      <option name="closed" value="true" />
-      <created>1749568797049</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1749568797049</updated>
-    </task>
-    <task id="LOCAL-00004" summary="add choose cardscene and send the list of chosen card to map">
-      <option name="closed" value="true" />
-      <created>1749722486528</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1749722486528</updated>
-    </task>
-    <task id="LOCAL-00005" summary="spawn sun from sunflowers in the sunflower class">
-      <option name="closed" value="true" />
-      <created>1749935205377</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1749935205378</updated>
-    </task>
-    <task id="LOCAL-00006" summary="give Map to Zombies">
-      <option name="closed" value="true" />
-      <created>1749969960682</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1749969960682</updated>
-    </task>
-    <task id="LOCAL-00007" summary="add update List of zombies in Map and static the List of Zombie">
-      <option name="closed" value="true" />
-      <created>1750573133883</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1750573133883</updated>
-    </task>
-    <task id="LOCAL-00008" summary="updateeeeeeeeeee">
-      <option name="closed" value="true" />
-      <created>1750587548258</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1750587548258</updated>
-    </task>
-    <task id="LOCAL-00009" summary="merge setayesh &amp; Parham branches">
-      <option name="closed" value="true" />
-      <created>1750610405186</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1750610405186</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Merge setayesh &amp; Parham branches">
-      <option name="closed" value="true" />
-      <created>1750610438446</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1750610438446</updated>
-    </task>
-    <task id="LOCAL-00011" summary="fixed the Choosing Card Problem">
-      <option name="closed" value="true" />
-      <created>1750611002610</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1750611002610</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="setayesh" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add animation to cards" />
-    <MESSAGE value="hello" />
-    <MESSAGE value="add choose cardscene and send the list of chosen card to map" />
-    <MESSAGE value="spawn sun from sunflowers in the sunflower class" />
-    <MESSAGE value="give Map to Zombies" />
-    <MESSAGE value="add update List of zombies in Map and static the List of Zombie" />
-    <MESSAGE value="updateeeeeeeeeee" />
-    <MESSAGE value="merge setayesh &amp; Parham branches" />
-    <MESSAGE value="Merge setayesh &amp; Parham branches" />
-    <MESSAGE value="fixed the Choosing Card Problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed the Choosing Card Problem" />
+    <MESSAGE value="HMMMMM" />
+    <option name="LAST_COMMIT_MESSAGE" value="HMMMMM" />
   </component>
 </project>
