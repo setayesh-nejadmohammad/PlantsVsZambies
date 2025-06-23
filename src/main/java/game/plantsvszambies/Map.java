@@ -272,8 +272,9 @@ public class Map {
             }
             else if(num.intValue() == 8 && cell.getChildren().size() == 0 && gameController.totalScore >= 150) {
                 num.set(0);
-                createCardWithCooldown(cherrybombPane, cherrybombButton,15 );
-                cell.getChildren().addAll(cherrybombView);
+                gridCells[row][col].setPlant(new CherryBomb(row, col, this, cell, cherrybombView));
+                createCardWithCooldown(cherrybombPane, cherrybombButton,3 );
+                //cell.getChildren().addAll(cherrybombView);
                 gameController.reduceScore(150);
             }
         });

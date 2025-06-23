@@ -46,7 +46,7 @@ public abstract class ShooterPlant extends Plant {
         // Check if any zombies exist in this row to the right of plant
 
         for (Zombie zombie : Game.getInstance().getZombies()) {
-            if (zombie.getRow() == this.getRow() && zombie.getView().getLayoutX() >= this.getCol() * 80 + 70) {
+            if (zombie.getRow() == this.getRow() && zombie.getView().getLayoutX() >= this.getCol() * 80 + 75) {
 
                 return true;
             }

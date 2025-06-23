@@ -1,7 +1,10 @@
 package game.plantsvszambies;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 // Base Zombie class
 public abstract class Zombie {
@@ -45,7 +48,7 @@ public abstract class Zombie {
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0) {
-            die();
+            dieWithShooter();
         }
     }
     public double getX(){
@@ -55,10 +58,32 @@ public abstract class Zombie {
         return view.getY();
     }
 
-    private void die() {
+    public void dieWithShooter() {
         Game.getInstance().removeZombie(this);
     }
+   public void die() {
+       //System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);
 
+       // change imageView to DEATH MOD
+       Image deathImage = new Image(getClass().getResourceAsStream("images/Zombie/burntZombie.gif"));
+       view.setImage(deathImage);
+       isEating = true;
+
+       // 2 sec pause before remove zombie
+       PauseTransition delay = new PauseTransition(Duration.seconds(5));
+       delay.setOnFinished(event -> {
+           // remove Zombie's ImageView from the Main pane
+           if (view.getParent() != null) {
+               ((BorderPane)view.getParent()).getChildren().remove(view);
+           }
+
+           // remove the zombie from zombies List
+           Game.getInstance().getZombies().remove(this);
+
+
+       });
+       delay.play();
+   }
     // Getters
     public ImageView getView() { return view; }
     public int getRow() { return row; }
