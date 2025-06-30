@@ -6,8 +6,12 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+
+import java.util.Stack;
 
 public class Sun extends ImageView {
     private static final int SUN_POINTS = 25;
@@ -43,11 +47,12 @@ public class Sun extends ImageView {
         });
     }
 
-    public Sun(Pane parent, GameController gameController, int row, int col){
+    public Sun(StackPane cell, GameController gameController, int row, int col){
         this.gameController = gameController;
-        this.parent = parent;
+        this.parent = cell;
+        //this.parent = parent;
 
-        parent.getChildren().add(this);
+        cell.getChildren().addAll(this);
 
         // Set image
         this.setImage(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/sun.png"))); // Make sure this path is correct
