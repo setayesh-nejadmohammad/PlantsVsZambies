@@ -6,8 +6,8 @@ import javafx.scene.image.ImageView;
 public class NormalZombie extends Zombie{
     private Image normalZombieImage = new Image(getClass().getResourceAsStream("images/Zombie/normalzombie.gif"));
 
-    public NormalZombie(int row) {
-        super(100, 50, 0.25, row);
+    public NormalZombie(int row, Map map) {
+        super(100, 50, 0.25, row, map);
     }
 
     public ImageView getImageView() {
@@ -23,3 +23,4 @@ public class NormalZombie extends Zombie{
         return view;
     }
 }
+
