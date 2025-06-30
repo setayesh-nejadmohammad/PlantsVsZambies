@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,19 +16,27 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Game {
+    private static Game instance;
     Stage stage;
     int CELL_SIZE = 80;
     Image frontYard;
     Map map;
+    private long lastFrameTime = 0;
+    private double accumulatedTime = 0;
+    private static final double FRAME_TIME = 1.0 / 60.0;
     ArrayList<String> chosenCards = new ArrayList<String>();
+    private List<Bullet> activeBullets = new ArrayList<>();
     private long startTime;
     private static final double SPAWN_INTERVAL = 3.0;
     private Timeline spawnTimeline;
     private List<Zombie> zombies = new ArrayList<>();
+    private List<Plant> plants = new ArrayList<>();
 
 
     public Game(Stage stage){
@@ -36,6 +45,64 @@ public class Game {
         ChooseCard();
 
     }
+
+    public static Game getInstance(){
+        if(instance == null){
+            instance = new Game(new Stage());
+        }
+        return instance;
+    }
+
+    public void addBullet(Bullet bullet) {
+        activeBullets.add(bullet);
+        map.borderPane.getChildren().add(bullet.getView());
+
+    }
+
+    private void sleepRemainingFrameTime(double actualDelta) {
+        try {
+            double targetTime = 1_000_000_000 / 60.0; // 16.67ms
+            double elapsed = actualDelta * 1_000_000_000;
+            if (elapsed < targetTime) {
+                Thread.sleep((long)((targetTime - elapsed) / 1_000_000));
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void updateBullets(double deltaTime) {
+        Iterator<Bullet> iterator = activeBullets.iterator();
+        while (iterator.hasNext()) {
+            Bullet bullet = iterator.next();
+
+            // Update position
+            bullet.update(deltaTime);
+
+            // Check collisions
+            for (Zombie zombie : getZombiesInRow(bullet.getRow())) {
+                if (bullet.checkCollision(zombie)) {
+                    bullet.applyEffect(zombie);
+                    iterator.remove();
+                    map.borderPane.getChildren().remove(bullet.getView());
+                    break;
+                }
+            }
+
+            // Remove if out of bounds
+            if (bullet.isOutOfBounds(map.borderPane.getWidth())) {
+                iterator.remove();
+                map.borderPane.getChildren().remove(bullet.getView());
+            }
+        }
+    }
+
+    private List<Zombie> getZombiesInRow(int row) {
+        return zombies.stream()
+                .filter(z -> z.getRow() == row)
+                .collect(Collectors.toList());
+    }
+
     public void ChooseCard(){
         StackPane pane = new StackPane();
         Scene ChooseCardScene = new Scene(pane, 1024, 626);
@@ -107,52 +174,117 @@ public class Game {
         wallnutButton.getStyleClass().add("button");
         wallnutButton.setGraphic(wallnutImageView);
 
+        boolean[] checkButtonPressed = {false, false, false, false, false, false, false, false, false};
+
         sunflowerButton.setOnAction(e->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("sunflower");
-                sunflowerImageView.setOpacity(1);
+            if(!checkButtonPressed[0]){
+                checkButtonPressed[0] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("sunflower");
+                    sunflowerImageView.setOpacity(1);
+                }
             }
+            else{
+                checkButtonPressed[0] = false;
+                chosenCards.remove("sunflower");
+                sunflowerImageView.setOpacity(0.5);
+            }
+
         });
         peashooterButton.setOnAction(e -> {
-            if(chosenCards.size() < 6){
-                chosenCards.add("peashooter");
-                peashooterImageView.setOpacity(1);
+            if(!checkButtonPressed[1]){
+                checkButtonPressed[1] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("peashooter");
+                    peashooterImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[1] = false;
+                chosenCards.remove("peashooter");
+                peashooterImageView.setOpacity(0.5);
             }
         });
         snowpeaButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("snowpea");
-                snowpeaImageView.setOpacity(1);
+            if(!checkButtonPressed[2]){
+                checkButtonPressed[2] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("snowpea");
+                    snowpeaImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[2] = false;
+                chosenCards.remove("snowpea");
+                snowpeaImageView.setOpacity(0.5);
             }
         });
         tallnutButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("tallnut");
-                tallnutImageView.setOpacity(1);
+            if(!checkButtonPressed[3]){
+                checkButtonPressed[3] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("tallnut");
+                    tallnutImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[3] = false;
+                chosenCards.remove("tallnut");
+                tallnutImageView.setOpacity(0.5);
             }
         });
         wallnutButton.setOnAction(e -> {
-            if(chosenCards.size() < 6){
-                chosenCards.add("wallnut");
-                wallnutImageView.setOpacity(1);
+            if(!checkButtonPressed[4]){
+                checkButtonPressed[4] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("wallnut");
+                    wallnutImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[4] = false;
+                chosenCards.remove("wallnut");
+                wallnutImageView.setOpacity(0.5);
             }
         });
         cherrybombButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("cherrybomb");
-                cherrybombImageView.setOpacity(1);
+            if(!checkButtonPressed[5]){
+                checkButtonPressed[5] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("cherrybomb");
+                    cherrybombImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[5] = false;
+                chosenCards.remove("cherrybomb");
+                cherrybombImageView.setOpacity(0.5);
             }
         });
         jalapenoButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
+            if(!checkButtonPressed[6]){
+                checkButtonPressed[6] = true;
                 chosenCards.add("jalapeno");
                 jalapenoImageView.setOpacity(1);
             }
+            else{
+                checkButtonPressed[6] = false;
+                chosenCards.remove("jalapeno");
+                jalapenoImageView.setOpacity(0.5);
+            }
         });
         repeaterButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("repeater");
-                repeaterImageView.setOpacity(1);
+            if(!checkButtonPressed[7]){
+                checkButtonPressed[7] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("repeater");
+                    repeaterImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[7] = false;
+                chosenCards.remove("repeater");
+                repeaterImageView.setOpacity(0.5);
             }
         });
 
@@ -201,13 +333,12 @@ public class Game {
 
     public void startGame(){
         startTime = System.currentTimeMillis();
-        this.map = new Map(stage, chosenCards);
+        this.map = new Map(stage, chosenCards, plants);
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
-
-
     }
+
     private void positionZombie(Zombie zombie) {
         ImageView view = zombie.getView();
         view.setTranslateX(180);
@@ -231,14 +362,19 @@ public class Game {
         spawnTimeline.setCycleCount(Animation.INDEFINITE);
         spawnTimeline.play();
     }
+
     private void spawnZombie() {
         int currentPhase = getCurrentPhase(); // Implement based on game time
         int row = (new Random()).nextInt(5); // Random row (0-4)
 
-        Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row);
+        Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row, map);
         zombies.add(zombie);
         map.borderPane.getChildren().add(zombie.getView());
         positionZombie(zombie);
+
+        // add Zobmie to my grid
+        Cell myCell = getCellFromGridPane(map.grid, 9, row);
+        if(myCell != null) myCell.addZombie(zombie);
     }
 
     private int getCurrentPhase() {
@@ -252,35 +388,83 @@ public class Game {
 
     private void startGameLoop() {
         AnimationTimer gameLoop = new AnimationTimer() {
+            private long lastUpdate = 0;
             @Override
             public void handle(long now) {
-                double deltaTime = 1.0 / 60; // Assuming 60 FPS
-
-                // Update all zombies
-                for (Zombie zombie : new ArrayList<>(zombies)) {
-                    zombie.update(deltaTime);
-                    //checkCollisions(zombie);
-                    checkReachedEnd(zombie);
+                if (lastUpdate == 0) {
+                    lastUpdate = now;
+                    return;
                 }
+
+                double deltaTime = (now - lastUpdate) / 1_000_000_000.0;
+                lastUpdate = now;
+
+                // Update all game systems
+                updatePlants(deltaTime);
+                updateBullets(deltaTime);
+                updateZombies(deltaTime);
+
+                // Cap at 60 FPS if needed
+//                try {
+//                    Thread.sleep((long)(16.67 - deltaTime*1000));
+//                } catch (InterruptedException e) {}
             }
         };
         gameLoop.start();
     }
 
-    private void checkReachedEnd(Zombie zombie) {
-        if (zombie.getColumn() <= 0) {
-            removeZombie(zombie);
+    private void updateZombies(double deltaTime) {
+        for (Iterator<Zombie> iterator = zombies.iterator(); iterator.hasNext();) {
+            Zombie zombie = iterator.next();
+            zombie.update(deltaTime);
+            if(checkReachedEnd(zombie)) {
+                map.borderPane.getChildren().remove(zombie.getView());
+                iterator.remove();
+
+            }
         }
+    }
+
+    private void updatePlants(double deltaTime) {
+        plants.forEach(plant -> {
+            plant.update(deltaTime);
+
+            // Plants automatically shoot via their update()
+            // (ShooterPlant handles its own fire rate timing)
+        });
+    }
+
+    public void updateZombiePosOnGrid(Zombie zombie) {
+        //Cell myCell = getCellFromGridPane(map.grid, (int)zombie.getColumn(), zombie.getRow());
+        //?????
+    }
+
+    private boolean checkReachedEnd(Zombie zombie) {
+        return zombie.getColumn() <= 0;
     }
 
     public void removeZombie(Zombie zombie) {
         zombies.remove(zombie);
         map.borderPane.getChildren().remove(zombie.getView());
-}
+    }
 
 //    private void checkCollisions(Zombie zombie) {
 //
 //    }
 
+    public Cell getCellFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col &&
+                    GridPane.getRowIndex(node) == row &&
+                    node instanceof Cell) {
+                return (Cell) node;
+            }
+        }
+        return null;
+    }
+
+    public List<Zombie> getZombies() {
+        return zombies;
+    }
 
 }
