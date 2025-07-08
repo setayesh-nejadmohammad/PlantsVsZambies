@@ -113,6 +113,7 @@ public class CherryBomb extends Plant{
                 (zombieRow >= row-1.1 && zombieRow <= row+0.9)) ) {
             return true;
         }
+        if(this.row == 2 && zombieRow == 3) return true;
         /*if(zombieRow >= row - 1 && zombieRow <= row + 1 && zombieCol >= col - 1 && zombieCol <= col + 1){
             System.out.println("find a Zombie in the area!!!!");
             return true;

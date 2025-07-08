@@ -56,7 +56,6 @@ public class Game {
     public void addBullet(Bullet bullet) {
         activeBullets.add(bullet);
         map.borderPane.getChildren().add(bullet.getView());
-
     }
 
     private void sleepRemainingFrameTime(double actualDelta) {
@@ -264,8 +263,10 @@ public class Game {
         jalapenoButton.setOnAction(e ->{
             if(!checkButtonPressed[6]){
                 checkButtonPressed[6] = true;
-                chosenCards.add("jalapeno");
-                jalapenoImageView.setOpacity(1);
+                if(chosenCards.size() < 6){
+                    chosenCards.add("jalapeno");
+                    jalapenoImageView.setOpacity(1);
+                }
             }
             else{
                 checkButtonPressed[6] = false;

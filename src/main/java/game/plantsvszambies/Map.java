@@ -267,7 +267,7 @@ public class Map {
     }
 
     private void createCardWithCooldown(StackPane cardButton, Button b1, double cooldownSeconds) {
-        Rectangle overlay = new Rectangle(sunflowerButton.getWidth(), CELL_SIZE); // Adjust size to match button
+        Rectangle overlay = new Rectangle(b1.getWidth(), CELL_SIZE); // Adjust size to match button
         overlay.setFill(Color.color(0, 0, 0, 0.5)); // semi-transparent black
         overlay.setTranslateY(0);
         overlay.setViewOrder(-1); // Make sure it's above the button
