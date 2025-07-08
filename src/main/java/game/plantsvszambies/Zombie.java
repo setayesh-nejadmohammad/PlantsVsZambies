@@ -21,6 +21,7 @@ public abstract class Zombie {
     protected Map map;
     static int ZombieCounter = 0;
     protected int ID;
+    protected boolean isDead = false;
 
     public Zombie(int health, int damage, double speed, int row, Map map) {
         ZombieCounter++;
@@ -80,6 +81,8 @@ public abstract class Zombie {
     }
 
     public void dieWithShooter(){
+        if(isDead) return;
+        isDead = true;
         Game.getInstance().removeZombie(this);
 
         // make the head
@@ -110,6 +113,8 @@ public abstract class Zombie {
     }
 
     public void die() {
+        if(isDead) return;
+        isDead = true;
         System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);
 
         // change imageView to DEATH MOD
@@ -119,7 +124,7 @@ public abstract class Zombie {
         view.setLayoutX(view.getLayoutX()+30);
         isEating = true;
 
-        // 2 sec pause before remove zombie
+        // 5 sec pause before remove zombie
         PauseTransition delay = new PauseTransition(Duration.seconds(5));
         delay.setOnFinished(event -> {
             // remove Zombie's ImageView from the Main pane
