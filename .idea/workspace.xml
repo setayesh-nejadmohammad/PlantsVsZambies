@@ -4,29 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7377fae9-6a2c-47f9-9f13-e5a595b86a96" name="Changes" comment="updates">
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="update!!!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/MainApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/MainApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Zombie/coneheadzombie.gif" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Zombie/coneheadzombie.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Zombie/normalzombie.gif" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/images/Zombie/normalzombie.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -35,24 +25,24 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;ParhamMT&quot;
+    &quot;assignee&quot;: &quot;setayesh-nejadmohammad&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/setayesh-nejadmohammad/PlantsVsZambies.git&quot;,
-    &quot;accountId&quot;: &quot;232e3695-06d5-4935-901c-a6ebfe431f8f&quot;
+    &quot;accountId&quot;: &quot;7447d734-9d70-487f-9c4b-537843137400&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 7
+  &quot;associatedIndex&quot;: 8
 }</component>
-  <component name="ProjectId" id="2yDhiPV8jdy70Q1mYOK1Z2vdyA6" />
+  <component name="ProjectId" id="2ys8vLogMwDCVzaR9YBWe07XQcI" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -60,26 +50,20 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.MainApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PlantCardCooldown.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;setayesh&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/XMART/Desktop/Plants and zombies/PlantsVsZambies/src/main/resources/game/plantsvszambies&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/java/game/plantsvszambies/Sunflower.java&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/java/game/plantsvszambies/Sunflower.java&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\XMART\Desktop\Plants and zombies\PlantsVsZambies\src\main\resources\game\plantsvszambies" />
-      <recent name="C:\Users\XMART\Desktop\Plants and zombies\PlantsVsZambies\src\main\resources\game\plantsvszambies\images" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
@@ -94,63 +78,66 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.117" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.117" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7377fae9-6a2c-47f9-9f13-e5a595b86a96" name="Changes" comment="" />
-      <created>1749375178043</created>
+      <changelist id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="HMMMMM" />
+      <created>1750612154210</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1749375178043</updated>
-      <workItem from="1749375180044" duration="9643000" />
-      <workItem from="1749411690076" duration="206000" />
-      <workItem from="1749448709604" duration="1528000" />
-      <workItem from="1749450698392" duration="13108000" />
+      <updated>1750612154210</updated>
+      <workItem from="1750612156112" duration="2974000" />
+      <workItem from="1750616173572" duration="580000" />
+      <workItem from="1750664855099" duration="7415000" />
+      <workItem from="1751267253262" duration="2957000" />
+      <workItem from="1751355918811" duration="7954000" />
+      <workItem from="1751814745177" duration="281000" />
+      <workItem from="1751958196567" duration="1815000" />
     </task>
-    <task id="LOCAL-00001" summary="hello">
+    <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
-      <created>1749392661623</created>
+      <created>1750614059352</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1749392661623</updated>
+      <updated>1750614059352</updated>
     </task>
-    <task id="LOCAL-00002" summary="hello">
+    <task id="LOCAL-00002" summary="fix the burnd Zombie imageView in die method">
       <option name="closed" value="true" />
-      <created>1749411728860</created>
+      <created>1750665899050</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1749411728860</updated>
+      <updated>1750665899052</updated>
     </task>
-    <task id="LOCAL-00003" summary="hello">
+    <task id="LOCAL-00003" summary="add impDie gif and zombie die with shooter gif">
       <option name="closed" value="true" />
-      <created>1749411820937</created>
+      <created>1750675308618</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1749411820937</updated>
+      <updated>1750675308618</updated>
     </task>
-    <task id="LOCAL-00004" summary="hello">
+    <task id="LOCAL-00004" summary="cherryBomb check Zombie Row ... Still not working!">
       <option name="closed" value="true" />
-      <created>1749448918918</created>
+      <created>1750677241851</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1749448918918</updated>
+      <updated>1750677241851</updated>
     </task>
-    <task id="LOCAL-00005" summary="hello">
+    <task id="LOCAL-00005" summary="update!!!">
       <option name="closed" value="true" />
-      <created>1749450636487</created>
+      <created>1751267426478</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1749450636487</updated>
+      <updated>1751267426478</updated>
     </task>
     <option name="localTasksCounter" value="6" />
     <servers />
@@ -158,10 +145,40 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="setayesh" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="hello" />
-    <MESSAGE value="animation for cards" />
-    <MESSAGE value="updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="updates" />
+    <MESSAGE value="HMMMMM" />
+    <MESSAGE value="fix the burnd Zombie imageView in die method" />
+    <MESSAGE value="add impDie gif and zombie die with shooter gif" />
+    <MESSAGE value="cherryBomb check Zombie Row ... Still not working!" />
+    <MESSAGE value="update!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="update!!!" />
   </component>
 </project>
