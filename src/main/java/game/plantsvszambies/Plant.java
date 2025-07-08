@@ -6,6 +6,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public abstract class Plant {
@@ -46,7 +47,8 @@ public abstract class Plant {
 
 
         // Remove from game
-        Game.getInstance().map.grid.getChildren().remove(view.getParent());
+        ((StackPane)view.getParent()).getChildren().remove(view);
+        //Game.getInstance().map.grid.getChildren().remove(view.getParent());
         Game.getInstance().removePlant(this);
     }
 

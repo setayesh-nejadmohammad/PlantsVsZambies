@@ -423,7 +423,7 @@ public class Game {
     private Plant findPlantAt(int row, double column) {
         return plants.stream()
                 .filter(p -> p.getRow() == row)
-                .filter(p -> Math.abs(p.getCol() - column) < 1.3)
+                .filter(p -> ((column - p.getCol()) <= 1.3 && column - p.getCol() >= 0.5))
                 .findFirst()
                 .orElse(null);
     }

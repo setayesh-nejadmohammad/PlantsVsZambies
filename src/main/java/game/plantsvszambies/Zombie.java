@@ -58,12 +58,15 @@ public abstract class Zombie {
                 stopEating();
             }
         }
+        else {
+            stopEating();
+        }
     }
 
     private Plant findPlantInFront() {
         return Game.getInstance().getPlants().stream()
                 .filter(p -> p.getRow() == this.row)
-                .filter(p -> Math.abs(p.getCol() - this.column) <= 1.3)
+                .filter(p -> ((this.column - p.getCol()) <= 1.3 && this.column - p.getCol() >= 0.5))
                 .findFirst()
                 .orElse(null);
     }
