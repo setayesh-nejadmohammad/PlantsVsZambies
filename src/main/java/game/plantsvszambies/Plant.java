@@ -18,16 +18,6 @@ public abstract class Plant {
         this.cost = cost;
         this.rechargeTime = rechargeTime;
         this.view = view;
-
-        Parent parent = imageView.getParent();
-        while (parent != null && !(parent instanceof StackPane)) {
-        parent = parent.getParent();
-        }
-        
-        if (parent instanceof StackPane) {
-        StackPane stackPane = (StackPane) parent;
-        // حالا به StackPane دسترسی داری
-        }
     }
     abstract void update(double deltaTime);
 
