@@ -22,6 +22,8 @@ public class ImpZombie extends Zombie{
     }
 
     public void dieWithShooter(){
+        if(isDead) return;
+        isDead = true;
         Game.getInstance().removeZombie(this);
 
         // make the head
@@ -47,6 +49,8 @@ public class ImpZombie extends Zombie{
     }
 
     public void die() {
+        if(isDead) return;
+        isDead = true;
         System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);
 
         // change imageView to DEATH MOD
