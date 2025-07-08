@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainApplication extends Application {
@@ -26,7 +27,6 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
         Game game = Game.getInstance();
         //game.startGame();
-
         // Image frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
         // BorderPane borderPane = new BorderPane();
         // BackgroundImage bgImage = new BackgroundImage(

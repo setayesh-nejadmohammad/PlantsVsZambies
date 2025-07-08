@@ -1,5 +1,6 @@
 package game.plantsvszambies;
 
+import javafx.animation.Animation;
 import javafx.animation.PauseTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +15,11 @@ public abstract class Zombie {
     protected int row;
     protected double column; // Using double for smooth movement
     protected ImageView view;
-    protected boolean isEating = false;
+    public boolean isEating = false;
+    private double eatCooldown = 0;
+    private double eatInterval = 0.5; // Bite every 0.5 seconds
+    private int bitesToDestroy = 4; // Default bites needed
+    private Animation eatAnimation;
 
     public Zombie(int health, int damage, double speed, int row) {
         this.health = health;
@@ -33,13 +38,40 @@ public abstract class Zombie {
             column -= speed * deltaTime;
             view.setLayoutX(column * 80);
         }
+        else {
+            eatCooldown -= deltaTime;
+            if (eatCooldown <= 0) {
+                bitePlant();
+                eatCooldown = eatInterval;
+        }
+           // view.setImage(eatAnimation.getCurrentFrame());
+        }
     }
 
-//    public void attack(Plant plant) {
-//        isEating = true;
-//        plant.takeDamage(damage);
-//        // Play eating animation
-//    }
+    private void bitePlant() {
+        Plant target = findPlantInFront();
+        if (target != null) {
+            target.takeDamage(1);
+
+
+            if (target.getHealth() <= 0) {
+                stopEating();
+            }
+        }
+    }
+
+    private Plant findPlantInFront() {
+        return Game.getInstance().getPlants().stream()
+                .filter(p -> p.getRow() == this.row)
+                .filter(p -> Math.abs(p.getCol() - this.column) <= 1.3)
+                .findFirst()
+                .orElse(null);
+    }
+    public void startEating() {
+        this.isEating = true;
+        this.eatCooldown = eatInterval;
+    }
+
 
     public void stopEating() {
         isEating = false;
@@ -60,6 +92,7 @@ public abstract class Zombie {
 
     public void dieWithShooter() {
         Game.getInstance().removeZombie(this);
+
     }
    public void die() {
        //System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);

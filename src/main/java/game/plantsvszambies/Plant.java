@@ -1,7 +1,12 @@
 package game.plantsvszambies;
 
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 public abstract class Plant {
     protected int row;
@@ -24,8 +29,44 @@ public abstract class Plant {
 
     //public abstract void act(Map map); // حرکت/شلیک یا تولید خورشید
 
-    public void takeDamage(int damage) {
-        health -= damage;
+    public void takeDamage(int amount) {
+        health -= amount;
+        playDamageAnimation();
+
+        if (health <= 0) {
+            destroy();
+        }
+    }
+    public double getHealth() {
+        return health;
+    }
+    private void destroy() {
+        // Particle effect
+        // createExplosionParticles();
+
+
+        // Remove from game
+        Game.getInstance().map.grid.getChildren().remove(view.getParent());
+        Game.getInstance().removePlant(this);
+    }
+
+    private void playDamageAnimation() {
+        // Flash effect
+        Timeline flash = new Timeline(
+                new KeyFrame(Duration.millis(50),
+                        new KeyValue(view.opacityProperty(), 0.5)),
+                new KeyFrame(Duration.millis(100),
+                        new KeyValue(view.opacityProperty(), 1.0))
+        );
+        flash.play();
+
+        // Shake effect
+        TranslateTransition shake = new TranslateTransition(
+                Duration.millis(100), view);
+        shake.setByX(5);
+        shake.setCycleCount(2);
+        shake.setAutoReverse(true);
+        shake.play();
     }
 
     public boolean isDead() {

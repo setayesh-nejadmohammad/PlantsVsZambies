@@ -31,7 +31,7 @@ public abstract class ShooterPlant extends Plant {
 
     private void shoot() {
         Bullet bullet = new Bullet(
-                this.getX() + 20,     // Start slightly ahead of plant
+                this.getX() + 10,     // Start slightly ahead of plant
                 this.getY(),     // Center vertically
                 this.getRow(),
                 damage,

@@ -95,8 +95,9 @@ public class Game {
                 .filter(z -> z.getRow() == row)
                 .collect(Collectors.toList());
     }
-
-
+    public List<Plant> getPlants() {
+        return plants;
+    }
     public void ChooseCard(){
         StackPane pane = new StackPane();
         Scene ChooseCardScene = new Scene(pane, 1024, 626);
@@ -168,52 +169,119 @@ public class Game {
         wallnutButton.getStyleClass().add("button");
         wallnutButton.setGraphic(wallnutImageView);
 
+        boolean[] checkButtonPressed = {false, false, false, false, false, false, false, false};
+
         sunflowerButton.setOnAction(e->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("sunflower");
-                sunflowerImageView.setOpacity(1);
+            if(!checkButtonPressed[0]){
+                checkButtonPressed[0] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("sunflower");
+                    sunflowerImageView.setOpacity(1);
+                }
             }
+            else{
+                checkButtonPressed[0] = false;
+                chosenCards.remove("sunflower");
+                sunflowerImageView.setOpacity(0.5);
+            }
+
         });
         peashooterButton.setOnAction(e -> {
-            if(chosenCards.size() < 6){
-                chosenCards.add("peashooter");
-                peashooterImageView.setOpacity(1);
+            if(!checkButtonPressed[1]){
+                checkButtonPressed[1] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("peashooter");
+                    peashooterImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[1] = false;
+                chosenCards.remove("peashooter");
+                peashooterImageView.setOpacity(0.5);
             }
         });
         snowpeaButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("snowpea");
-                snowpeaImageView.setOpacity(1);
+            if(!checkButtonPressed[2]){
+                checkButtonPressed[2] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("snowpea");
+                    snowpeaImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[2] = false;
+                chosenCards.remove("snowpea");
+                snowpeaImageView.setOpacity(0.5);
             }
         });
         tallnutButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("tallnut");
-                tallnutImageView.setOpacity(1);
+            if(!checkButtonPressed[3]){
+                checkButtonPressed[3] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("tallnut");
+                    tallnutImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[3] = false;
+                chosenCards.remove("tallnut");
+                tallnutImageView.setOpacity(0.5);
             }
         });
         wallnutButton.setOnAction(e -> {
-            if(chosenCards.size() < 6){
-                chosenCards.add("wallnut");
-                wallnutImageView.setOpacity(1);
+            if(!checkButtonPressed[4]){
+                checkButtonPressed[4] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("wallnut");
+                    wallnutImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[4] = false;
+                chosenCards.remove("wallnut");
+                wallnutImageView.setOpacity(0.5);
             }
         });
         cherrybombButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("cherrybomb");
-                cherrybombImageView.setOpacity(1);
+            if(!checkButtonPressed[5]){
+                checkButtonPressed[5] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("cherrybomb");
+                    cherrybombImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[5] = false;
+                chosenCards.remove("cherrybomb");
+                cherrybombImageView.setOpacity(0.5);
             }
         });
         jalapenoButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("jalapeno");
-                jalapenoImageView.setOpacity(1);
+            if(!checkButtonPressed[6]){
+                checkButtonPressed[6] = true;
+                if (chosenCards.size() < 6) {
+                    chosenCards.add("jalapeno");
+                    jalapenoImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[6] = false;
+                chosenCards.remove("jalapeno");
+                jalapenoImageView.setOpacity(0.5);
             }
         });
         repeaterButton.setOnAction(e ->{
-            if(chosenCards.size() < 6){
-                chosenCards.add("repeater");
-                repeaterImageView.setOpacity(1);
+            if(!checkButtonPressed[7]){
+                checkButtonPressed[7] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("repeater");
+                    repeaterImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[7] = false;
+                chosenCards.remove("repeater");
+                repeaterImageView.setOpacity(0.5);
             }
         });
 
@@ -259,6 +327,8 @@ public class Game {
         stage.setScene(ChooseCardScene);
         stage.show();
     }
+
+
 
     public void startGame(){
         startTime = System.currentTimeMillis();
@@ -326,6 +396,7 @@ public class Game {
 
                 // Update all game systems
                 updatePlants(deltaTime);
+                checkZombiePlantCollisions();
                 updateBullets(deltaTime);
                 updateZombies(deltaTime);
 
@@ -337,6 +408,26 @@ public class Game {
         };
         gameLoop.start();
     }
+    public void checkZombiePlantCollisions() {
+        for (Zombie zombie : zombies) {
+            // Check if zombie reached a plant's cell
+            if (!zombie.isEating) {
+                Plant plant = findPlantAt(zombie.getRow(), zombie.getColumn());
+                if (plant != null) {
+                    zombie.startEating();
+                }
+            }
+        }
+    }
+
+    private Plant findPlantAt(int row, double column) {
+        return plants.stream()
+                .filter(p -> p.getRow() == row)
+                .filter(p -> Math.abs(p.getCol() - column) < 1.3)
+                .findFirst()
+                .orElse(null);
+    }
+
     private void updateZombies(double deltaTime) {
         for (Iterator<Zombie> iterator = zombies.iterator(); iterator.hasNext();) {
             Zombie zombie = iterator.next();
@@ -368,6 +459,11 @@ public class Game {
 
     public List<Zombie> getZombies() {
         return zombies;
+    }
+
+    public void removePlant(Plant plant) {
+        plants.remove(plant);
+        map.getGridPane().getChildren().remove(plant);
     }
 
 //    private void checkCollisions(Zombie zombie) {

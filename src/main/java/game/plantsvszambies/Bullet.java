@@ -40,9 +40,12 @@ public class Bullet {
     public boolean checkCollision(Zombie zombie) {
         System.out.println(x + "    " + zombie.getX());
         // Simple bounding box collision
-        return zombie.getRow() == this.row &&
+        if (zombie.isEating)  return zombie.getRow() == this.row &&
                 (x - 250 )>= zombie.getX()  &&
-                (x - 250) <= zombie.getX() + 30;
+                (x - 250) <= zombie.getX() + 10;
+        return zombie.getRow() == this.row &&
+                (x - 250 )>= zombie.getX() - 20 &&
+                (x - 250) <= zombie.getX() + 10;
     }
 
     public void applyEffect(Zombie zombie) {

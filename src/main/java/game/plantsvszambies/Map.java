@@ -226,7 +226,6 @@ public class Map {
                 cell.getChildren().addAll(sunflowerView);
                 createCardWithCooldown(sunFlowerPane, sunflowerButton, 5);
                 gameController.reduceScore(50);
-
                 // get the exact position on sunflower to put sun
                 Bounds boundsInScene = cell.localToScene(cell.getBoundsInLocal());
                 double x = boundsInScene.getMinX();
@@ -235,7 +234,8 @@ public class Map {
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
-                plants.add(new Peashooter(row, col , peashooterView));
+                //plants.add(new Peashooter(row, col , peashooterView));
+                Game.getInstance().getPlants().add(new Peashooter(row, col , peashooterView));
                 createCardWithCooldown(peashooterPane, peashooterButton, 10);
                 cell.getChildren().addAll(peashooterView);
                 gameController.reduceScore(100);
@@ -254,7 +254,7 @@ public class Map {
             }
             else if(num.intValue() == 5 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
-                createCardWithCooldown(wallnutPane, wallnutButton, 5);
+                createCardWithCooldown(wallnutPane, wallnutButton, 50);
                 cell.getChildren().addAll(wallnutImageView);
                 gameController.reduceScore(50);
             }
@@ -280,10 +280,11 @@ public class Map {
         });
 
         return cell;
+
     }
 
     private void createCardWithCooldown(StackPane cardButton, Button b1, double cooldownSeconds) {
-        Rectangle overlay = new Rectangle(sunflowerButton.getWidth(), CELL_SIZE); // Adjust size to match button
+        Rectangle overlay = new Rectangle(b1.getWidth(), CELL_SIZE); // Adjust size to match button
         overlay.setFill(Color.color(0, 0, 0, 0.5)); // semi-transparent black
         overlay.setTranslateY(0);
         overlay.setViewOrder(-1); // Make sure it's above the button
