@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ConeheadZombie extends Zombie {
-    public ConeheadZombie(int row, Map map) {
-        super(150, 25, 0.25, row, map);
+    public ConeheadZombie(int row) {
+        super(150, 25, 0.25, row);
     }
 
     @Override

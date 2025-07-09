@@ -8,8 +8,8 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class ImpZombie extends Zombie{
-    public ImpZombie(int row, Map map) {
-        super(100, 25, 0.5, row, map);
+    public ImpZombie(int row) {
+        super(100, 25, 0.5, row);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ImpZombie extends Zombie{
     public void die() {
         if(isDead) return;
         isDead = true;
-        System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);
+        //System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);
 
         // change imageView to DEATH MOD
         Image deathImage = new Image(getClass().getResourceAsStream("images/Zombie/BoomDieImp.gif"));
@@ -71,12 +71,6 @@ public class ImpZombie extends Zombie{
             // remove the zombie from zombies List
             Game.getInstance().getZombies().remove(this);
 
-
-            // remove zombie from the cell
-            Cell currentCell = getCellFromGridPane(map.grid, (int)column, row);
-            if (currentCell != null) {
-                currentCell.removeZombie(this);
-            }
         });
         delay.play();
     }

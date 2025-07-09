@@ -1,73 +1,116 @@
 package game.plantsvszambies;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
-import javafx.scene.Node;
+import javafx.animation.Timeline;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 // Base Zombie class
 public abstract class Zombie {
+    protected boolean isDead = false;
+    private double originalSpeed;
+    private double slowEndTime;
+    private double currentSpeed;
     protected int health;
     protected int damage;
     protected double speed; // cells per second
     protected int row;
     protected double column; // Using double for smooth movement
     protected ImageView view;
-    protected boolean isEating = false;
-    protected Map map;
-    static int ZombieCounter = 0;
-    protected int ID;
-    protected boolean isDead = false;
+    public boolean isEating = false;
+    private double eatCooldown = 0;
+    private double eatInterval = 1; // Bite every 0.5 seconds
+    private int bitesToDestroy = 4; // Default bites needed
+    private Animation eatAnimation;
+    private ColorAdjust frostEffect = new ColorAdjust();
+    private long frostEndTime;
 
-    public Zombie(int health, int damage, double speed, int row, Map map) {
-        ZombieCounter++;
-        this.ID = ZombieCounter;
-        this.map = map;
+    public Zombie(int health, int damage, double speed, int row) {
+        // Initialize with normal color
+
         this.health = health;
         this.damage = damage;
-        this.speed = speed;
+        this.originalSpeed = speed;
         this.row = row;
         this.column = 9.3; // Starts at rightmost column
         this.view = createImageView();
-        //System.out.println("Zombie num "+ID+"is at row "+row+" and column "+column);
+        view.setEffect(null);
+
+        // Configure blue tint
+        frostEffect.setHue(-0.8);  // -0.7 shifts to blue
+        frostEffect.setSaturation(0.65);
+        frostEffect.setBrightness(0.1);
     }
 
     protected abstract ImageView createImageView();
+    public void applyFrostEffect(double durationSeconds) {
+        // Apply blue tint
+        this.frostEndTime = System.currentTimeMillis() + (long)(durationSeconds * 1000);
+        view.setEffect(frostEffect);
 
+        // Remove after duration
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(durationSeconds),
+                e -> view.setEffect(null)));
+        timeline.play();
+    }
     public void update(double deltaTime) {
+        if (isDead) {return;}
+        if (System.currentTimeMillis() < frostEndTime) {
+            view.setEffect(frostEffect); // Reapply every frame
+        } else {
+            view.setEffect(null); // Clear when expired
+        }
+        if (System.currentTimeMillis() > slowEndTime) {
+            currentSpeed = originalSpeed;
+        }
         if (!isEating) {
             // Move left
-            /*column -= speed * deltaTime;
-            view.setLayoutX(column * 80);*/
-
-            // get the cell that zombie was in it before move
-            Cell myCell = getCellFromGridPane(map.grid, (int)this.getColumn(), this.getRow());
-
-            // check if zombies col has changed
-            double newCol = column - speed * deltaTime;
-            if((int)newCol != (int)column) { // if the col is changed
-                //System.out.println("Zombie number "+ ID +" updated to " + (int)newCol);
-                if(myCell != null) myCell.removeZombie(this);
-                myCell = getCellFromGridPane(map.grid, (int)newCol, this.getRow());
-                if(myCell != null) myCell.addZombie(this);
-            }
-
-
-            column -= speed * deltaTime;
+            column -= currentSpeed * deltaTime;
             view.setLayoutX(column * 80);
-
+        }
+        else {
+            eatCooldown -= deltaTime;
+            if (eatCooldown <= 0) {
+                bitePlant();
+                eatCooldown = eatInterval;
+            }
+            // view.setImage(eatAnimation.getCurrentFrame());
         }
     }
 
-//    public void attack(Plant plant) {
-//        isEating = true;
-//        plant.takeDamage(damage);
-//        // Play eating animation
-//    }
+    private void bitePlant() {
+        Plant target = findPlantInFront();
+        if (target != null) {
+            target.takeDamage(1);
+
+
+            if (target.getHealth() <= 0) {
+                stopEating();
+            }
+        }
+        else {
+            stopEating();
+        }
+    }
+
+    private Plant findPlantInFront() {
+        return Game.getInstance().getPlants().stream()
+                .filter(p -> p.getRow() == this.row)
+                .filter(p -> ((this.column - p.getCol()) <= 1.3 && this.column - p.getCol() >= 0.5))
+                .findFirst()
+                .orElse(null);
+    }
+    public void startEating() {
+        this.isEating = true;
+        this.eatCooldown = eatInterval;
+    }
+
 
     public void stopEating() {
         isEating = false;
@@ -76,11 +119,17 @@ public abstract class Zombie {
     public void takeDamage(int damage) {
         health -= damage;
         if (health <= 0) {
-           dieWithShooter();
+            dieWithShooter();
         }
     }
+    public double getX(){
+        return view.getLayoutX();
+    }
+    public double getY(){
+        return view.getY();
+    }
 
-    public void dieWithShooter(){
+    public void dieWithShooter() {
         if(isDead) return;
         isDead = true;
         Game.getInstance().removeZombie(this);
@@ -111,11 +160,9 @@ public abstract class Zombie {
         delay.setOnFinished(e -> Game.getInstance().map.grid.getChildren().remove(animationPane));
         delay.play();
     }
-
     public void die() {
         if(isDead) return;
         isDead = true;
-        System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);
 
         // change imageView to DEATH MOD
         Image deathImage = new Image(getClass().getResourceAsStream("images/Zombie/burntZombie.gif"));
@@ -135,39 +182,17 @@ public abstract class Zombie {
             // remove the zombie from zombies List
             Game.getInstance().getZombies().remove(this);
 
-
-            // remove zombie from the cell
-            Cell currentCell = getCellFromGridPane(map.grid, (int)column, row);
-            if (currentCell != null) {
-                currentCell.removeZombie(this);
-            }
         });
         delay.play();
     }
-    public double getX(){
-        return view.getLayoutX();
-    }
-    public double getY(){
-        return view.getY();
-    }
-
-//    private void die() {
-//        // Remove from game
-//        Game.getInstance().removeZombie(this);
-//    }
-
     // Getters
     public ImageView getView() { return view; }
     public int getRow() { return row; }
     public double getColumn() { return column; }
-    public Cell getCellFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col &&
-                    GridPane.getRowIndex(node) == row &&
-                    node instanceof Cell) {
-                return (Cell) node;
-            }
-        }
-        return null;
+
+    public void applySlow(double duration, double factor) {
+        this.currentSpeed = originalSpeed * factor;
+        this.slowEndTime = System.currentTimeMillis() + (duration * 1000);
+
     }
 }

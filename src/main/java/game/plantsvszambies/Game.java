@@ -368,7 +368,7 @@ public class Game {
         int currentPhase = getCurrentPhase(); // Implement based on game time
         int row = (new Random()).nextInt(5); // Random row (0-4)
 
-        Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row, map);
+        Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row);
         zombies.add(zombie);
         map.borderPane.getChildren().add(zombie.getView());
         positionZombie(zombie);
@@ -402,6 +402,7 @@ public class Game {
 
                 // Update all game systems
                 updatePlants(deltaTime);
+                checkZombiePlantCollisions();
                 updateBullets(deltaTime);
                 updateZombies(deltaTime);
 
@@ -414,6 +415,30 @@ public class Game {
         gameLoop.start();
     }
 
+    public void checkZombiePlantCollisions() {
+        for (Zombie zombie : zombies) {
+            // Check if zombie reached a plant's cell
+            if (!zombie.isEating) {
+                Plant plant = findPlantAt(zombie.getRow(), zombie.getColumn());
+                if (plant != null) {
+                    zombie.startEating();
+                }
+            }
+        }
+    }
+
+    private Plant findPlantAt(int row, double column) {
+        return plants.stream()
+                .filter(p -> p.getRow() == row)
+                .filter(p -> ((column - p.getCol()) <= 1.3 && column - p.getCol() >= 0.5))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void removePlant(Plant plant) {
+        plants.remove(plant);
+        map.getGridPane().getChildren().remove(plant);
+    }
     private void updateZombies(double deltaTime) {
         for (Iterator<Zombie> iterator = zombies.iterator(); iterator.hasNext();) {
             Zombie zombie = iterator.next();
