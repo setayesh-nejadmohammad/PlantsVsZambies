@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class ImpZombie extends Zombie{
     public ImpZombie(int row) {
-        super(150, 25, 0.5, row);
+        super(45, 25, 0.5, row);
     }
 
     @Override

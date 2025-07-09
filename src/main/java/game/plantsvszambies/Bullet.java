@@ -3,6 +3,9 @@ package game.plantsvszambies;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import static game.plantsvszambies.SnowPea.SLOW_DURATION;
+import static game.plantsvszambies.SnowPea.SLOW_FACTOR;
+
 public class Bullet {
     private double x, y;          // Position
     private double speed;         // Pixels per second
@@ -25,10 +28,19 @@ public class Bullet {
         this.view.setLayoutX(startX);
         this.view.setLayoutY(startY);
     }
+    public void applyEffect(Zombie zombie) {
+        zombie.takeDamage(damage);
+
+        if (isFrozen) {
+            zombie.applyFrostEffect(3.0);
+            zombie.applySlow(SLOW_DURATION, SLOW_FACTOR);
+
+        }
+    }
 
     private Image getBulletImage() {
         return isFrozen ?
-                new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/pea.png")):
+                new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/snopea.gif")):
                 new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/pea.png"));
     }
 
@@ -48,12 +60,12 @@ public class Bullet {
                 (x - 250) <= zombie.getX() + 10;
     }
 
-    public void applyEffect(Zombie zombie) {
-        zombie.takeDamage(damage);
-        if (isFrozen) {
-           // zombie.applySlow(3.0); // Slow for 3 seconds
-        }
-    }
+//    public void applyEffect(Zombie zombie) {
+//        zombie.takeDamage(damage);
+//        if (isFrozen) {
+//           // zombie.applySlow(3.0); // Slow for 3 seconds
+//        }
+//    }
 
     // Getters
     public ImageView getView() { return view; }

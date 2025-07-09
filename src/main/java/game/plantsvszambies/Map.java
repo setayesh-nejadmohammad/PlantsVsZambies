@@ -224,6 +224,7 @@ public class Map {
             if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
                 cell.getChildren().addAll(sunflowerView);
+                Game.getInstance().getPlants().add(new Sunflower(row, col , sunflowerView));
                 createCardWithCooldown(sunFlowerPane, sunflowerButton, 5);
                 gameController.reduceScore(50);
                 // get the exact position on sunflower to put sun
@@ -242,6 +243,7 @@ public class Map {
             }
             else if(num.intValue() == 3 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
+                Game.getInstance().getPlants().add(new SnowPea(row, col , snowpeaView));
                 createCardWithCooldown(snowpeaPane, snowpeaButton, 17.5);
                 cell.getChildren().addAll(snowpeaView);
                 gameController.reduceScore(175);
@@ -254,20 +256,24 @@ public class Map {
             }
             else if(num.intValue() == 5 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
+
                 createCardWithCooldown(wallnutPane, wallnutButton, 50);
                 cell.getChildren().addAll(wallnutImageView);
                 gameController.reduceScore(50);
             }
             else if(num.intValue() == 6 && cell.getChildren().size() == 0 && gameController.totalScore >= 200) {
                 num.set(0);
+                Game.getInstance().getPlants().add(new RepeaterPeaShooter(row, col , repeaterView));
                 createCardWithCooldown(repeaterPane, repeaterButton, 20);
                 cell.getChildren().addAll(repeaterView);
                 gameController.reduceScore(200);
             }
             else if(num.intValue() == 7 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
                 num.set(0);
-                createCardWithCooldown(jalapenoPane, jalapenoButton, 12.5);
-                cell.getChildren().addAll(jalapenoView);
+                Jalapeno jala = new Jalapeno(row, col, cell, jalapenoView);
+                plants.add(jala);
+                createCardWithCooldown(jalapenoPane, jalapenoButton, 3);
+                //cell.getChildren().addAll(jalapenoView);
                 gameController.reduceScore(125);
             }
             else if(num.intValue() == 8 && cell.getChildren().size() == 0 && gameController.totalScore >= 150) {

@@ -10,7 +10,7 @@ public class Peashooter extends ShooterPlant {
 
     public Peashooter(int row, int col, ImageView imageView) {
         super(row, col, 5, 100, 7, imageView);
-        this.fireRate = 1.5;      // Shots per second
+        this.fireRate = 1;      // Shots per second
         this.damage = 20;
         this.isSnowPea = false;
     }
