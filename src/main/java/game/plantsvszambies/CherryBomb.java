@@ -26,9 +26,9 @@ public class CherryBomb extends Plant{
     private static final int DAMAGE = 1800;
     private static final int EXPLOSION_RANGE = 1; // 1 tile in all directions (3x3 area)
 
-    private ImageView imageView;
+   /* private ImageView imageView;
     private int row;
-    private int col;
+    private int col;*/
     private Timeline explosionTimeline;
 
     private double x;
@@ -88,8 +88,8 @@ public class CherryBomb extends Plant{
         view.setImage(explosionImage);
 
         List<Zombie> zombiesInArea = Game.getInstance().getZombies().stream()
-                .filter(z -> Math.abs(z.getRow() - this.row) <= 1)
-                .filter(z -> Math.abs(z.getColumn() - this.col) <= 1)
+                .filter(z -> Math.abs(z.getRow() - this.row) <= 1.8)
+                .filter(z -> Math.abs(z.getColumn() - this.col) <= 1.5)
                 .toList();
 
         zombiesInArea.forEach(z -> {
