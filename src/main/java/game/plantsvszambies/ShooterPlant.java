@@ -29,7 +29,7 @@ public abstract class ShooterPlant extends Plant {
         }
     }
 
-    private void shoot() {
+    protected void shoot() {
         Bullet bullet = new Bullet(
                 this.getX() + 20,     // Start slightly ahead of plant
                 this.getY(),     // Center vertically
@@ -42,7 +42,7 @@ public abstract class ShooterPlant extends Plant {
         Game.getInstance().addBullet(bullet);
     }
 
-    private boolean hasZombieInLane() {
+    protected boolean hasZombieInLane() {
         // Check if any zombies exist in this row to the right of plant
 
         for (Zombie zombie : Game.getInstance().getZombies()) {

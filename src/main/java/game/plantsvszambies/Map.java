@@ -226,6 +226,8 @@ public class Map {
             }
             else if(num.intValue() == 3 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
+                SnowPea snowPea = new SnowPea(row, col, snowpeaView);
+                plants.add(snowPea);
                 createCardWithCooldown(snowpeaPane, snowpeaButton, 17.5);
                 cell.getChildren().addAll(snowpeaView);
                 gameController.reduceScore(175);
@@ -244,6 +246,8 @@ public class Map {
             }
             else if(num.intValue() == 6 && cell.getChildren().size() == 0 && gameController.totalScore >= 200) {
                 num.set(0);
+                RepeaterPeaShooter repeater = new RepeaterPeaShooter(row, col, repeaterView);
+                plants.add(repeater);
                 createCardWithCooldown(repeaterPane, repeaterButton, 20);
                 cell.getChildren().addAll(repeaterView);
                 gameController.reduceScore(200);

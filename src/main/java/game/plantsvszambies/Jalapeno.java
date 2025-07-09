@@ -37,9 +37,18 @@ public class Jalapeno extends Plant{
     public void explode(){
 
         Image explosionImage = new Image(getClass().getResourceAsStream("images/Plants/JalapenoAttack.gif"));
-        view.setImage(explosionImage);
+        ImageView imageView = new ImageView(explosionImage);
+        imageView.setFitWidth(720);
+        imageView.setFitHeight(80);
+        imageView.setTranslateX(260);
+        imageView.setTranslateY(80*row+130 - (4-row)*10);
+
+        pane.getChildren().remove(view);
+
+        Game.getInstance().map.borderPane.getChildren().add(imageView);
+        /*view.setImage(explosionImage);
         view.setFitWidth(720);
-        view.setTranslateX(view.getTranslateX()-(col*80));
+        view.setTranslateX(view.getTranslateX()-(col*80));*/
         //view.setLayoutX(Game.getInstance().map.grid.getLayoutX());
 
 
@@ -53,7 +62,7 @@ public class Jalapeno extends Plant{
         });
 
         Timeline removeTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(1.4), e -> pane.getChildren().remove(view))
+                new KeyFrame(Duration.seconds(1.4), e -> Game.getInstance().map.borderPane.getChildren().remove(imageView))
         );
         removeTimeline.play();
 
