@@ -467,5 +467,6 @@ public class Game {
     public List<Zombie> getZombies() {
         return zombies;
     }
+    public List<Plant> getPlants(){ return plants; }
 
 }

@@ -58,7 +58,7 @@ public class CherryBomb extends Plant{
         // Setup explosion animation
         setupExplosion(pane);
 
-        System.out.println("a New Cherry at row: " + row + ", col: " + col);
+        System.out.println("🍒 a New Cherry at row: " + row + ", col: " + col);
     }
 
     private void setupExplosion(StackPane pane) {
@@ -74,22 +74,42 @@ public class CherryBomb extends Plant{
         // سرکاریه
     }
 
+    private Zombie findZombieInArea(){
+
+        return Game.getInstance().getZombies().stream()
+                .filter(z -> (z.getRow() <= this.row+1 && z.getRow() >= this.row-1))
+                .filter(z -> (z.getColumn() <= this.col+1 && z.getColumn() >= this.col-1))
+                .findFirst()
+                .orElse(null);
+    }
     public void explode(StackPane pane) {
-        // Change to explosion image
+        // تغییر به تصویر انفجار
+        Image explosionImage = new Image(getClass().getResourceAsStream("images/Plants/Boom.gif"));
+        view.setImage(explosionImage);
+
+        List<Zombie> zombiesInArea = Game.getInstance().getZombies().stream()
+                .filter(z -> Math.abs(z.getRow() - this.row) <= 1)
+                .filter(z -> Math.abs(z.getColumn() - this.col) <= 1)
+                .toList();
+
+        zombiesInArea.forEach(z -> {
+            System.out.println("💥 cherry bomb killed a zombie at row: " + z.getRow() + ", col: " + z.getColumn());
+            z.die();
+        });
+
+        // حذف تصویر پس از انفجار
+        Timeline removeTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(0.7), e -> pane.getChildren().remove(view))
+        );
+        removeTimeline.play();
+        Game.getInstance().getPlants().remove(this);
+
+        /*// Change to explosion image
         Image explosionImage = new Image(getClass().getResourceAsStream("images/Plants/Boom.gif"));
         view.setImage(explosionImage);
 
         // Damage zombies in 3x3 area
         for (Zombie zombie : Game.getInstance().getZombies()) {
-            //System.out.println("Zombie at row: "+ zombie.getView().getLayoutX()+250 + "col: " + zombie.getView().getLayoutY()+85);
-            /*if(zombie.getView().getLayoutX()+200 < x+130 && zombie.getView().getLayoutY()+50 < y+130
-               && zombie.getView().getLayoutX()+200 > x-130 && zombie.getView().getLayoutY()+50 > y-100) {
-                zombie.die();
-            }
-            if(zombie.getView().getLayoutX()+250 < pane.getLayoutX()+80 && zombie.getView().getLayoutY()+85 < pane.getLayoutY()+90
-               && zombie.getView().getLayoutX()+250 > pane.getLayoutX()-80 && zombie.getView().getLayoutY()+85 > pane.getLayoutY()-90) {
-                zombie.die();
-            }*/
             if (isInExplosionRange(zombie)) {
                 System.out.println("cheery found a zombie to kill!");
                 zombie.die();
@@ -100,7 +120,7 @@ public class CherryBomb extends Plant{
         Timeline removeTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.7), e -> pane.getChildren().remove(view))
         );
-        removeTimeline.play();
+        removeTimeline.play();*/
 
     }
 

@@ -250,13 +250,17 @@ public class Map {
             }
             else if(num.intValue() == 7 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
                 num.set(0);
-                createCardWithCooldown(jalapenoPane, jalapenoButton, 12.5);
-                cell.getChildren().addAll(jalapenoView);
+                Jalapeno jala = new Jalapeno(row, col, cell, jalapenoView);
+                plants.add(jala);
+                createCardWithCooldown(jalapenoPane, jalapenoButton, 3);
+                //cell.getChildren().addAll(jalapenoView);
                 gameController.reduceScore(125);
             }
             else if(num.intValue() == 8 && cell.getChildren().size() == 0 && gameController.totalScore >= 150) {
                 num.set(0);
-                gridCells[row][col].setPlant(new CherryBomb(row, col, this, cell, cherrybombView));
+                CherryBomb cherry = new CherryBomb(row, col, this, cell, cherrybombView);
+                gridCells[row][col].setPlant(cherry);
+                plants.add(cherry);
                 createCardWithCooldown(cherrybombPane, cherrybombButton,5);
                 //cell.getChildren().addAll(cherrybombView);
                 gameController.reduceScore(150);
