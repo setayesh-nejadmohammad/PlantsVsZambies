@@ -13,6 +13,8 @@ import javafx.util.Duration;
 
 // Base Zombie class
 public abstract class Zombie {
+    private static final double ATTACK_OFFSET_RANGE = 0.3; // Cell fraction
+    private double attackOffset;
     protected boolean isDead = false;
     private double originalSpeed;
     private double slowEndTime;
@@ -33,7 +35,7 @@ public abstract class Zombie {
 
     public Zombie(int health, int damage, double speed, int row) {
         // Initialize with normal color
-
+        this.attackOffset = (Math.random() * 2 - 1) * ATTACK_OFFSET_RANGE;
         this.health = health;
         this.damage = damage;
         this.originalSpeed = speed;
@@ -58,6 +60,22 @@ public abstract class Zombie {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(durationSeconds),
                 e -> view.setEffect(null)));
         timeline.play();
+    }
+    public void updateAttackPosition(Plant plant) {
+        if (isEating) {
+            // Calculate base position (plant's left edge)
+            double baseX = plant.getCol() * 80;
+
+            // Apply individual offset
+            double attackX = baseX + (attackOffset * 80);
+
+            // Ensure stays within cell bounds
+            attackX = Math.max(baseX - 80 * ATTACK_OFFSET_RANGE,
+                    Math.min(attackX,
+                            baseX + 80 * ATTACK_OFFSET_RANGE));
+
+            view.setX(attackX);
+        }
     }
     public void update(double deltaTime) {
         if (isDead) {return;}

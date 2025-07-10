@@ -8,7 +8,7 @@ public class Sunflower extends Plant {
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     public Sunflower(int row, int col, ImageView imageView) {
-        super(row, col, 5, 50, 7, imageView);
+        super(row, col, 50, 50, 7, imageView);
         startProducing();
     }
 

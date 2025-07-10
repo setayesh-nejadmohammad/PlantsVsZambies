@@ -9,7 +9,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Plant {
+    private List<Zombie> attackingZombies = new ArrayList<>();
     protected int row;
     protected int col;
     protected int health;
@@ -24,6 +28,15 @@ public abstract class Plant {
         this.cost = cost;
         this.rechargeTime = rechargeTime;
         this.view = view;
+    }
+    public void addAttacker(Zombie zombie) {
+        if (!attackingZombies.contains(zombie)) {
+            attackingZombies.add(zombie);
+            zombie.updateAttackPosition(this);
+        }
+    }
+    public void removeAttacker(Zombie zombie) {
+        attackingZombies.remove(zombie);
     }
     abstract void update(double deltaTime);
 
@@ -41,7 +54,7 @@ public abstract class Plant {
     public double getHealth() {
         return health;
     }
-    private void destroy() {
+    protected void destroy() {
         // Particle effect
         // createExplosionParticles();
 
@@ -52,7 +65,7 @@ public abstract class Plant {
         Game.getInstance().removePlant(this);
     }
 
-    private void playDamageAnimation() {
+    protected void playDamageAnimation() {
         // Flash effect
         Timeline flash = new Timeline(
                 new KeyFrame(Duration.millis(50),
@@ -62,12 +75,18 @@ public abstract class Plant {
         );
         flash.play();
 
-        // Shake effect
-        TranslateTransition shake = new TranslateTransition(
-                Duration.millis(100), view);
-        shake.setByX(5);
-        shake.setCycleCount(2);
-        shake.setAutoReverse(true);
+        Timeline shake = new Timeline(
+                // Move right
+                new KeyFrame(Duration.millis(50),
+                        new KeyValue(view.translateXProperty(), 5)),
+                // Move left
+                new KeyFrame(Duration.millis(100),
+                        new KeyValue(view.translateXProperty(), -5)),
+                // Return to center
+                new KeyFrame(Duration.millis(150),
+                        new KeyValue(view.translateXProperty(), 0))
+        );
+        shake.setCycleCount(2); // Shake twice
         shake.play();
     }
 
