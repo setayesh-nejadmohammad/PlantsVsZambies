@@ -89,11 +89,11 @@ public class CherryBomb extends Plant{
 
         List<Zombie> zombiesInArea = Game.getInstance().getZombies().stream()
                 .filter(z -> Math.abs(z.getRow() - this.row) <= 1.8)
-                .filter(z -> Math.abs(z.getColumn() - this.col) <= 1.5)
+                .filter(z -> Math.abs(z.getColumn()+1 - this.col) <= 1.8)
                 .toList();
 
         zombiesInArea.forEach(z -> {
-            System.out.println("💥 cherry bomb killed a zombie at row: " + z.getRow() + ", col: " + z.getColumn());
+            System.out.println("💥 cherry bomb at col "+col+" killed a zombie at row: " + z.getRow() + ", col: " + z.getColumn());
             z.die();
         });
 

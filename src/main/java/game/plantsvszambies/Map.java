@@ -234,14 +234,18 @@ public class Map {
             }
             else if(num.intValue() == 4 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
                 num.set(0);
+                TallNut tallNut = new TallNut(row, col, tallnutImageView, cell);
+                plants.add(tallNut);
                 createCardWithCooldown(tallnutPane, tallnutButton, 12.5);
-                cell.getChildren().addAll(tallnutImageView);
+                //cell.getChildren().addAll(tallnutImageView);
                 gameController.reduceScore(125);
             }
             else if(num.intValue() == 5 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
-                createCardWithCooldown(wallnutPane, wallnutButton, 50);
-                cell.getChildren().addAll(wallnutImageView);
+                WallNut wallNut = new WallNut(row, col, wallnutImageView, cell);
+                plants.add(wallNut);
+                createCardWithCooldown(wallnutPane, wallnutButton, 5);
+                //cell.getChildren().addAll(wallnutImageView);
                 gameController.reduceScore(50);
             }
             else if(num.intValue() == 6 && cell.getChildren().size() == 0 && gameController.totalScore >= 200) {

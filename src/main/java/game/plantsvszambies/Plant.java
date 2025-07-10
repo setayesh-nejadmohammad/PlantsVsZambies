@@ -41,7 +41,7 @@ public abstract class Plant {
     public double getHealth() {
         return health;
     }
-    private void destroy() {
+    protected void destroy() {
         // Particle effect
         // createExplosionParticles();
 
@@ -52,7 +52,7 @@ public abstract class Plant {
         Game.getInstance().removePlant(this);
     }
 
-    private void playDamageAnimation() {
+    protected void playDamageAnimation() {
         // Flash effect
         Timeline flash = new Timeline(
                 new KeyFrame(Duration.millis(50),
