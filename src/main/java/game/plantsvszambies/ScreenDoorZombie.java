@@ -15,4 +15,13 @@ public class ScreenDoorZombie extends Zombie {
         view.setFitHeight(100);
         return view;
     }
+    public void startEating() {
+        this.isEating = true;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/ScreendoorZombieAttack.gif")));
+        super.eatCooldown = super.eatInterval;
+    }
+    public void stopEating() {
+        isEating = false;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/ScreendoorZombie.gif")));
+    }
 }

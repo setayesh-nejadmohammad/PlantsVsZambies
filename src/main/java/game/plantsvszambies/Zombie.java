@@ -13,7 +13,7 @@ import javafx.util.Duration;
 
 // Base Zombie class
 public abstract class Zombie {
-    private boolean isDead = false;
+    protected boolean isDead = false;
     private double originalSpeed;
     private double slowEndTime;
     private double currentSpeed;
@@ -24,8 +24,8 @@ public abstract class Zombie {
     protected double column; // Using double for smooth movement
     protected ImageView view;
     public boolean isEating = false;
-    private double eatCooldown = 0;
-    private double eatInterval = 1; // Bite every 0.5 seconds
+    protected double eatCooldown = 0;
+    protected double eatInterval = 1; // Bite every 0.5 seconds
     private int bitesToDestroy = 4; // Default bites needed
     private Animation eatAnimation;
     private ColorAdjust frostEffect = new ColorAdjust();
@@ -108,12 +108,14 @@ public abstract class Zombie {
     }
     public void startEating() {
         this.isEating = true;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/ZombieAttack.gif")));
         this.eatCooldown = eatInterval;
     }
 
 
     public void stopEating() {
         isEating = false;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/normalzombie.gif")));
     }
 
     public void takeDamage(int damage) {
