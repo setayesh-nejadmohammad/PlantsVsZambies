@@ -63,11 +63,18 @@ public abstract class Plant {
         flash.play();
 
         // Shake effect
-        TranslateTransition shake = new TranslateTransition(
-                Duration.millis(100), view);
-        shake.setByX(5);
+        Timeline shake = new Timeline(
+                // Move right
+                new KeyFrame(Duration.millis(50),
+                        new KeyValue(view.translateXProperty(), 5)),
+                // Mole left
+                new KeyFrame(Duration.millis(100),
+                        new KeyValue(view.translateXProperty(), -5)),
+                // Return to center
+                new KeyFrame(Duration.millis(150),
+                        new KeyValue(view.translateXProperty(), 0))
+        );
         shake.setCycleCount(2);
-        shake.setAutoReverse(true);
         shake.play();
     }
 

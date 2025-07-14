@@ -89,7 +89,9 @@ public class CherryBomb extends Plant{
 
         List<Zombie> zombiesInArea = Game.getInstance().getZombies().stream()
                 .filter(z -> Math.abs(z.getRow() - this.row) <= 1.8)
-                .filter(z -> Math.abs(z.getColumn()+1 - this.col) <= 1.8)
+                .filter(z -> (z.getColumn() > this.col)
+                        ? Math.abs(z.getColumn() - this.col) <= 2.5
+                        : Math.abs(z.getColumn() - this.col) <= 1)
                 .toList();
 
         zombiesInArea.forEach(z -> {
