@@ -494,4 +494,58 @@ public class Game {
     }
     public List<Plant> getPlants(){ return plants; }
 
+    public Plant createPlantByType(String type, int row, int col) {
+        Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
+        Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
+        Image snowpea = new Image(getClass().getResourceAsStream("images/Plants/SnowPea.gif"));
+        Image tallnut = new Image(getClass().getResourceAsStream("images/Plants/TallNut.gif"));
+        Image wallnut = new Image(getClass().getResourceAsStream("images/Plants/wallnut.gif"));
+        Image repeater = new Image(getClass().getResourceAsStream("images/Plants/repeater.gif"));
+        Image jalapeno = new Image(getClass().getResourceAsStream("images/Plants/jalapeno.gif"));
+        Image cherrybomb = new Image(getClass().getResourceAsStream("images/Plants/cherrybomb.gif"));
+        ImageView sunflowerView = new ImageView(sunflower);
+        ImageView peashooterView = new ImageView(peashooter);
+        ImageView snowpeaView = new ImageView(snowpea);
+        ImageView tallnutImageView = new ImageView(tallnut);
+        ImageView wallnutImageView = new ImageView(wallnut);
+        ImageView repeaterView = new ImageView(repeater);
+        ImageView jalapenoView = new ImageView(jalapeno);
+        ImageView cherrybombView = new ImageView(cherrybomb);
+        sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
+        peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
+        snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
+        tallnutImageView.setFitHeight(CELL_SIZE); tallnutImageView.setFitWidth(CELL_SIZE);
+        wallnutImageView.setFitWidth(CELL_SIZE); wallnutImageView.setFitWidth(CELL_SIZE);
+        repeaterView.setFitHeight(CELL_SIZE); repeaterView.setFitWidth(CELL_SIZE);
+        jalapenoView.setFitHeight(CELL_SIZE); jalapenoView.setFitWidth(CELL_SIZE);
+        cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
+
+        switch (type) {
+            case "Peashooter": return new Peashooter(row, col, peashooterView);
+            case "SnowPea": return new SnowPea(row, col, snowpeaView);
+            // Add other types
+            default: return null;
+        }
+    }
+
+    public Zombie createZombieByType(String type, int row) {
+        switch (type) {
+            case "NormalZombie": return new NormalZombie(row);
+            case "ConeheadZombie": return new ConeheadZombie(row);
+            // Add other types
+            default: return null;
+        }
+    }
+
+    public void clearGame(){
+        for(Plant p : Game.getInstance().getPlants()){
+            ((StackPane)p.view.getParent()).getChildren().remove(p.view);
+        }
+        plants.clear();
+
+        // this shit has a stupid ERROR!
+        /*for(Zombie z : zombies){
+            removeZombie(z);
+        }*/
+    }
 }

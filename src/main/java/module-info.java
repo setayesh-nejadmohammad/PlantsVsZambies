@@ -12,6 +12,7 @@ module game.plantsvszambies {
     requires javafx.graphics;
     requires javafx.base;
     //requires com.almasb.fxgl.all;
+    requires com.google.gson;
 
     opens game.plantsvszambies to javafx.fxml;
     exports game.plantsvszambies;

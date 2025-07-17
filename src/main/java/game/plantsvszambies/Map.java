@@ -121,6 +121,7 @@ public class Map {
 
     public void drawMap() {
         sunFalling();
+        addSaveLoadButton();
 
         BackgroundImage bgImage = new BackgroundImage(
                 frontYard,
@@ -158,6 +159,21 @@ public class Map {
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    public void addSaveLoadButton(){
+        Button saveButton = new Button("Save");
+        Button loadButton = new Button("Load");
+        VBox vbox = new VBox();
+        vbox.getChildren().add(saveButton);
+        vbox.getChildren().add(loadButton);
+        borderPane.setRight(vbox);
+        saveButton.setOnAction(e -> {
+
+        });
+        loadButton.setOnAction(e -> {
+            //saveLoadManager.loadGame("loadedFile"); // ?????!?!?!?
+        });
     }
 
     public StackPane getStackPane(int row, int col) {

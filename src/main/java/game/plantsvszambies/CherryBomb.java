@@ -29,6 +29,7 @@ public class CherryBomb extends Plant{
    /* private ImageView imageView;
     private int row;
     private int col;*/
+
     private Timeline explosionTimeline;
 
     private double x;
