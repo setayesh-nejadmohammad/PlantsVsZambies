@@ -50,7 +50,7 @@ public class Bullet {
     }
 
     public boolean checkCollision(Zombie zombie) {
-        System.out.println(x + "    " + zombie.getX());
+        //System.out.println(x + "    " + zombie.getX());
         // Simple bounding box collision
         return zombie.getRow() == this.row &&
                 (x - 250 )>= zombie.getX() - 30 &&

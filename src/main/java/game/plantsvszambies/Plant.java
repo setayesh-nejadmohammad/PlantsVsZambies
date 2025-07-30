@@ -10,11 +10,11 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public abstract class Plant {
-    protected int row;
-    protected int col;
-    protected int health;
-    protected int cost;
-    protected int rechargeTime;
+    int row;
+    int col;
+    int health;
+    int cost;
+    int rechargeTime;
     public ImageView view;
 
     public Plant(int row, int col, int health, int cost, int rechargeTime, ImageView view) {

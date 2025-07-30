@@ -169,10 +169,10 @@ public class Map {
         vbox.getChildren().add(loadButton);
         borderPane.setRight(vbox);
         saveButton.setOnAction(e -> {
-
+            SaveLoadManager.saveGame("savedData.txt");
         });
         loadButton.setOnAction(e -> {
-            //saveLoadManager.loadGame("loadedFile"); // ?????!?!?!?
+            SaveLoadManager.loadGame("savedData.txt"); // ?????!?!?!?
         });
     }
 
@@ -192,6 +192,28 @@ public class Map {
 
     public GridPane getGridPane() {
         return grid;
+    }
+
+    private StackPane createCell(String plantName , int row, int col) {
+        ImageView sunflowerView = new ImageView(sunflower);
+        ImageView peashooterView = new ImageView(peashooter);
+        ImageView snowpeaView = new ImageView(snowpea);
+        ImageView tallnutImageView = new ImageView(tallnut);
+        ImageView wallnutImageView = new ImageView(wallnut);
+        ImageView repeaterView = new ImageView(repeater);
+        ImageView jalapenoView = new ImageView(jalapeno);
+        ImageView cherrybombView = new ImageView(cherrybomb);
+        sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
+        peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
+        snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
+        tallnutImageView.setFitHeight(CELL_SIZE); tallnutImageView.setFitWidth(CELL_SIZE);
+        wallnutImageView.setFitWidth(CELL_SIZE); wallnutImageView.setFitWidth(CELL_SIZE);
+        repeaterView.setFitHeight(CELL_SIZE); repeaterView.setFitWidth(CELL_SIZE);
+        jalapenoView.setFitHeight(CELL_SIZE); jalapenoView.setFitWidth(CELL_SIZE);
+        cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
+
+        StackPane cell = new StackPane();
+        return cell; // this part should be fixed
     }
 
 
@@ -375,28 +397,28 @@ public class Map {
         wallnutButton.setGraphic(wallnutCardImageView);
 
         for (int i = 0; i < chosenCards.size(); i++) {
-            if (chosenCards.get(i).equals("sunflower")) {
+            if (chosenCards.get(i).equals("Sunflower")) {
                 vbox.getChildren().add(sunFlowerPane);
             }
-            else if (chosenCards.get(i).equals("peashooter")) {
+            else if (chosenCards.get(i).equals("Peashooter")) {
                 vbox.getChildren().add(peashooterPane);
             }
-            else if (chosenCards.get(i).equals("snowpea")) {
+            else if (chosenCards.get(i).equals("SnowPea")) {
                 vbox.getChildren().add(snowpeaPane);
             }
-            else if (chosenCards.get(i).equals("tallnut")) {
+            else if (chosenCards.get(i).equals("TallNut")) {
                 vbox.getChildren().add(tallnutPane);
             }
-            else if (chosenCards.get(i).equals("wallnut")) {
+            else if (chosenCards.get(i).equals("WallNut")) {
                 vbox.getChildren().add(wallnutPane);
             }
-            else if (chosenCards.get(i).equals("repeater")) {
+            else if (chosenCards.get(i).equals("RepeaterPeaShooter")) {
                 vbox.getChildren().add(repeaterPane);
             }
-            else if (chosenCards.get(i).equals("jalapeno")) {
+            else if (chosenCards.get(i).equals("Jalapeno")) {
                 vbox.getChildren().add(jalapenoPane);
             }
-            else if (chosenCards.get(i).equals("cherrybomb")) {
+            else if (chosenCards.get(i).equals("CherryBomb")) {
                 vbox.getChildren().add(cherrybombPane);
             }
 

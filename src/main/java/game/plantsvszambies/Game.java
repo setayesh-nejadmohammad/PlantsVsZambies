@@ -179,13 +179,13 @@ public class Game {
             if(!checkButtonPressed[0]){
                 checkButtonPressed[0] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("sunflower");
+                    chosenCards.add("Sunflower");
                     sunflowerImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[0] = false;
-                chosenCards.remove("sunflower");
+                chosenCards.remove("Sunflower");
                 sunflowerImageView.setOpacity(0.5);
             }
 
@@ -194,13 +194,13 @@ public class Game {
             if(!checkButtonPressed[1]){
                 checkButtonPressed[1] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("peashooter");
+                    chosenCards.add("Peashooter");
                     peashooterImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[1] = false;
-                chosenCards.remove("peashooter");
+                chosenCards.remove("Peashooter");
                 peashooterImageView.setOpacity(0.5);
             }
         });
@@ -208,13 +208,13 @@ public class Game {
             if(!checkButtonPressed[2]){
                 checkButtonPressed[2] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("snowpea");
+                    chosenCards.add("SnowPea");
                     snowpeaImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[2] = false;
-                chosenCards.remove("snowpea");
+                chosenCards.remove("SnowPea");
                 snowpeaImageView.setOpacity(0.5);
             }
         });
@@ -222,13 +222,13 @@ public class Game {
             if(!checkButtonPressed[3]){
                 checkButtonPressed[3] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("tallnut");
+                    chosenCards.add("TallNut");
                     tallnutImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[3] = false;
-                chosenCards.remove("tallnut");
+                chosenCards.remove("TallNut");
                 tallnutImageView.setOpacity(0.5);
             }
         });
@@ -236,13 +236,13 @@ public class Game {
             if(!checkButtonPressed[4]){
                 checkButtonPressed[4] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("wallnut");
+                    chosenCards.add("WallNut");
                     wallnutImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[4] = false;
-                chosenCards.remove("wallnut");
+                chosenCards.remove("WallNut");
                 wallnutImageView.setOpacity(0.5);
             }
         });
@@ -250,13 +250,13 @@ public class Game {
             if(!checkButtonPressed[5]){
                 checkButtonPressed[5] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("cherrybomb");
+                    chosenCards.add("CherryBomb");
                     cherrybombImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[5] = false;
-                chosenCards.remove("cherrybomb");
+                chosenCards.remove("CherryBomb");
                 cherrybombImageView.setOpacity(0.5);
             }
         });
@@ -264,13 +264,13 @@ public class Game {
             if(!checkButtonPressed[6]){
                 checkButtonPressed[6] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("jalapeno");
+                    chosenCards.add("Jalapeno");
                     jalapenoImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[6] = false;
-                chosenCards.remove("jalapeno");
+                chosenCards.remove("Jalapeno");
                 jalapenoImageView.setOpacity(0.5);
             }
         });
@@ -278,19 +278,22 @@ public class Game {
             if(!checkButtonPressed[7]){
                 checkButtonPressed[7] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("repeater");
+                    chosenCards.add("RepeaterPeaShooter");
                     repeaterImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[7] = false;
-                chosenCards.remove("repeater");
+                chosenCards.remove("RepeaterPeaShooter");
                 repeaterImageView.setOpacity(0.5);
             }
         });
 
         Image startGameImage = new Image(getClass().getResourceAsStream("images/button_menus/startgame.png"));
         ImageView startGameView = new ImageView(startGameImage);
+
+        Image loadImage = new Image(getClass().getResourceAsStream("images/button_menus/loadgame.png"));
+        ImageView loadView = new ImageView(loadImage);
 
         Button startButton = new Button();
         startButton.getStyleClass().add("button");
@@ -301,6 +304,13 @@ public class Game {
                 startGame();
             }
         });
+
+        Button loadButton = new Button();
+        loadButton.getStyleClass().add("button");
+        loadButton.setGraphic(loadView);
+        loadButton.setOnAction(e->{
+
+        })
 
 
 
@@ -338,6 +348,10 @@ public class Game {
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
+    }
+
+    public void loadGame(){
+
     }
 
     private void positionZombie(Zombie zombie) {

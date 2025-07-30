@@ -4,19 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="fix the cherry problem finallllllyyyy">
-      <change afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/SaveLoadManager.java" afterDir="false" />
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="save and load">
+      <change afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/SaveGameData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Bullet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Plant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Plant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/SaveLoadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/SaveLoadManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Plant.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Plant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +91,15 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -126,6 +133,11 @@
       <workItem from="1752477777866" duration="7024000" />
       <workItem from="1752488005382" duration="3126000" />
       <workItem from="1752758935266" duration="4469000" />
+      <workItem from="1752770763777" duration="245000" />
+      <workItem from="1753720465611" duration="5805000" />
+      <workItem from="1753772695261" duration="14060000" />
+      <workItem from="1753859034636" duration="4608000" />
+      <workItem from="1753865676502" duration="1395000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -231,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752481050639</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="import Gson to pom.xml &amp;&amp; module-info.java and add save and load button(not working yet)">
+      <option name="closed" value="true" />
+      <created>1752770903419</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1752770903419</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,6 +300,8 @@
     <MESSAGE value="." />
     <MESSAGE value="add tallnut and wallnut" />
     <MESSAGE value="fix the cherry problem finallllllyyyy" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix the cherry problem finallllllyyyy" />
+    <MESSAGE value="import Gson to pom.xml &amp;&amp; module-info.java and add save and load button(not working yet)" />
+    <MESSAGE value="save and load" />
+    <option name="LAST_COMMIT_MESSAGE" value="save and load" />
   </component>
 </project>
