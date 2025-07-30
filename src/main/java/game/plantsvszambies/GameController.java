@@ -3,9 +3,11 @@ package game.plantsvszambies;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +21,36 @@ public class GameController {
 
     BorderPane borderPane;
     Label scoreLabel = new Label("Score: " + totalScore);
+    private StackPane shovelStack = new StackPane();
+    private ImageView shovelConImage = new ImageView(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/shovelBack.png")));
+    private ImageView shovelImage = new ImageView(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/shovel.png")));
+
+    public ImageView getShovelConImage() {
+        return shovelConImage;
+    }
+    public void setShovelConImage(ImageView shovelConImage) {
+        this.shovelConImage = shovelConImage;
+    }
+    public ImageView getShovelImage() {
+        return shovelImage;
+    }
+    public void setShovelImage(ImageView shovelImage) {
+        this.shovelImage = shovelImage;
+    }
+    public StackPane getShovelStack() {
+        return shovelStack;
+    }
+    public void setShovelStack(StackPane shovelStack) {
+        this.shovelStack = shovelStack;
+    }
+
     public GameController(BorderPane borderPane, GridPane gridPane) {
         this.borderPane = borderPane;
         this.gridPane = gridPane;
         borderPane.setTop(scoreLabel);
         borderPane.setPadding(new Insets(10));
         scoreLabel.setStyle("-fx-font-size: 40px; -fx-text-fill: black; -fx-background-color: white");
+        shovelStack.getChildren().addAll(shovelConImage, shovelImage);
     }
 
     public void addScore(int score) {

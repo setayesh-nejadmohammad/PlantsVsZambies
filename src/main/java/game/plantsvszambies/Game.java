@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import java.util.Map;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,7 +24,7 @@ public class Game {
     Stage stage;
     int CELL_SIZE = 80;
     Image frontYard;
-    Map map;
+    Mapp map;
     private long lastFrameTime = 0;
     private double accumulatedTime = 0;
     private static final double FRAME_TIME = 1.0 / 60.0;
@@ -33,7 +35,21 @@ public class Game {
     private Timeline spawnTimeline;
     private List<Zombie> zombies = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
+    private Map<Integer, List<Plant>> plantsByRow = new HashMap<Integer, List<Plant>>();
 
+    public Plant findPlantBeingEaten(Zombie zombie) {
+        List<Plant> plantsInRow = plantsByRow.getOrDefault(zombie.getRow(), Collections.emptyList());
+
+        for (Plant plant : plantsInRow) {
+            if (!plant.isDead()) {
+                double distance = Math.abs(zombie.getColumn() - (plant.getCol() + 0.9));
+                if (distance < 0.5) { // Overlap threshold
+                    return plant;
+                }
+            }
+        }
+        return null;
+    }
 
     public Game(Stage stage){
         frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
@@ -332,7 +348,7 @@ public class Game {
 
     public void startGame(){
         startTime = System.currentTimeMillis();
-        this.map = new Map(stage, chosenCards, plants);
+        this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
@@ -429,8 +445,33 @@ public class Game {
     }
 
     private void updateZombies(double deltaTime) {
+        Map<Plant, List<Zombie>> zombiesByPlant = zombies.stream()
+                .filter(Objects::nonNull)
+                .filter(Zombie::isEating)
+                .map(zombie -> new AbstractMap.SimpleEntry<>(findPlantBeingEaten(zombie), zombie))
+                .filter(entry -> entry.getKey() != null)  // Explicit null-key removal
+                .collect(Collectors.groupingBy(
+                        Map.Entry::getKey,
+                        Collectors.mapping(
+                                Map.Entry::getValue,
+                                Collectors.toList()
+                        )
+                ));
+
+        zombiesByPlant.forEach((plant, zombies) -> {
+            if (plant != null) {
+                plant.repositionAttackers();
+            }
+        });
         for (Iterator<Zombie> iterator = zombies.iterator(); iterator.hasNext();) {
             Zombie zombie = iterator.next();
+            if (zombie.isEating()) {
+                Plant target = findPlantBeingEaten(zombie);
+                if (target != null) {
+                    target.addAttacker(zombie);
+                   // zombie.updateAttackPosition();
+                }
+            }
             zombie.update(deltaTime);
             if(checkReachedEnd(zombie)) {
                 map.borderPane.getChildren().remove(zombie.getView());
@@ -439,6 +480,7 @@ public class Game {
             }
         }
     }
+
     private void updatePlants(double deltaTime) {
         plants.forEach(plant -> {
             plant.update(deltaTime);

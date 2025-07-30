@@ -18,6 +18,9 @@ public class ScreenDoorZombie extends Zombie {
     public void startEating() {
         this.isEating = true;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/ScreendoorZombieAttack.gif")));
+        Plant plant = findPlantInFront();
+        super.baseColumn = plant.getCol(); // Set reference point
+        updateAttackPosition();
         super.eatCooldown = super.eatInterval;
     }
     public void stopEating() {

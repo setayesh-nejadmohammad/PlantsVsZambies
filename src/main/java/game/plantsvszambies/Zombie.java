@@ -1,9 +1,6 @@
 package game.plantsvszambies;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,6 +29,7 @@ public abstract class Zombie {
     private Animation eatAnimation;
     private ColorAdjust frostEffect = new ColorAdjust();
     private long frostEndTime;
+    protected double baseColumn;
 
     public Zombie(int health, int damage, double speed, int row) {
         // Initialize with normal color
@@ -61,22 +59,7 @@ public abstract class Zombie {
                 e -> view.setEffect(null)));
         timeline.play();
     }
-    public void updateAttackPosition(Plant plant) {
-        if (isEating) {
-            // Calculate base position (plant's left edge)
-            double baseX = plant.getCol() * 80;
 
-            // Apply individual offset
-            double attackX = baseX + (attackOffset * 80);
-
-            // Ensure stays within cell bounds
-            attackX = Math.max(baseX - 80 * ATTACK_OFFSET_RANGE,
-                    Math.min(attackX,
-                            baseX + 80 * ATTACK_OFFSET_RANGE));
-
-            view.setX(attackX);
-        }
-    }
     public void update(double deltaTime) {
         if (isDead) {return;}
         if (System.currentTimeMillis() < frostEndTime) {
@@ -117,7 +100,7 @@ public abstract class Zombie {
         }
     }
 
-    private Plant findPlantInFront() {
+    public Plant findPlantInFront() {
         return Game.getInstance().getPlants().stream()
                 .filter(p -> p.getRow() == this.row)
                 .filter(p -> ((this.column - p.getCol()) <= 1.3 && this.column - p.getCol() >= 0.5))
@@ -127,6 +110,9 @@ public abstract class Zombie {
     public void startEating() {
         this.isEating = true;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/ZombieAttack.gif")));
+        Plant plant = findPlantInFront();
+        this.baseColumn = plant.getCol(); // Set reference point
+        updateAttackPosition();
         this.eatCooldown = eatInterval;
     }
 
@@ -151,6 +137,12 @@ public abstract class Zombie {
 
     public void dieWithShooter() {
         if(isDead) return;
+        if (isEating) {
+            Plant target = Game.getInstance().findPlantBeingEaten(this);
+            if (target != null) {
+                target.removeAttacker(this); // <-- HERE
+            }
+        }
         isDead = true;
         Game.getInstance().removeZombie(this);
 
@@ -182,9 +174,16 @@ public abstract class Zombie {
     }
    public void die() {
        if(isDead) return;
+       if (isEating) {
+           Plant target = Game.getInstance().findPlantBeingEaten(this);
+           if (target != null) {
+               target.removeAttacker(this); // <-- HERE
+           }
+       }
        isDead = true;
 
        // change imageView to DEATH MOD
+       Game.getInstance().getZombies().remove(this);
        Image deathImage = new Image(getClass().getResourceAsStream("images/Zombie/burntZombie.gif"));
        view.setImage(deathImage);
        view.setFitWidth(60);
@@ -200,11 +199,12 @@ public abstract class Zombie {
            }
 
            // remove the zombie from zombies List
-           Game.getInstance().getZombies().remove(this);
+
 
        });
        delay.play();
    }
+
     // Getters
     public ImageView getView() { return view; }
     public int getRow() { return row; }
@@ -214,5 +214,39 @@ public abstract class Zombie {
         this.currentSpeed = originalSpeed * factor;
         this.slowEndTime = System.currentTimeMillis() + (duration * 1000);
 
+    }
+    public void setAttackOffset(double offset) {
+        this.attackOffset = Math.max(-0.3, Math.min(0.3, offset)); // Clamp value
+        this.baseColumn = this.column; // Store original position
+
+        updateAttackPosition();
+    }
+    protected void updateAttackPosition() {
+        if (!isEating) return;
+
+        // Calculate new position with offset
+        double newX = view.getLayoutX() + attackOffset *  80;
+
+        // Apply with smooth transition
+        Timeline reposition = new Timeline(
+                new KeyFrame(Duration.millis(200),
+                        new KeyValue(view.layoutXProperty(), newX, Interpolator.EASE_BOTH)
+                ));
+        reposition.play();
+        reposition.setOnFinished(e -> view.setLayoutX(newX));
+
+        // Adjust drawing order
+        view.setViewOrder(attackOffset > 0 ? -1 : 1);
+    }
+
+    public void removeFromPlant() {
+        Plant plant = Game.getInstance().findPlantBeingEaten(this);
+        if (plant != null) {
+            plant.removeAttacker(this);
+        }
+    }
+
+    public boolean isEating() {
+        return isEating;
     }
 }

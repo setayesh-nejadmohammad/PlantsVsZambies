@@ -29,12 +29,8 @@ public abstract class Plant {
         this.rechargeTime = rechargeTime;
         this.view = view;
     }
-    public void addAttacker(Zombie zombie) {
-        if (!attackingZombies.contains(zombie)) {
-            attackingZombies.add(zombie);
-            zombie.updateAttackPosition(this);
-        }
-    }
+
+
     public void removeAttacker(Zombie zombie) {
         attackingZombies.remove(zombie);
     }
@@ -54,16 +50,43 @@ public abstract class Plant {
     public double getHealth() {
         return health;
     }
+    public void clearAttackers() {
+        attackingZombies.clear();
+    }
     protected void destroy() {
         // Particle effect
         // createExplosionParticles();
-
+        new ArrayList<>(attackingZombies).forEach(zombie -> {
+            zombie.stopEating();
+            zombie.removeFromPlant();// Zombie's method that calls removeAttacker
+        });
 
         // Remove from game
         ((StackPane)view.getParent()).getChildren().remove(view);
         //Game.getInstance().map.grid.getChildren().remove(view.getParent());
         Game.getInstance().removePlant(this);
     }
+    public void repositionAttackers() {
+        double spacing = 0.6 / attackingZombies.size();
+
+        for (int i = 0; i < attackingZombies.size(); i++) {
+            double offset = -0.3 + (i * spacing);
+            attackingZombies.get(i).setAttackOffset(offset);
+        }
+    }
+    public void addAttacker(Zombie zombie) {
+        if (!attackingZombies.contains(zombie)) {
+            attackingZombies.add(zombie);
+            repositionAttackers(); // Recalculate positions
+        }
+    }
+
+    private double calculateOffset(int index, int total) {
+        // Distribute zombies evenly across attack range
+        double spacing = 0.6 / total; // 60% of cell width divided
+        return -0.3 + (index * spacing); // -0.3 to +0.3 range
+    }
+
 
     protected void playDamageAnimation() {
         // Flash effect
