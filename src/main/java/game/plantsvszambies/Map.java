@@ -7,6 +7,8 @@ import javafx.animation.Timeline;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -42,11 +44,13 @@ public class Map {
     StackPane repeaterPane = new StackPane(repeaterButton);
     StackPane jalapenoPane = new StackPane(jalapenoButton);
     StackPane cherrybombPane = new StackPane(cherrybombButton);
+    Image shovelCursor = new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/Shovel.png"), 50, 50, true, true);
+    Cursor shovelCurs;
     public static final int COLS = 9;
     public static final int CELL_SIZE = 80;
     private static AtomicInteger num = new AtomicInteger(0);
     Stage stage;
-
+    private Scene scene;
     public final Cell[][] gridCells;
     public GridPane grid;
     public BorderPane borderPane = new BorderPane();
@@ -54,6 +58,7 @@ public class Map {
     // GameController gameController;
     GameController gameController = new GameController(borderPane, grid);
     List<Plant> plants = new ArrayList<>();
+    ArrayList<Integer> numArr = new ArrayList<>();
 
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
     Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
@@ -103,6 +108,8 @@ public class Map {
 
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
+                numArr.add(0); // all cell empty at first
+
                 StackPane cellPane = new StackPane();
 
                 Rectangle background = new Rectangle(CELL_SIZE, CELL_SIZE + 10);
@@ -117,6 +124,8 @@ public class Map {
                 gridCells[row][col] = cell;
             }
         }
+        ImageCursor imageCursor = new ImageCursor(shovelCursor, shovelCursor.getWidth() / 2, shovelCursor.getHeight() / 2);
+        shovelCurs = (Cursor) imageCursor;
     }
 
     public void drawMap() {
@@ -137,6 +146,7 @@ public class Map {
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
         vbox.setPadding(new Insets(10));
+        vbox.getChildren().add(gameController.getShovelStack());
 
         borderPane.getChildren().add(grid);
 
@@ -148,8 +158,10 @@ public class Map {
                 rect.setStroke(Color.BLACK);
                 rect.setStrokeWidth(0.5);
                 grid.add(rect, col, row);
-                StackPane cell = createCell(row, col);
-                grid.add(cell, col, row);
+                if(numArr.get(row * ROWS + col) == 0){
+                    StackPane cell = createCell(row, col);
+                    grid.add(cell, col, row);
+                }
             }
         }
 
@@ -241,7 +253,8 @@ public class Map {
             System.out.println("salmammmmmmm");
             if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
-                Sunflower sunflower1 = new Sunflower(row, col, gameController, cell, sunflowerView);
+                Sunflower sunflower1 = new Sunflower(row, col , cell, sunflowerView);
+                numArr.set((row)*ROWS+col, 1);
                 gridCells[row][col].setPlant(sunflower1);
                 plants.add(sunflower1);
                 cell.getChildren().addAll(sunflowerView);
@@ -261,6 +274,7 @@ public class Map {
                 createCardWithCooldown(peashooterPane, peashooterButton, 10);
                 cell.getChildren().addAll(peashooterView);
                 gameController.reduceScore(100);
+                numArr.set((row)*ROWS+col, 2);
             }
             else if(num.intValue() == 3 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
@@ -269,6 +283,7 @@ public class Map {
                 createCardWithCooldown(snowpeaPane, snowpeaButton, 17.5);
                 cell.getChildren().addAll(snowpeaView);
                 gameController.reduceScore(175);
+                numArr.set((row)*ROWS+col, 2);
             }
             else if(num.intValue() == 4 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
                 num.set(0);
@@ -277,6 +292,7 @@ public class Map {
                 createCardWithCooldown(tallnutPane, tallnutButton, 12.5);
                 //cell.getChildren().addAll(tallnutImageView);
                 gameController.reduceScore(125);
+                numArr.set((row)*ROWS+col, 5);
             }
             else if(num.intValue() == 5 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
@@ -285,6 +301,7 @@ public class Map {
                 createCardWithCooldown(wallnutPane, wallnutButton, 5);
                 //cell.getChildren().addAll(wallnutImageView);
                 gameController.reduceScore(50);
+                numArr.set((row)*ROWS+col, 5);
             }
             else if(num.intValue() == 6 && cell.getChildren().size() == 0 && gameController.totalScore >= 200) {
                 num.set(0);
@@ -293,6 +310,7 @@ public class Map {
                 createCardWithCooldown(repeaterPane, repeaterButton, 20);
                 cell.getChildren().addAll(repeaterView);
                 gameController.reduceScore(200);
+                numArr.set((row)*ROWS+col, 2);
             }
             else if(num.intValue() == 7 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
                 num.set(0);
@@ -311,9 +329,25 @@ public class Map {
                 //cell.getChildren().addAll(cherrybombView);
                 gameController.reduceScore(150);
             }
+            else if(num.intValue() == 9 && cell.getChildren().size() != 0) {
+                scene.setCursor(Cursor.DEFAULT);
+                Game.getInstance().removePlant(findPlantAt(row, col));
+                cell.getChildren().clear();
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                num.set(0);
+            }
         });
 
         return cell;
+    }
+
+    private Plant findPlantAt(int row, int col) {
+        for (Plant plant : plants) {
+            if (plant.row == row && plant.col == col) {
+                return plant;
+            }
+        }
+        return null;
     }
 
     private void createCardWithCooldown(StackPane cardButton, Button b1, double cooldownSeconds) {
@@ -354,7 +388,7 @@ public class Map {
     public void sunFalling() {
         Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             double x = Math.random() * (borderPane.getWidth() - 50);
-            new Sun(borderPane, gameController, x); // `this` is GameController
+            new Sun(borderPane, x); // `this` is GameController
         }));
         sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
         sunSpawnTimeline.play();

@@ -368,11 +368,13 @@ public class Game {
             if(p != null && p.view != null){
                 if(p.getClass().getSimpleName().equals("WallNut") || p.getClass().getSimpleName().equals("TallNut")){
                     map.grid.add((StackPane)p.view.getParent(), p.col, p.row);
+                    map.numArr.set((p.row)*map.ROWS+p.col, 5); // put 5 for both wall and tall NUTS ...
                 }
                 else{
                     StackPane cell = new StackPane();
                     cell.getChildren().add(p.view);
                     map.grid.add(cell, p.col, p.row);
+                    map.numArr.set((p.row)*map.ROWS+p.col, 2); // set 2 for all shooter plants
                 }
             }
         }
@@ -478,6 +480,9 @@ public class Game {
     }
 
     public void removePlant(Plant plant) {
+        if(plant.getClass().getSimpleName().equals("Sunflower")){
+            ((Sunflower)plant).stop();
+        }
         plants.remove(plant);
         map.getGridPane().getChildren().remove(plant);
     }
@@ -515,10 +520,6 @@ public class Game {
         zombies.remove(zombie);
         map.borderPane.getChildren().remove(zombie.getView());
     }
-
-//    private void checkCollisions(Zombie zombie) {
-//
-//    }
 
     public Cell getCellFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
@@ -564,10 +565,8 @@ public class Game {
 
         StackPane cell = new StackPane();
 
-        if(type.equals("Peashooter")) System.out.println("a Peashoter is being created");
-        if(type.equals("WallNut")) System.out.println("a WallNut is being created");
-
         switch (type) {
+            case "Sunflower": return new Sunflower(row, col, cell, sunflowerView);
             case "Peashooter": return new Peashooter(row, col, peashooterView);
             case "SnowPea": return new SnowPea(row, col, snowpeaView);
             case "WallNut": return new WallNut(row, col, wallnutImageView, cell);

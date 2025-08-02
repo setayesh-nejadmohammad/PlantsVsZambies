@@ -14,14 +14,14 @@ public class Sunflower extends Plant {
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     Timeline sunSpawnTimeline;
 
-    public Sunflower(int row, int col, GameController gameController, StackPane cell, ImageView imageView) {
+    public Sunflower(int row, int col, StackPane cell, ImageView imageView) {
         super(row, col, 5, 50, 7, imageView);
-        startProducing(gameController, cell);
+        startProducing(cell);
     }
 
-    private void startProducing(GameController gameController, StackPane cell) {
+    private void startProducing(StackPane cell) {
         sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-            new Sun(cell, gameController, row+270, col+100); // `this` is GameController
+            new Sun(cell, row+270, col+100); // `this` is GameController
         }));
         sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
         sunSpawnTimeline.play();

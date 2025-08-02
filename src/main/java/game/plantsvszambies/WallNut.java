@@ -28,6 +28,7 @@ public class WallNut extends Plant{
         Image image1 = new Image(getClass().getResourceAsStream("images/Plants/Wallnut_cracked1.gif"));
         Image image2 = new Image(getClass().getResourceAsStream("images/Plants/Wallnut_cracked2.gif"));
         if(health <= 17){
+            System.out.println("view set shod!!!!!");
             view.setImage(image2);
         }
         else if(health <= 10){
