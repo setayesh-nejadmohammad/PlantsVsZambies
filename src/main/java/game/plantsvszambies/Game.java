@@ -365,14 +365,14 @@ public class Game {
         this.map = new Map(stage, chosenCards, plants);
 
         for(Plant p: Game.getInstance().getPlants()){  // draw plants on the scene
-            if(p != null && p.view != null && p.view.getParent()!=null){
+            if(p != null && p.view != null){
                 if(p.getClass().getSimpleName().equals("WallNut") || p.getClass().getSimpleName().equals("TallNut")){
                     map.grid.add((StackPane)p.view.getParent(), p.col, p.row);
                 }
                 else{
                     StackPane cell = new StackPane();
-                    map.grid.add(cell, p.col, p.row);
                     cell.getChildren().add(p.view);
+                    map.grid.add(cell, p.col, p.row);
                 }
             }
         }
@@ -572,7 +572,7 @@ public class Game {
             case "SnowPea": return new SnowPea(row, col, snowpeaView);
             case "WallNut": return new WallNut(row, col, wallnutImageView, cell);
             case "TallNut": return new TallNut(row, col, tallnutImageView, cell);
-            case "RepeaterPeaShoter": return new RepeaterPeaShooter(row, col, repeaterView);
+            case "RepeaterPeaShooter": return new RepeaterPeaShooter(row, col, repeaterView);
             // Add other types
             default: return null;
         }
