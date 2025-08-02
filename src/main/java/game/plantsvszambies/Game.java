@@ -309,8 +309,13 @@ public class Game {
         loadButton.getStyleClass().add("button");
         loadButton.setGraphic(loadView);
         loadButton.setOnAction(e->{
+            loadGame();
+        });
 
-        })
+        HBox hbox3 = new HBox();
+        hbox3.setAlignment(Pos.CENTER);
+        hbox3.setSpacing(-40);
+        hbox3.getChildren().addAll(startButton, loadButton);
 
 
 
@@ -329,7 +334,7 @@ public class Game {
         //label.setPadding(new Insets(100));
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(label, hbox1, hbox2, startButton);
+        vbox.getChildren().addAll(label, hbox1, hbox2, hbox3);
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
 
@@ -351,7 +356,30 @@ public class Game {
     }
 
     public void loadGame(){
+        plants.clear();
+        zombies.clear();
+        chosenCards.clear();
+        SaveLoadManager.loadGame("savedData.txt", plants, zombies, chosenCards);
 
+        startTime = System.currentTimeMillis();
+        this.map = new Map(stage, chosenCards, plants);
+
+        for(Plant p: Game.getInstance().getPlants()){  // draw plants on the scene
+            if(p != null && p.view != null && p.view.getParent()!=null){
+                if(p.getClass().getSimpleName().equals("WallNut") || p.getClass().getSimpleName().equals("TallNut")){
+                    map.grid.add((StackPane)p.view.getParent(), p.col, p.row);
+                }
+                else{
+                    StackPane cell = new StackPane();
+                    map.grid.add(cell, p.col, p.row);
+                    cell.getChildren().add(p.view);
+                }
+            }
+        }
+
+        map.drawMap();
+        setupSpawnTimer();
+        startGameLoop();
     }
 
     private void positionZombie(Zombie zombie) {
@@ -467,7 +495,7 @@ public class Game {
 
     private void updatePlants(double deltaTime) {
         plants.forEach(plant -> {
-            plant.update(deltaTime);
+            if(plant!=null) plant.update(deltaTime);
 
             // Plants automatically shoot via their update()
             // (ShooterPlant handles its own fire rate timing)
@@ -534,9 +562,17 @@ public class Game {
         jalapenoView.setFitHeight(CELL_SIZE); jalapenoView.setFitWidth(CELL_SIZE);
         cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
 
+        StackPane cell = new StackPane();
+
+        if(type.equals("Peashooter")) System.out.println("a Peashoter is being created");
+        if(type.equals("WallNut")) System.out.println("a WallNut is being created");
+
         switch (type) {
             case "Peashooter": return new Peashooter(row, col, peashooterView);
             case "SnowPea": return new SnowPea(row, col, snowpeaView);
+            case "WallNut": return new WallNut(row, col, wallnutImageView, cell);
+            case "TallNut": return new TallNut(row, col, tallnutImageView, cell);
+            case "RepeaterPeaShoter": return new RepeaterPeaShooter(row, col, repeaterView);
             // Add other types
             default: return null;
         }

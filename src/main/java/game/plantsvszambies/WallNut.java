@@ -9,6 +9,7 @@ public class WallNut extends Plant{
         super(row, col, 25, 50, 7, view);
         Image image = new Image(getClass().getResourceAsStream("images/Plants/WallNut.gif"));
         view.setImage(image);
+        checkForDamageRangeImage();
         view.setFitHeight(80);
         view.setFitWidth(80);
         pane.getChildren().add(view);

@@ -9,6 +9,7 @@ public class TallNut extends Plant{
         super(row, col, 50, 50, 7, view);
         Image image = new Image(getClass().getResourceAsStream("images/Plants/TallNut.gif"));
         view.setImage(image);
+        checkForDamageRangeImage();
         view.setFitHeight(90);
         view.setFitWidth(65);
         pane.getChildren().add(view);

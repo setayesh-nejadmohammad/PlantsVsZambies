@@ -166,13 +166,13 @@ public class Map {
         Button loadButton = new Button("Load");
         VBox vbox = new VBox();
         vbox.getChildren().add(saveButton);
-        vbox.getChildren().add(loadButton);
+        //vbox.getChildren().add(loadButton);
         borderPane.setRight(vbox);
         saveButton.setOnAction(e -> {
             SaveLoadManager.saveGame("savedData.txt");
         });
         loadButton.setOnAction(e -> {
-            SaveLoadManager.loadGame("savedData.txt"); // ?????!?!?!?
+            //SaveLoadManager.loadGame("savedData.txt"); // ?????!?!?!?
         });
     }
 

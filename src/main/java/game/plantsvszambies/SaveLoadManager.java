@@ -112,7 +112,7 @@ public class SaveLoadManager {
         }
     }*/
 
-    public static void loadGame(String filename) {
+    public static void loadGame(String filename, List<Plant> plants, List<Zombie> zombies, ArrayList<String> chosenCards) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             Game.getInstance().clearGame();
 
@@ -128,6 +128,12 @@ public class SaveLoadManager {
                     Plant plant = Game.getInstance().createPlantByType(type, row, col);
                     if (plant != null) {
                         plant.health = health;
+                        plants.add(plant);
+                    }
+                }
+                else if(parts[0].equals("CARDS")) {
+                    for(int i = 1; i <= 6; i++){
+                        chosenCards.add(parts[i]);
                     }
                 }
             }
