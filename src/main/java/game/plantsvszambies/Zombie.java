@@ -126,7 +126,7 @@ public abstract class Zombie {
         return view.getLayoutX();
     }
     public double getY(){
-        return view.getY();
+        return view.getLayoutY();
     }
 
     public void dieWithShooter() {

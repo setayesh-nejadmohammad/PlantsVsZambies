@@ -16,7 +16,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class GameController {
-    private static GameController instance;
     //private List<Zombie> activeZombies = new ArrayList<>();
     int totalScore = 99999999;
     GridPane gridPane;
@@ -64,17 +63,10 @@ public class GameController {
         System.out.println("Total Score: " + totalScore);
         UpdateScoreLabel(totalScore);
     }
-    private void UpdateScoreLabel(int newScore) {
+    public void UpdateScoreLabel(int newScore) {
         scoreLabel = new Label("Score: " + totalScore);
         borderPane.setTop(scoreLabel);
         scoreLabel.setStyle("-fx-font-size: 40px; -fx-text-fill: black; -fx-background-color: white");
         borderPane.setPadding(new Insets(10));
-    }
-
-    public GameController getInstans(){
-        if(instance == null){
-            instance = new GameController(borderPane, gridPane);
-        }
-        return instance;
     }
 }

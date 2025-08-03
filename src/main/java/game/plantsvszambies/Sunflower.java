@@ -16,6 +16,7 @@ public class Sunflower extends Plant {
 
     public Sunflower(int row, int col, StackPane cell, ImageView imageView) {
         super(row, col, 5, 50, 7, imageView);
+        cell.getChildren().add(imageView);
         startProducing(cell);
     }
 

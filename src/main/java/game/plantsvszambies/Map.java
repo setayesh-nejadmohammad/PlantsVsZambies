@@ -181,7 +181,7 @@ public class Map {
         //vbox.getChildren().add(loadButton);
         borderPane.setRight(vbox);
         saveButton.setOnAction(e -> {
-            SaveLoadManager.saveGame("savedData.txt");
+            SaveLoadManager.saveGame("savedData.txt", gameController.totalScore);
         });
         loadButton.setOnAction(e -> {
             //SaveLoadManager.loadGame("savedData.txt"); // ?????!?!?!?
@@ -257,7 +257,7 @@ public class Map {
                 numArr.set((row)*ROWS+col, 1);
                 gridCells[row][col].setPlant(sunflower1);
                 plants.add(sunflower1);
-                cell.getChildren().addAll(sunflowerView);
+                //cell.getChildren().addAll(sunflowerView);
                 createCardWithCooldown(sunFlowerPane, sunflowerButton, 5);
                 gameController.reduceScore(50);
 

@@ -46,7 +46,7 @@ public class SaveLoadManager {
         }
     }*/
 
-    public static void saveGame(String filename) {
+    public static void saveGame(String filename, int score) {
         try (FileWriter writer = new FileWriter(filename)) {
             writer.write("CARDS ");
             for(String s : Game.getInstance().chosenCards){
@@ -54,6 +54,11 @@ public class SaveLoadManager {
                 writer.write(" ");
             }
             writer.write("\n");
+
+            writer.write("SCORE ");
+            writer.write(String.format("%d",score));
+            writer.write("\n");
+
             for (Plant plant : Game.getInstance().getPlants()) {
                 String line = String.format("PLANT %s %d %d %d",
                         plant.getClass().getSimpleName(),
@@ -64,21 +69,19 @@ public class SaveLoadManager {
                 writer.write(line + "\n");
             }
             for (Zombie z : Game.getInstance().getZombies()) {
-                String line = String.format("ZOMBIE %s %d %f %d",
+                String line = String.format("ZOMBIE %s %d %f %d %f %f",
                         z.getClass().getSimpleName(),
                         z.getRow(),
                         z.getColumn(),
-                        (int) z.health
+                        (int) z.health,
+                        z.getX(),
+                        z.getY()
                 );
                 writer.write(line + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void StupidSave(){
-        Game.getInstance().clearGame();
     }
 
     /*public static void loadGame(String filename) {
@@ -112,7 +115,7 @@ public class SaveLoadManager {
         }
     }*/
 
-    public static void loadGame(String filename, List<Plant> plants, List<Zombie> zombies, ArrayList<String> chosenCards) {
+    public static void loadGame(String filename, List<Plant> plants, List<Zombie> zombies, ArrayList<String> chosenCards, int[] score) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             Game.getInstance().clearGame();
 
@@ -135,6 +138,9 @@ public class SaveLoadManager {
                     for(int i = 1; i <= 6; i++){
                         chosenCards.add(parts[i]);
                     }
+                }
+                else if(parts[0].equals("SCORE")) {
+                    if(score != null) score[0] = Integer.parseInt(parts[1]);
                 }
             }
         } catch (IOException e) {

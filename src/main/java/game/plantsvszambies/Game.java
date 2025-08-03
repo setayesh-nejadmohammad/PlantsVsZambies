@@ -37,13 +37,12 @@ public class Game {
     private Timeline spawnTimeline;
     private List<Zombie> zombies = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
-
+    public int[] score = {0};
 
     public Game(Stage stage){
         frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
         this.stage = stage;
         ChooseCard();
-
     }
 
     public static Game getInstance(){
@@ -350,6 +349,7 @@ public class Game {
     public void startGame(){
         startTime = System.currentTimeMillis();
         this.map = new Map(stage, chosenCards, plants);
+        score[0] = map.gameController.totalScore;
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
@@ -359,16 +359,22 @@ public class Game {
         plants.clear();
         zombies.clear();
         chosenCards.clear();
-        SaveLoadManager.loadGame("savedData.txt", plants, zombies, chosenCards);
+        SaveLoadManager.loadGame("savedData.txt", plants, zombies, chosenCards, score);
 
         startTime = System.currentTimeMillis();
         this.map = new Map(stage, chosenCards, plants);
+        map.gameController.totalScore = score[0];   // score logic update
+        map.gameController.UpdateScoreLabel(score[0]); // score label update
 
         for(Plant p: Game.getInstance().getPlants()){  // draw plants on the scene
             if(p != null && p.view != null){
                 if(p.getClass().getSimpleName().equals("WallNut") || p.getClass().getSimpleName().equals("TallNut")){
                     map.grid.add((StackPane)p.view.getParent(), p.col, p.row);
                     map.numArr.set((p.row)*map.ROWS+p.col, 5); // put 5 for both wall and tall NUTS ...
+                }
+                else if(p.getClass().getSimpleName().equals("Sunflower")){
+                    map.grid.add((StackPane)p.view.getParent(), p.col, p.row);
+                    map.numArr.set((p.row)*map.ROWS+p.col, 1);
                 }
                 else{
                     StackPane cell = new StackPane();
