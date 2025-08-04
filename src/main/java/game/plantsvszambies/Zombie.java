@@ -10,6 +10,8 @@ import javafx.util.Duration;
 
 // Base Zombie class
 public abstract class Zombie {
+    private boolean hypnotized = false;
+
     private static final double ATTACK_OFFSET_RANGE = 0.3; // Cell fraction
     private double attackOffset;
     protected boolean isDead = false;
@@ -60,20 +62,30 @@ public abstract class Zombie {
         timeline.play();
     }
 
+    public void setHypnotized(boolean hypnotized) {
+        this.hypnotized = hypnotized;
+    }
+
     public void update(double deltaTime) {
         if (isDead) {return;}
         if (System.currentTimeMillis() < frostEndTime) {
-            view.setEffect(frostEffect); // Reapply every frame
+            view.setEffect(frostEffect);
         } else {
-            view.setEffect(null); // Clear when expired
+            view.setEffect(null);
         }
         if (System.currentTimeMillis() > slowEndTime) {
             currentSpeed = originalSpeed;
         }
         if (!isEating) {
-            // Move left
-            column -= currentSpeed * deltaTime;
-            view.setLayoutX(column * 80);
+            if (!isHypnotized()) {
+                column -= currentSpeed * deltaTime;
+                view.setLayoutX(column * 80);
+            }
+            else {
+                column += currentSpeed * deltaTime;
+                view.setLayoutX(column * 80);
+            }
+
         }
         else {
             eatCooldown -= deltaTime;
@@ -81,8 +93,10 @@ public abstract class Zombie {
                 bitePlant();
                 eatCooldown = eatInterval;
         }
-           // view.setImage(eatAnimation.getCurrentFrame());
         }
+    }
+    public boolean isHypnotized() {
+        return hypnotized;
     }
 
     private void bitePlant() {

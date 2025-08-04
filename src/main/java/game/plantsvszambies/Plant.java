@@ -18,10 +18,10 @@ public abstract class Plant {
     protected int col;
     protected int health;
     protected int cost;
-    protected int rechargeTime;
+    protected float rechargeTime;
     protected ImageView view;
 
-    public Plant(int row, int col, int health, int cost, int rechargeTime, ImageView view) {
+    public Plant(int row, int col, int health, int cost, float rechargeTime, ImageView view) {
         this.row = row;
         this.col = col;
         this.health = health;

@@ -1,9 +1,6 @@
 package game.plantsvszambies;
 
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -31,7 +28,9 @@ public class Game {
     ArrayList<String> chosenCards = new ArrayList<String>();
     private List<Bullet> activeBullets = new ArrayList<>();
     private long startTime;
-    private static final double SPAWN_INTERVAL = 3.0;
+    private static final double SPAWN_INTERVAL1 = 3.0;
+    private static final double SPAWN_INTERVAL2 = 2.0;
+    private static final double SPAWN_INTERVAL3 = 1.8;
     private Timeline spawnTimeline;
     private List<Zombie> zombies = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
@@ -352,6 +351,7 @@ public class Game {
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
+        setupAttackPhases();
 
 
     }
@@ -371,21 +371,72 @@ public class Game {
 
     }
 
+
     private void setupSpawnTimer() {
+//        spawnTimeline = new Timeline(
+//                new KeyFrame(Duration.seconds(SPAWN_INTERVAL1), e -> spawnZombie())
+//        );
+//        spawnTimeline.setCycleCount(5);
+//        spawnTimeline.play();
+//        spawnTimeline.setOnFinished(e -> {
+//
+//
+//        });
+        spawner();
         spawnTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(SPAWN_INTERVAL), e -> spawnZombie())
+                new KeyFrame(Duration.seconds(15), e -> spawner())
         );
-        spawnTimeline.setCycleCount(Animation.INDEFINITE);
+        spawnTimeline.setCycleCount(3);
+        spawnTimeline.play();
+        spawnTimeline.setOnFinished(e -> {
+
+
+        });
+    }
+    private void spawner() {
+        double du = 0;
+        if (getCurrentPhase() == 1) {
+            du = SPAWN_INTERVAL1;
+        }
+        else if (getCurrentPhase() == 2) {
+            du = SPAWN_INTERVAL2;
+        }
+        else if (getCurrentPhase() == 3) {
+            du = SPAWN_INTERVAL3;
+        }
+        else if (getCurrentPhase() == 4) {
+            du = SPAWN_INTERVAL3;
+        }
+
+        spawnTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(du), e -> spawnZombie())
+        );
+        spawnTimeline.setCycleCount((int) (15/du));
         spawnTimeline.play();
     }
     private void spawnZombie() {
-        int currentPhase = getCurrentPhase(); // Implement based on game time
-        int row = (new Random()).nextInt(5); // Random row (0-4)
-
+        int currentPhase = getCurrentPhase();
+        int row = (new Random()).nextInt(5);
         Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row);
         zombies.add(zombie);
         map.borderPane.getChildren().add(zombie.getView());
         positionZombie(zombie);
+    }
+    private void setupAttackPhases() {
+
+        Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> createAttackPhase()));
+        atTimeline.setCycleCount(2);
+        atTimeline.play();
+    }
+    private void createAttackPhase() {
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhase();int row = (new Random()).nextInt(5);
+            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
+            zombies.add(zombie);
+            map.borderPane.getChildren().add(zombie.getView());
+            positionZombie(zombie);}));
+        timeline.setCycleCount(20);
+        timeline.play();
     }
 
     private int getCurrentPhase() {
@@ -449,7 +500,7 @@ public class Game {
                 .filter(Objects::nonNull)
                 .filter(Zombie::isEating)
                 .map(zombie -> new AbstractMap.SimpleEntry<>(findPlantBeingEaten(zombie), zombie))
-                .filter(entry -> entry.getKey() != null)  // Explicit null-key removal
+                .filter(entry -> entry.getKey() != null)
                 .collect(Collectors.groupingBy(
                         Map.Entry::getKey,
                         Collectors.mapping(
@@ -469,7 +520,6 @@ public class Game {
                 Plant target = findPlantBeingEaten(zombie);
                 if (target != null) {
                     target.addAttacker(zombie);
-                   // zombie.updateAttackPosition();
                 }
             }
             zombie.update(deltaTime);
