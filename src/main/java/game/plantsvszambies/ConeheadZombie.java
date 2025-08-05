@@ -16,4 +16,20 @@ public class ConeheadZombie extends Zombie {
         return view;
     }
 
+    public void startEating() {
+        this.isEating = true;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/ConeheadZombieAttack.gif")));
+        Plant plant = findPlantInFront();
+        if (!hEat) {
+            super.baseColumn = plant.getCol(); // Set reference point
+            updateAttackPosition();
+        }
+        super.eatCooldown = super.eatInterval;
+    }
+    public void stopEating() {
+        hEat = false;
+        isEating = false;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/coneheadzombie.gif")));
+    }
+
 }

@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="score save and load">
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="still has some error but...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ConeheadZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ConeheadZombie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/GameController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/GameController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ImpZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ImpZombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Map.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Plant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Plant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ScreenDoorZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ScreenDoorZombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sunflower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sunflower.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Map.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -147,6 +151,7 @@
       <workItem from="1754295191461" duration="8898000" />
       <workItem from="1754306556202" duration="2738000" />
       <workItem from="1754331808029" duration="8869000" />
+      <workItem from="1754381340242" duration="9779000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -300,7 +305,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754208982139</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="still has some error but...">
+      <option name="closed" value="true" />
+      <created>1754381676840</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1754381676840</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,6 +367,7 @@
     <MESSAGE value="fix the load problem for shooter plans" />
     <MESSAGE value="sunflower problem fixed" />
     <MESSAGE value="score save and load" />
-    <option name="LAST_COMMIT_MESSAGE" value="score save and load" />
+    <MESSAGE value="still has some error but..." />
+    <option name="LAST_COMMIT_MESSAGE" value="still has some error but..." />
   </component>
 </project>

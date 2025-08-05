@@ -35,7 +35,7 @@ public class CherryBomb extends Plant{
     private double x;
     private double y;
 
-    public CherryBomb(int row, int col, Map map, StackPane pane, ImageView imageView) {
+    public CherryBomb(int row, int col, Mapp map, StackPane pane, ImageView imageView) {
         super(row, col, 5, 150, 15, imageView);
 
         Bounds boundsInScene = pane.localToScene(pane.getBoundsInLocal());
