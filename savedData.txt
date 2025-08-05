@@ -1,0 +1,9 @@
+CARDS WallNut RepeaterPeaShooter Jalapeno CherryBomb SnowPea Peashooter 
+SCORE 99999474
+PLANT HypnoShroom 3 3 400
+PLANT WallNut 0 0 25
+PLANT RepeaterPeaShooter 1 0 5
+PLANT SnowPea 2 0 5
+PLANT Peashooter 3 0 5
+ZOMBIE NormalZombie 0 8.020069 100 641.605552 0.000000
+ZOMBIE NormalZombie 3 8.772060 100 701.764812 0.000000
