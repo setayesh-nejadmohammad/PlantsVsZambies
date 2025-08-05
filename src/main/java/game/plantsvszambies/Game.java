@@ -22,6 +22,7 @@ public class Game {
     int CELL_SIZE = 80;
     Image frontYard;
     Mapp map;
+    public int[] score = {0};
     private long lastFrameTime = 0;
     private double accumulatedTime = 0;
     private static final double FRAME_TIME = 1.0 / 60.0;
@@ -33,6 +34,7 @@ public class Game {
     private static final double SPAWN_INTERVAL3 = 1.8;
     private Timeline spawnTimeline;
     private List<Zombie> zombies = new ArrayList<>();
+    private List<Zombie> Hzombies = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
     private Map<Integer, List<Plant>> plantsByRow = new HashMap<Integer, List<Plant>>();
 
@@ -48,6 +50,10 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public List<Zombie> getHzombies() {
+        return Hzombies;
     }
 
     public Game(Stage stage){
@@ -113,6 +119,7 @@ public class Game {
     public List<Plant> getPlants() {
         return plants;
     }
+
     public void ChooseCard(){
         StackPane pane = new StackPane();
         Scene ChooseCardScene = new Scene(pane, 1024, 626);
@@ -184,19 +191,19 @@ public class Game {
         wallnutButton.getStyleClass().add("button");
         wallnutButton.setGraphic(wallnutImageView);
 
-        boolean[] checkButtonPressed = {false, false, false, false, false, false, false, false};
+        boolean[] checkButtonPressed = {false, false, false, false, false, false, false, false, false};
 
         sunflowerButton.setOnAction(e->{
             if(!checkButtonPressed[0]){
                 checkButtonPressed[0] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("sunflower");
+                    chosenCards.add("Sunflower");
                     sunflowerImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[0] = false;
-                chosenCards.remove("sunflower");
+                chosenCards.remove("Sunflower");
                 sunflowerImageView.setOpacity(0.5);
             }
 
@@ -205,13 +212,13 @@ public class Game {
             if(!checkButtonPressed[1]){
                 checkButtonPressed[1] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("peashooter");
+                    chosenCards.add("Peashooter");
                     peashooterImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[1] = false;
-                chosenCards.remove("peashooter");
+                chosenCards.remove("Peashooter");
                 peashooterImageView.setOpacity(0.5);
             }
         });
@@ -219,13 +226,13 @@ public class Game {
             if(!checkButtonPressed[2]){
                 checkButtonPressed[2] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("snowpea");
+                    chosenCards.add("SnowPea");
                     snowpeaImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[2] = false;
-                chosenCards.remove("snowpea");
+                chosenCards.remove("SnowPea");
                 snowpeaImageView.setOpacity(0.5);
             }
         });
@@ -233,13 +240,13 @@ public class Game {
             if(!checkButtonPressed[3]){
                 checkButtonPressed[3] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("tallnut");
+                    chosenCards.add("TallNut");
                     tallnutImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[3] = false;
-                chosenCards.remove("tallnut");
+                chosenCards.remove("TallNut");
                 tallnutImageView.setOpacity(0.5);
             }
         });
@@ -247,13 +254,13 @@ public class Game {
             if(!checkButtonPressed[4]){
                 checkButtonPressed[4] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("wallnut");
+                    chosenCards.add("WallNut");
                     wallnutImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[4] = false;
-                chosenCards.remove("wallnut");
+                chosenCards.remove("WallNut");
                 wallnutImageView.setOpacity(0.5);
             }
         });
@@ -261,27 +268,27 @@ public class Game {
             if(!checkButtonPressed[5]){
                 checkButtonPressed[5] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("cherrybomb");
+                    chosenCards.add("CherryBomb");
                     cherrybombImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[5] = false;
-                chosenCards.remove("cherrybomb");
+                chosenCards.remove("CherryBomb");
                 cherrybombImageView.setOpacity(0.5);
             }
         });
         jalapenoButton.setOnAction(e ->{
             if(!checkButtonPressed[6]){
                 checkButtonPressed[6] = true;
-                if (chosenCards.size() < 6) {
-                    chosenCards.add("jalapeno");
+                if(chosenCards.size() < 6){
+                    chosenCards.add("Jalapeno");
                     jalapenoImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[6] = false;
-                chosenCards.remove("jalapeno");
+                chosenCards.remove("Jalapeno");
                 jalapenoImageView.setOpacity(0.5);
             }
         });
@@ -289,20 +296,20 @@ public class Game {
             if(!checkButtonPressed[7]){
                 checkButtonPressed[7] = true;
                 if(chosenCards.size() < 6){
-                    chosenCards.add("repeater");
+                    chosenCards.add("RepeaterPeaShooter");
                     repeaterImageView.setOpacity(1);
                 }
             }
             else{
                 checkButtonPressed[7] = false;
-                chosenCards.remove("repeater");
+                chosenCards.remove("RepeaterPeaShooter");
                 repeaterImageView.setOpacity(0.5);
             }
         });
-
         Image startGameImage = new Image(getClass().getResourceAsStream("images/button_menus/startgame.png"));
         ImageView startGameView = new ImageView(startGameImage);
-
+        Image loadImage = new Image(getClass().getResourceAsStream("images/button_menus/loadgame.png"));
+        ImageView loadView = new ImageView(loadImage);
         Button startButton = new Button();
         startButton.getStyleClass().add("button");
         startButton.setGraphic(startGameView);
@@ -312,10 +319,16 @@ public class Game {
                 startGame();
             }
         });
-
-
-
-
+        Button loadButton = new Button();
+        loadButton.getStyleClass().add("button");
+        loadButton.setGraphic(loadView);
+        loadButton.setOnAction(e->{
+            loadGame();
+        });
+        HBox hbox3 = new HBox();
+        hbox3.setAlignment(Pos.CENTER);
+        hbox3.setSpacing(-40);
+        hbox3.getChildren().addAll(startButton, loadButton);
         HBox hbox1 = new HBox();
         HBox hbox2 = new HBox();
         hbox1.setAlignment(Pos.CENTER);
@@ -330,28 +343,21 @@ public class Game {
         //label.setPadding(new Insets(100));
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(label, hbox1, hbox2, startButton);
+        vbox.getChildren().addAll(label, hbox1, hbox2, hbox3);
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
-
         pane.getChildren().addAll(vbox);
-
-
-
         ChooseCardScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(ChooseCardScene);
         stage.show();
     }
-
-
-
     public void startGame(){
         startTime = System.currentTimeMillis();
         this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
         setupSpawnTimer();
         startGameLoop();
-        setupAttackPhases();
+        //setupAttackPhases();
 
 
     }
@@ -428,6 +434,43 @@ public class Game {
         atTimeline.setCycleCount(2);
         atTimeline.play();
     }
+    public void loadGame(){
+        plants.clear();
+        zombies.clear();
+        chosenCards.clear();
+        this.map = new Mapp(stage, chosenCards, plants);
+        SaveLoadManager.loadGame("savedData.txt", plants, zombies, chosenCards, score);
+        map.setChosenCards(chosenCards);
+        map.setPlants((ArrayList<Plant>) plants);
+        startTime = System.currentTimeMillis();
+        map.gameController.totalScore = score[0];   // score logic update
+        map.gameController.UpdateScoreLabel(score[0]); // score label update
+
+        for(Plant p: Game.getInstance().getPlants()){  // draw plants on the scene
+            if(p != null && p.view != null){
+                if(p.getClass().getSimpleName().equals("WallNut") || p.getClass().getSimpleName().equals("TallNut")){
+                    map.plantss[p.row][p.col] = p;
+                    //map.numArr.set((p.row)*map.ROWS+p.col, 5);
+                }
+                else if(p.getClass().getSimpleName().equals("Sunflower")){
+                    map.plantss[p.row][p.col] = p;
+                    //map.numArr.set((p.row)*map.ROWS+p.col, 1);
+                }
+                else{
+//                    StackPane cell = map.createCell(p.row, p.col);
+//                    cell.getChildren().add(p.view);
+//                    map.grid.add(cell, p.col, p.row);
+                    map.plantss[p.row][p.col] = p;
+                    //map.numArr.set((p.row)*map.ROWS+p.col, 2); // set 2 for all shooter plants
+                }
+            }
+        }
+
+        map.drawMap();
+        setupSpawnTimer();
+        startGameLoop();
+    }
+
     private void createAttackPhase() {
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhase();int row = (new Random()).nextInt(5);
@@ -463,7 +506,9 @@ public class Game {
 
                 // Update all game systems
                 updatePlants(deltaTime);
+                updateHZombies(deltaTime);
                 checkZombiePlantCollisions();
+                checkZombieHzombieCollisions();
                 updateBullets(deltaTime);
                 updateZombies(deltaTime);
 
@@ -485,6 +530,28 @@ public class Game {
                 }
             }
         }
+    }
+    public void checkZombieHzombieCollisions() {
+        for (Zombie zombie : zombies) {
+            if (!zombie.isEating) {
+                Zombie hZombie = findHzombieAt(zombie.getRow(), zombie.getColumn());
+                if (hZombie != null) {
+                    zombie.setHEat(true);
+                    hZombie.setHEat(true);
+                    zombie.startEating();
+                    hZombie.startEating();
+
+                }
+            }
+        }
+    }
+
+    private Zombie findHzombieAt(int row, double column) {
+        return Hzombies.stream()
+                .filter(p -> p.getRow() == row)
+                .filter(p -> (Math.abs(column - p.getColumn()) <= 0.3 && Math.abs(column - p.getColumn()) >= 0.2))
+                .findFirst()
+                .orElse(null);
     }
 
     private Plant findPlantAt(int row, double column) {
@@ -532,12 +599,22 @@ public class Game {
     }
 
     private void updatePlants(double deltaTime) {
-        plants.forEach(plant -> {
+        for(Iterator<Plant> iterator = plants.iterator(); iterator.hasNext();) {
+            Plant plant = iterator.next();
+            if (plant instanceof HypnoShroom) {
+                if (plant.getHealth() <= 0) {
+                    iterator.remove();
+                    removePlant(plant);
+                }
+            }
             plant.update(deltaTime);
-
-            // Plants automatically shoot via their update()
-            // (ShooterPlant handles its own fire rate timing)
+        }
+    }
+    private void updateHZombies(double deltaTime){
+        Hzombies.forEach(zombie -> {
+            zombie.update(deltaTime);
         });
+
     }
 
     private boolean checkReachedEnd(Zombie zombie) {
@@ -555,12 +632,70 @@ public class Game {
 
     public void removePlant(Plant plant) {
         plants.remove(plant);
-        map.getGridPane().getChildren().remove(plant);
+        if(plant.view.getParent() != null)
+        ((StackPane)plant.view.getParent()).getChildren().remove(plant.view);
+    }
+
+    public List<Zombie> getHZombies() {
+        return Hzombies;
+    }
+
+    public void removeHZombie(Zombie zombie) {
+        Hzombies.remove(zombie);
+        map.borderPane.getChildren().remove(zombie.getView());
     }
 
 //    private void checkCollisions(Zombie zombie) {
 //
 //    }
+public void clearGame(){
+    for(Plant p : Game.getInstance().getPlants()){
+        ((StackPane)p.view.getParent()).getChildren().remove(p.view);
+    }
+    plants.clear();
 
+    // this shit has a stupid ERROR!
+        /*for(Zombie z : zombies){
+            removeZombie(z);
+        }*/
+}
+    public Plant createPlantByType(String type, int row, int col) {
+        Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
+        Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
+        Image snowpea = new Image(getClass().getResourceAsStream("images/Plants/SnowPea.gif"));
+        Image tallnut = new Image(getClass().getResourceAsStream("images/Plants/TallNut.gif"));
+        Image wallnut = new Image(getClass().getResourceAsStream("images/Plants/wallnut.gif"));
+        Image repeater = new Image(getClass().getResourceAsStream("images/Plants/repeater.gif"));
+        Image jalapeno = new Image(getClass().getResourceAsStream("images/Plants/jalapeno.gif"));
+        Image cherrybomb = new Image(getClass().getResourceAsStream("images/Plants/cherrybomb.gif"));
+        ImageView sunflowerView = new ImageView(sunflower);
+        ImageView peashooterView = new ImageView(peashooter);
+        ImageView snowpeaView = new ImageView(snowpea);
+        ImageView tallnutImageView = new ImageView(tallnut);
+        ImageView wallnutImageView = new ImageView(wallnut);
+        ImageView repeaterView = new ImageView(repeater);
+        ImageView jalapenoView = new ImageView(jalapeno);
+        ImageView cherrybombView = new ImageView(cherrybomb);
+        sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
+        peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
+        snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
+        tallnutImageView.setFitHeight(CELL_SIZE); tallnutImageView.setFitWidth(CELL_SIZE);
+        wallnutImageView.setFitWidth(CELL_SIZE); wallnutImageView.setFitWidth(CELL_SIZE);
+        repeaterView.setFitHeight(CELL_SIZE); repeaterView.setFitWidth(CELL_SIZE);
+        jalapenoView.setFitHeight(CELL_SIZE); jalapenoView.setFitWidth(CELL_SIZE);
+        cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
+        StackPane cell = map.createCell(row, col);
+
+        switch (type) {
+            case "Sunflower": return new Sunflower(row, col, cell, sunflowerView);
+            case "Peashooter": return new Peashooter(row, col, peashooterView);
+            case "SnowPea": return new SnowPea(row, col, snowpeaView);
+            case "WallNut": return new WallNut(row, col, wallnutImageView, cell);
+            case "TallNut": return new TallNut(row, col, tallnutImageView, cell);
+            case "RepeaterPeaShooter": return new RepeaterPeaShooter(row, col, repeaterView);
+            // Add other types
+            default: return null;
+        }
+    }
 
 }

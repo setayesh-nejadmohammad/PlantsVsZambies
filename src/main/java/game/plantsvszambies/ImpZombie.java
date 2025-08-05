@@ -19,11 +19,14 @@ public class ImpZombie extends Zombie{
         this.isEating = true;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/impAttack.gif")));
         Plant plant = findPlantInFront();
-        super.baseColumn = plant.getCol(); // Set reference point
-        updateAttackPosition();
+        if (!hEat) {
+            super.baseColumn = plant.getCol(); // Set reference point
+            updateAttackPosition();
+        }
         super.eatCooldown = super.eatInterval;
     }
     public void stopEating() {
+        hEat = false;
         isEating = false;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/imp.gif")));
     }

@@ -6,8 +6,12 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+
+import java.util.Stack;
 
 public class Sun extends ImageView {
     private static final int SUN_POINTS = 25;
@@ -18,9 +22,9 @@ public class Sun extends ImageView {
     private final GameController gameController; // You should define this to manage score
     private Timeline fallTimeline;
 
-    public Sun(Pane parent, GameController gameController, double startX) {
+    public Sun(Pane parent, double startX) {
         this.parent = parent;
-        this.gameController = gameController;
+        this.gameController = Game.getInstance().map.gameController;
 
         // Set image
         this.setImage(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/sun.png"))); // Make sure this path is correct
@@ -36,19 +40,20 @@ public class Sun extends ImageView {
 
         // Handle click
         this.setOnMouseClicked(event -> {
-            if(gameController != null) {
-                gameController.addScore(SUN_POINTS); // Your method to update score
+            if(this.gameController != null) {
+                this.gameController.addScore(SUN_POINTS); // Your method to update score
                 destroy();
             }
         });
     }
 
-    public Sun(Pane parent, GameController gameController, int row, int col){
-        this.gameController = gameController;
-        this.parent = parent;
+    public Sun(StackPane cell, int row, int col){
+        this.gameController = Game.getInstance().map.gameController;
+        this.parent = cell;
+        //this.parent = parent;
 
-        parent.getChildren().add(this);
-        this.setViewOrder(-3);
+        cell.getChildren().addAll(this);
+
         // Set image
         this.setImage(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/sun.png"))); // Make sure this path is correct
         this.setFitWidth(50);
@@ -58,8 +63,8 @@ public class Sun extends ImageView {
 
         // Handle click
         this.setOnMouseClicked(event -> {
-            if(gameController != null) {
-                gameController.addScore(SUN_POINTS); // Update score
+            if(this.gameController != null) {
+                this.gameController.addScore(SUN_POINTS); // Update score
                 destroy();
             }
         });

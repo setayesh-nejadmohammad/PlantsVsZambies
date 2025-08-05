@@ -64,7 +64,7 @@ public class GameController {
         System.out.println("Total Score: " + totalScore);
         UpdateScoreLabel(totalScore);
     }
-    private void UpdateScoreLabel(int newScore) {
+    public void UpdateScoreLabel(int newScore) {
         scoreLabel = new Label("Score: " + totalScore);
         borderPane.setTop(scoreLabel);
         scoreLabel.setStyle("-fx-font-size: 40px; -fx-text-fill: black; -fx-background-color: white");

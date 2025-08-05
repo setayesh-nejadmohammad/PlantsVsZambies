@@ -8,6 +8,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import java.util.Random;
+
 // Base Zombie class
 public abstract class Zombie {
     private boolean hypnotized = false;
@@ -32,6 +34,8 @@ public abstract class Zombie {
     private ColorAdjust frostEffect = new ColorAdjust();
     private long frostEndTime;
     protected double baseColumn;
+    protected boolean hEat;
+    private boolean isR;
 
     public Zombie(int health, int damage, double speed, int row) {
         // Initialize with normal color
@@ -51,6 +55,12 @@ public abstract class Zombie {
     }
 
     protected abstract ImageView createImageView();
+    public int getHealth() {
+        return health;
+    }
+    public void setHealth(int health) {
+        this.health = health;
+    }
     public void applyFrostEffect(double durationSeconds) {
         // Apply blue tint
         this.frostEndTime = System.currentTimeMillis() + (long)(durationSeconds * 1000);
@@ -90,11 +100,47 @@ public abstract class Zombie {
         else {
             eatCooldown -= deltaTime;
             if (eatCooldown <= 0) {
-                bitePlant();
-                eatCooldown = eatInterval;
+                if(!isHypnotized()) {
+                    if (!hEat)
+                    bitePlant();
+                    else {
+                        biteHzombieInFront();
+                    }
+                    eatCooldown = eatInterval;
+                }
+                else {
+                    biteZom();
+                    eatCooldown = eatInterval;
+                }
         }
         }
     }
+
+    private void biteZom() {
+        Zombie target = findZombieInFront();
+        if (target != null) {
+            target.takeDamage(10);
+
+
+            if (target.getHealth() <= 0) {
+                stopEating();
+            }
+        }
+        else {
+            stopEating();
+        }
+
+    }
+
+    private Zombie findZombieInFront() {
+        return Game.getInstance().getZombies().stream()
+                .filter(p -> p.getRow() == this.row)
+                .filter(p -> (Math.abs(this.column - p.getColumn()) <= 0.3 && Math.abs(this.column - p.getColumn()) >= 0.2))
+                .findFirst()
+                .orElse(null);
+
+    }
+
     public boolean isHypnotized() {
         return hypnotized;
     }
@@ -113,6 +159,26 @@ public abstract class Zombie {
             stopEating();
         }
     }
+    private void biteHzombieInFront(){
+        Zombie target = findHzombieInFront();
+        if (target != null) {
+            target.takeDamage(10);
+            if (target.getHealth() <= 0) {
+                stopEating();
+            }
+        }
+        else {
+            stopEating();
+        }
+    }
+
+    private Zombie findHzombieInFront() {
+        return Game.getInstance().getHZombies().stream()
+                .filter(p -> p.getRow() == this.row)
+                .filter(p -> (Math.abs(this.column - p.getColumn()) <= 0.3 && Math.abs(this.column - p.getColumn()) >= 0.2))
+                .findFirst()
+                .orElse(null);
+    }
 
     public Plant findPlantInFront() {
         return Game.getInstance().getPlants().stream()
@@ -124,14 +190,17 @@ public abstract class Zombie {
     public void startEating() {
         this.isEating = true;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/ZombieAttack.gif")));
-        Plant plant = findPlantInFront();
-        this.baseColumn = plant.getCol(); // Set reference point
-        updateAttackPosition();
+        if (!hEat) {
+            Plant plant = findPlantInFront();
+            this.baseColumn = plant.getCol(); // Set reference point
+            updateAttackPosition();
+        }
         this.eatCooldown = eatInterval;
     }
 
 
     public void stopEating() {
+        hEat = false;
         isEating = false;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/normalzombie.gif")));
     }
@@ -159,6 +228,7 @@ public abstract class Zombie {
         }
         isDead = true;
         Game.getInstance().removeZombie(this);
+        Game.getInstance().removeHZombie(this);
 
         // make the head
         ImageView headGif = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/ZombieHead.gif")));
@@ -230,7 +300,9 @@ public abstract class Zombie {
 
     }
     public void setAttackOffset(double offset) {
-        this.attackOffset = Math.max(-0.3, Math.min(0.3, offset)); // Clamp value
+        float margin = (float)(Math.random() * 4);
+        margin /= 100;
+        this.attackOffset = Math.max(-0.25 + margin, Math.min(0.35 - margin, offset));
         this.baseColumn = this.column; // Store original position
 
         updateAttackPosition();
@@ -239,7 +311,7 @@ public abstract class Zombie {
         if (!isEating) return;
 
         // Calculate new position with offset
-        double newX = view.getLayoutX() + attackOffset *  80;
+        double newX = view.getLayoutX() + (attackOffset * 80) - (Math.random() * 10);;
 
         // Apply with smooth transition
         Timeline reposition = new Timeline(
@@ -262,5 +334,13 @@ public abstract class Zombie {
 
     public boolean isEating() {
         return isEating;
+    }
+
+    public void setHEat(boolean b) {
+        hEat = b;
+    }
+
+    public void isR(boolean b) {
+        isR = b;
     }
 }

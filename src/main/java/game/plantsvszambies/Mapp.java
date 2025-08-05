@@ -43,6 +43,7 @@ public class Mapp {
     StackPane repeaterPane = new StackPane(repeaterButton);
     StackPane jalapenoPane = new StackPane(jalapenoButton);
     StackPane cherrybombPane = new StackPane(cherrybombButton);
+    Plant plantss[][] = new Plant[5][9];
     public static final int COLS = 9;
     public static final int CELL_SIZE = 80;
     private Scene scene;
@@ -106,29 +107,35 @@ public class Mapp {
         this.gridCells = new Cell[ROWS][COLS];
 
 
-        for (int row = 0; row < ROWS; row++) {
-            for (int col = 0; col < COLS; col++) {
-                StackPane cellPane = new StackPane();
-
-                Rectangle background = new Rectangle(CELL_SIZE, CELL_SIZE + 10);
-                background.setFill(null);
-                background.setStroke(Color.BLACK);
-                background.setStrokeWidth(0.5);
-
-                cellPane.getChildren().add(background);
-                grid.add(cellPane, col, row);
-
-                Cell cell = new Cell(row, col, cellPane);
-                gridCells[row][col] = cell;
-            }
-        }
+//        for (int row = 0; row < ROWS; row++) {
+//            for (int col = 0; col < COLS; col++) {
+//                StackPane cellPane = new StackPane();
+//
+//                Rectangle background = new Rectangle(CELL_SIZE, CELL_SIZE + 10);
+//                background.setFill(null);
+//                background.setStroke(Color.BLACK);
+//                background.setStrokeWidth(0.5);
+//
+//                cellPane.getChildren().add(background);
+//                grid.add(cellPane, col, row);
+//
+//                Cell cell = new Cell(row, col, cellPane);
+//                gridCells[row][col] = cell;
+//            }
+//       }
         ImageCursor imageCursor = new ImageCursor(shovelCursor, shovelCursor.getWidth() / 2, shovelCursor.getHeight() / 2);
         shovelCurs = (Cursor) imageCursor;
     }
+    public void setChosenCards(ArrayList<String> chosenCards) {
+        this.chosenCards = chosenCards;
+    }
+    public void setPlants(ArrayList<Plant> plants) {
+        this.plants = plants;
+    }
 
     public void drawMap() {
+        addSaveLoadButton();
         sunFalling();
-
         // Sun sun = new Sun(borderPane, gameController, 400);
 
         BackgroundImage bgImage = new BackgroundImage(
@@ -165,6 +172,7 @@ public class Mapp {
         // Create 5x9 grid of squares
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
+
                 Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE + 10);
                 rect.setFill(null);
                 rect.setStroke(Color.BLACK);
@@ -172,9 +180,17 @@ public class Mapp {
                 grid.add(rect, col, row);
                 StackPane cell = createCell(row, col);
                 grid.add(cell, col, row);
+                if (plantss[row][col] != null) {
+                    cell.getChildren().add(plantss[row][col].view);
+                }
             }
         }
-
+        StackPane cell = new StackPane();
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("images/plants/HypnoShroom.gif")));
+        HypnoShroom hypnoShroom = new HypnoShroom(3, 3, imageView);
+        cell.getChildren().add(imageView);
+        Game.getInstance().getPlants().add(hypnoShroom);
+        grid.add(cell, 3, 3);
 
 
         stage.setTitle("plant vs zambies");
@@ -187,10 +203,6 @@ public class Mapp {
             gameController.getShovelStack().getChildren().remove(gameController.getShovelImage());
             num.set(9);
         });
-        scene.setOnMouseMoved(event -> {
-
-        });
-
     }
 
 
@@ -214,7 +226,7 @@ public class Mapp {
 
 
 
-    private StackPane createCell(int row, int col) {
+    public StackPane createCell(int row, int col) {
         ImageView sunflowerView = new ImageView(sunflower);
         ImageView peashooterView = new ImageView(peashooter);
         ImageView snowpeaView = new ImageView(snowpea);
@@ -238,14 +250,13 @@ public class Mapp {
             if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
                 cell.getChildren().addAll(sunflowerView);
-                Game.getInstance().getPlants().add(new Sunflower(row, col , sunflowerView));
+                Game.getInstance().getPlants().add(new Sunflower(row, col , cell, sunflowerView));
                 createCardWithCooldown(sunFlowerPane, sunflowerButton, 5);
                 gameController.reduceScore(50);
                 // get the exact position on sunflower to put sun
                 Bounds boundsInScene = cell.localToScene(cell.getBoundsInLocal());
                 double x = boundsInScene.getMinX();
                 double y = boundsInScene.getMinY();
-                sunFromSunflowers((int) x, (int) y);
 
             } else if (num.intValue() == 2 && cell.getChildren().size() == 0 && gameController.totalScore >= 100) {
                 num.set(0);
@@ -359,25 +370,30 @@ public class Mapp {
         shrink.play();
         fade.play();
     }
+    public void addSaveLoadButton(){
+        Button saveButton = new Button("Save");
+        Button loadButton = new Button("Load");
+        VBox vbox = new VBox();
+        vbox.getChildren().add(saveButton);
+        //vbox.getChildren().add(loadButton);
+        borderPane.setRight(vbox);
+        saveButton.setOnAction(e -> {
+            SaveLoadManager.saveGame("savedData.txt", gameController.totalScore);
+        });
+        loadButton.setOnAction(e -> {
+            //SaveLoadManager.loadGame("savedData.txt"); // ?????!?!?!?
+        });
+    }
 
     public void sunFalling() {
         Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             double x = Math.random() * (borderPane.getWidth() - 50);
-            new Sun(borderPane, gameController, x); // `this` is GameController
+            new Sun(borderPane, x);
         }));
         sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
         sunSpawnTimeline.play();
     }
 
-    public void sunFromSunflowers(int row, int col) {
-        System.out.println("spawn sun from sunflowers at (" + row + "," + col + ")");
-        Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-            double x = Math.random() * (borderPane.getWidth() - 50);
-            new Sun(borderPane, gameController, row, col); // `this` is GameController
-        }));
-        sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
-        sunSpawnTimeline.play();
-    }
 
     public void buttonsHandler(VBox vbox) {
         sunflowerCardImageView.setFitWidth(CELL_SIZE * 1.5);
@@ -416,28 +432,28 @@ public class Mapp {
         wallnutButton.setGraphic(wallnutCardImageView);
 
         for (int i = 0; i < chosenCards.size(); i++) {
-            if (chosenCards.get(i).equals("sunflower")) {
+            if (chosenCards.get(i).equals("Sunflower")) {
                 vbox.getChildren().add(sunFlowerPane);
             }
-            else if (chosenCards.get(i).equals("peashooter")) {
+            else if (chosenCards.get(i).equals("Peashooter")) {
                 vbox.getChildren().add(peashooterPane);
             }
-            else if (chosenCards.get(i).equals("snowpea")) {
+            else if (chosenCards.get(i).equals("SnowPea")) {
                 vbox.getChildren().add(snowpeaPane);
             }
-            else if (chosenCards.get(i).equals("tallnut")) {
+            else if (chosenCards.get(i).equals("TallNut")) {
                 vbox.getChildren().add(tallnutPane);
             }
-            else if (chosenCards.get(i).equals("wallnut")) {
+            else if (chosenCards.get(i).equals("WallNut")) {
                 vbox.getChildren().add(wallnutPane);
             }
-            else if (chosenCards.get(i).equals("repeater")) {
+            else if (chosenCards.get(i).equals("RepeaterPeaShooter")) {
                 vbox.getChildren().add(repeaterPane);
             }
-            else if (chosenCards.get(i).equals("jalapeno")) {
+            else if (chosenCards.get(i).equals("Jalapeno")) {
                 vbox.getChildren().add(jalapenoPane);
             }
-            else if (chosenCards.get(i).equals("cherrybomb")) {
+            else if (chosenCards.get(i).equals("CherryBomb")) {
                 vbox.getChildren().add(cherrybombPane);
             }
 
