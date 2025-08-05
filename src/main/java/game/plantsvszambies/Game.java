@@ -4,7 +4,9 @@ import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,6 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -489,6 +493,7 @@ public class Game {
         if(plant.getClass().getSimpleName().equals("Sunflower")){
             ((Sunflower)plant).stop();
         }
+        map.grid.getChildren().remove(plant.view.getParent());
         plants.remove(plant);
         map.getGridPane().getChildren().remove(plant);
     }
@@ -570,17 +575,58 @@ public class Game {
         cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
 
         StackPane cell = new StackPane();
+        Plant plant = null;
 
         switch (type) {
-            case "Sunflower": return new Sunflower(row, col, cell, sunflowerView);
-            case "Peashooter": return new Peashooter(row, col, peashooterView);
-            case "SnowPea": return new SnowPea(row, col, snowpeaView);
-            case "WallNut": return new WallNut(row, col, wallnutImageView, cell);
-            case "TallNut": return new TallNut(row, col, tallnutImageView, cell);
-            case "RepeaterPeaShooter": return new RepeaterPeaShooter(row, col, repeaterView);
-            // Add other types
-            default: return null;
+            case "Sunflower":
+                //cell.getChildren().add(sunflowerView);
+                plant = new Sunflower(row, col, cell, sunflowerView);
+                break;
+            case "Peashooter":
+                cell.getChildren().add(peashooterView);
+                plant = new Peashooter(row, col, peashooterView);
+                break;
+            case "SnowPea":
+                cell.getChildren().add(snowpeaView);
+                plant = new SnowPea(row, col, snowpeaView);
+                break;
+            case "WallNut":
+                //cell.getChildren().add(wallnutImageView);
+                plant = new WallNut(row, col, wallnutImageView, cell);
+                break;
+            case "TallNut":
+                //cell.getChildren().add(tallnutImageView);
+                plant = new TallNut(row, col, tallnutImageView, cell);
+                break;
+            case "RepeaterPeaShooter":
+                cell.getChildren().add(repeaterView);
+                plant = new RepeaterPeaShooter(row, col, repeaterView);
+                break;
+            default:
+                return null;
         }
+
+        //map.grid.add(cell, col, row);
+
+        /*cell.setOnMouseClicked((MouseEvent e) -> {
+            if (map.num.intValue() == 9 && cell.getChildren().size() != 0) {
+                map.scene.setCursor(Cursor.DEFAULT);
+                cell.getChildren().clear();
+                map.gameController.getShovelStack().getChildren().add(map.gameController.getShovelImage());
+                map.num.set(0);
+            }
+        });*/
+
+        return plant;
+    }
+
+    private Plant findPlantAt(int row, int col) {
+        for (Plant plant : plants) {
+            if (plant.row == row && plant.col == col) {
+                return plant;
+            }
+        }
+        return null;
     }
 
     public Zombie createZombieByType(String type, int row) {

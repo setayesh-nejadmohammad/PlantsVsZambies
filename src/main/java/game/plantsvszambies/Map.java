@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -48,9 +49,9 @@ public class Map {
     Cursor shovelCurs;
     public static final int COLS = 9;
     public static final int CELL_SIZE = 80;
-    private static AtomicInteger num = new AtomicInteger(0);
+    public static AtomicInteger num = new AtomicInteger(0);
     Stage stage;
-    private Scene scene;
+    public Scene scene;
     public final Cell[][] gridCells;
     public GridPane grid;
     public BorderPane borderPane = new BorderPane();
@@ -58,7 +59,7 @@ public class Map {
     // GameController gameController;
     GameController gameController = new GameController(borderPane, grid);
     List<Plant> plants = new ArrayList<>();
-    ArrayList<Integer> numArr = new ArrayList<>();
+    ArrayList<ArrayList<Integer>> numArr = new ArrayList<>();
 
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
     Image peashooter = new Image(getClass().getResourceAsStream("images/Plants/peashooter.gif"));
@@ -106,9 +107,18 @@ public class Map {
         grid.setLayoutY(85);
         this.gridCells = new Cell[ROWS][COLS];
 
+        // fill the numArr with 0
+        numArr.clear();
+        for (int i = 0; i < ROWS; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < COLS; j++) {
+                row.add(0); // initial value
+            }
+            numArr.add(row);
+        }
+
         for (int row = 0; row < ROWS; row++) {
             for (int col = 0; col < COLS; col++) {
-                numArr.add(0); // all cell empty at first
 
                 StackPane cellPane = new StackPane();
 
@@ -143,10 +153,11 @@ public class Map {
         VBox vbox = new VBox();
         borderPane.setLeft(vbox);
         buttonsHandler(vbox);
+        vbox.getChildren().add(gameController.getShovelStack());
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
         vbox.setPadding(new Insets(10));
-        vbox.getChildren().add(gameController.getShovelStack());
+
 
         borderPane.getChildren().add(grid);
 
@@ -158,19 +169,26 @@ public class Map {
                 rect.setStroke(Color.BLACK);
                 rect.setStrokeWidth(0.5);
                 grid.add(rect, col, row);
-                if(numArr.get(row * ROWS + col) == 0){
+                /*if(numArr.get(row * ROWS + col) == 0){
                     StackPane cell = createCell(row, col);
                     grid.add(cell, col, row);
-                }
+                }*/
+                StackPane cell = createCell(row, col);
+                grid.add(cell, col, row);
             }
         }
 
         stage.setTitle("plant vs zambies");
-        Scene scene = new Scene(borderPane, 1024, 626);
+        scene = new Scene(borderPane, 1024, 626);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
 
+        gameController.getShovelStack().setOnMouseClicked(event -> {
+            scene.setCursor(shovelCurs);
+            gameController.getShovelStack().getChildren().remove(gameController.getShovelImage());
+            num.set(9);
+        });
     }
 
     public void addSaveLoadButton(){
@@ -206,30 +224,6 @@ public class Map {
         return grid;
     }
 
-    private StackPane createCell(String plantName , int row, int col) {
-        ImageView sunflowerView = new ImageView(sunflower);
-        ImageView peashooterView = new ImageView(peashooter);
-        ImageView snowpeaView = new ImageView(snowpea);
-        ImageView tallnutImageView = new ImageView(tallnut);
-        ImageView wallnutImageView = new ImageView(wallnut);
-        ImageView repeaterView = new ImageView(repeater);
-        ImageView jalapenoView = new ImageView(jalapeno);
-        ImageView cherrybombView = new ImageView(cherrybomb);
-        sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
-        peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
-        snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
-        tallnutImageView.setFitHeight(CELL_SIZE); tallnutImageView.setFitWidth(CELL_SIZE);
-        wallnutImageView.setFitWidth(CELL_SIZE); wallnutImageView.setFitWidth(CELL_SIZE);
-        repeaterView.setFitHeight(CELL_SIZE); repeaterView.setFitWidth(CELL_SIZE);
-        jalapenoView.setFitHeight(CELL_SIZE); jalapenoView.setFitWidth(CELL_SIZE);
-        cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
-
-        StackPane cell = new StackPane();
-        return cell; // this part should be fixed
-    }
-
-
-
     private StackPane createCell(int row, int col){
         ImageView sunflowerView = new ImageView(sunflower);
         ImageView peashooterView = new ImageView(peashooter);
@@ -250,11 +244,17 @@ public class Map {
 
         StackPane cell = new StackPane();
         cell.setOnMouseClicked((MouseEvent e) -> {
+            for(int i = 0; i < ROWS; i++){
+                for(int j = 0; j < COLS; j++){
+                    System.out.print(numArr.get(i+j)+" ");
+                }
+                System.out.println();
+            }
             System.out.println("salmammmmmmm");
             if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
                 Sunflower sunflower1 = new Sunflower(row, col , cell, sunflowerView);
-                numArr.set((row)*ROWS+col, 1);
+                numArr.get(row).set(col, 1);
                 gridCells[row][col].setPlant(sunflower1);
                 plants.add(sunflower1);
                 //cell.getChildren().addAll(sunflowerView);
@@ -274,7 +274,7 @@ public class Map {
                 createCardWithCooldown(peashooterPane, peashooterButton, 10);
                 cell.getChildren().addAll(peashooterView);
                 gameController.reduceScore(100);
-                numArr.set((row)*ROWS+col, 2);
+                numArr.get(row).set(col, 2);
             }
             else if(num.intValue() == 3 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
@@ -283,7 +283,7 @@ public class Map {
                 createCardWithCooldown(snowpeaPane, snowpeaButton, 17.5);
                 cell.getChildren().addAll(snowpeaView);
                 gameController.reduceScore(175);
-                numArr.set((row)*ROWS+col, 2);
+                numArr.get(row).set(col, 2);
             }
             else if(num.intValue() == 4 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
                 num.set(0);
@@ -292,7 +292,7 @@ public class Map {
                 createCardWithCooldown(tallnutPane, tallnutButton, 12.5);
                 //cell.getChildren().addAll(tallnutImageView);
                 gameController.reduceScore(125);
-                numArr.set((row)*ROWS+col, 5);
+                numArr.get(row).set(col, 5);
             }
             else if(num.intValue() == 5 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
                 num.set(0);
@@ -300,8 +300,7 @@ public class Map {
                 plants.add(wallNut);
                 createCardWithCooldown(wallnutPane, wallnutButton, 5);
                 //cell.getChildren().addAll(wallnutImageView);
-                gameController.reduceScore(50);
-                numArr.set((row)*ROWS+col, 5);
+                numArr.get(row).set(col, 5);
             }
             else if(num.intValue() == 6 && cell.getChildren().size() == 0 && gameController.totalScore >= 200) {
                 num.set(0);
@@ -310,7 +309,7 @@ public class Map {
                 createCardWithCooldown(repeaterPane, repeaterButton, 20);
                 cell.getChildren().addAll(repeaterView);
                 gameController.reduceScore(200);
-                numArr.set((row)*ROWS+col, 2);
+                numArr.get(row).set(col, 2);
             }
             else if(num.intValue() == 7 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
                 num.set(0);
@@ -459,28 +458,60 @@ public class Map {
         }
 
         sunflowerButton.setOnAction(event -> {
+            if (num.get() == 9) {
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                scene.setCursor(Cursor.DEFAULT);
+            }
             num.set(1);
-
         });
         peashooterButton.setOnAction(event -> {
+            if (num.get() == 9) {
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                scene.setCursor(Cursor.DEFAULT);
+            }
             num.set(2);
+
         });
         snowpeaButton.setOnAction(event -> {
+            if (num.get() == 9) {
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                scene.setCursor(Cursor.DEFAULT);
+            }
             num.set(3);
         });
         tallnutButton.setOnAction(event -> {
+            if (num.get() == 9) {
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                scene.setCursor(Cursor.DEFAULT);
+            }
             num.set(4);
         });
         wallnutButton.setOnAction(event -> {
+            if (num.get() == 9) {
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                scene.setCursor(Cursor.DEFAULT);
+            }
             num.set(5);
         });
         repeaterButton.setOnAction(event -> {
+            if (num.get() == 9) {
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                scene.setCursor(Cursor.DEFAULT);
+            }
             num.set(6);
         });
         jalapenoButton.setOnAction(event -> {
+            if (num.get() == 9) {
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                scene.setCursor(Cursor.DEFAULT);
+            }
             num.set(7);
         });
         cherrybombButton.setOnAction(event -> {
+            if (num.get() == 9) {
+                gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
+                scene.setCursor(Cursor.DEFAULT);
+            }
             num.set(8);
         });
     }

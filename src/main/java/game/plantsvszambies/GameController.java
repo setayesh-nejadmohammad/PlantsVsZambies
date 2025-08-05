@@ -50,6 +50,7 @@ public class GameController {
         borderPane.setTop(scoreLabel);
         borderPane.setPadding(new Insets(10));
         scoreLabel.setStyle("-fx-font-size: 40px; -fx-text-fill: black; -fx-background-color: white");
+        shovelStack.getChildren().addAll(shovelConImage, shovelImage);
     }
 
     public void addScore(int score) {
