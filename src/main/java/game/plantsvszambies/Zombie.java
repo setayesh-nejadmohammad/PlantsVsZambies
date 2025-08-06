@@ -18,6 +18,7 @@ public abstract class Zombie {
     private double attackOffset;
     protected boolean isDead = false;
     private double originalSpeed;
+    private double tempOriginSpeed;
     private double slowEndTime;
     private double currentSpeed;
     protected int health;
@@ -342,5 +343,24 @@ public abstract class Zombie {
 
     public void isR(boolean b) {
         isR = b;
+    }
+
+    public void freezeZombie(){
+        //view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/freezedZombie.png")));
+        tempOriginSpeed = originalSpeed;
+        originalSpeed = 0;
+        this.isEating = false;
+        stopEating();
+    }
+    public void resumeZombie(){
+        originalSpeed = tempOriginSpeed;
+        //view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/normalzombie.gif")));
+        view.setFitHeight(100);
+        view.setFitWidth(95);
+        view.setLayoutY(view.getLayoutY()-15);
+        view.setTranslateX(view.getTranslateX()-42);
+    }
+    public double getOriginalSpeed() {
+        return originalSpeed;
     }
 }

@@ -62,7 +62,7 @@ public abstract class Plant {
         });
 
         // Remove from game
-        ((StackPane)view.getParent()).getChildren().remove(view);
+        if((StackPane)view.getParent()!= null)((StackPane)view.getParent()).getChildren().remove(view);
         //Game.getInstance().map.grid.getChildren().remove(view.getParent());
         Game.getInstance().removePlant(this);
     }
