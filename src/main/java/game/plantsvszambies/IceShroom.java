@@ -71,8 +71,10 @@ public class IceShroom extends Plant{
                 z.view.setFitWidth(50);
             }
 
-            z.view.setLayoutY(z.view.getLayoutY()+15);
-            z.view.setTranslateX(z.view.getTranslateX()+42);
+            if(!z.wasEating){
+                z.view.setLayoutY(z.view.getLayoutY() + 15);
+                z.view.setTranslateX(z.view.getTranslateX() + 42);
+            }
         }
     }
 
@@ -85,33 +87,33 @@ public class IceShroom extends Plant{
 
     private void releaseZombie(){
         for(Zombie z: Game.getInstance().getZombies()){
-            if(z.getOriginalSpeed() == 0){
-                z.resumeZombie();
-                if(z.getClass().getSimpleName().equals("NormalZombie")){
-                    z.view.setImage(new Image( getClass().getResourceAsStream("images/Zombie/normalZombie.gif")));
-                }
-                else if(z.getClass().getSimpleName().equals("ConeheadZombie")){
+            if(z.getOriginalSpeed() == 0) {
+                if (z.getClass().getSimpleName().equals("NormalZombie")) {
+                    z.view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/normalZombie.gif")));
+                } else if (z.getClass().getSimpleName().equals("ConeheadZombie")) {
                     z.view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/coneheadzombie.gif")));
-                }
-                else if(z.getClass().getSimpleName().equals("ScreenDoorZombie")){
+                } else if (z.getClass().getSimpleName().equals("ScreenDoorZombie")) {
                     z.view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/screenDoorZombie.gif")));
-                }
-                else if(z.getClass().getSimpleName().equals("ImpZombie")){
+                } else if (z.getClass().getSimpleName().equals("ImpZombie")) {
                     z.view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/imp.gif")));
                 }
 
-                if(z.getClass().getSimpleName().equals("ImpZombie")){
+                if (z.getClass().getSimpleName().equals("ImpZombie")) {
                     z.view.setFitWidth(64);
                     z.view.setFitHeight(80);
-                    view.setTranslateX(z.view.getTranslateX()+15);
-                }
-                else{
+                    view.setTranslateX(z.view.getTranslateX() + 15);
+                } else {
                     view.setFitHeight(100);
                     view.setFitWidth(95);
                 }
-
-                view.setLayoutY(view.getLayoutY()-15);
-                view.setTranslateX(view.getTranslateX()-42);
+                if (!z.wasEating) {
+                    z.view.setLayoutY(z.view.getLayoutY() - 15);
+                    z.view.setTranslateX(z.view.getTranslateX() - 42);
+                }
+                else{
+                    z.view.setTranslateX(z.view.getTranslateX() + 20);
+                }
+                z.resumeZombie();
             }
         }
     }

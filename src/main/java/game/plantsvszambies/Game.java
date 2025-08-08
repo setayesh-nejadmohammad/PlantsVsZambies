@@ -777,6 +777,7 @@ public class Game {
         });
         for (Iterator<Zombie> iterator = zombies.iterator(); iterator.hasNext();) {
             Zombie zombie = iterator.next();
+            //if(zombie.isFreezed) continue;
             if (zombie.isEating()) {
                 Plant target = findPlantBeingEaten(zombie);
                 if (target != null) {
@@ -825,11 +826,11 @@ public class Game {
     }
 
     public void removePlant(Plant plant) {
-        if(plant.getClass().getSimpleName().equals("Sunflower")){
+        if(plant != null && plant.getClass().getSimpleName().equals("Sunflower")){
             ((Sunflower)plant).stop();
         }
         plants.remove(plant);
-        if(plant.view.getParent() != null)
+        if(plant != null && plant.view.getParent() != null)
             ((StackPane)plant.view.getParent()).getChildren().remove(plant.view);
     }
 

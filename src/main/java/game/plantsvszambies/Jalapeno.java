@@ -46,10 +46,6 @@ public class Jalapeno extends Plant{
         pane.getChildren().remove(view);
 
         Game.getInstance().map.borderPane.getChildren().add(imageView);
-        /*view.setImage(explosionImage);
-        view.setFitWidth(720);
-        view.setTranslateX(view.getTranslateX()-(col*80));*/
-        //view.setLayoutX(Game.getInstance().map.grid.getLayoutX());
 
 
         List<Zombie> zombiesInArea = Game.getInstance().getZombies().stream()

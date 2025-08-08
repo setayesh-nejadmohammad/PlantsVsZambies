@@ -28,6 +28,7 @@ public abstract class Zombie {
     protected double column; // Using double for smooth movement
     protected ImageView view;
     public boolean isEating = false;
+    public boolean wasEating = false;
     protected double eatCooldown = 0;
     protected double eatInterval = 1; // Bite every 0.5 seconds
     private int bitesToDestroy = 4; // Default bites needed
@@ -37,6 +38,7 @@ public abstract class Zombie {
     protected double baseColumn;
     protected boolean hEat;
     private boolean isR;
+    public boolean isFreezed = false;
 
     public Zombie(int health, int damage, double speed, int row) {
         // Initialize with normal color
@@ -79,6 +81,10 @@ public abstract class Zombie {
 
     public void update(double deltaTime) {
         if (isDead) {return;}
+        if(isFreezed) {
+            System.out.println("I'm FREEZED!");
+            return;
+        }
         if (System.currentTimeMillis() < frostEndTime) {
             view.setEffect(frostEffect);
         } else {
@@ -121,7 +127,6 @@ public abstract class Zombie {
         Zombie target = findZombieInFront();
         if (target != null) {
             target.takeDamage(10);
-
 
             if (target.getHealth() <= 0) {
                 stopEating();
@@ -191,9 +196,11 @@ public abstract class Zombie {
     public void startEating() {
         this.isEating = true;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/ZombieAttack.gif")));
+        view.setFitHeight(100);
+        view.setFitWidth(95);
         if (!hEat) {
             Plant plant = findPlantInFront();
-            this.baseColumn = plant.getCol(); // Set reference point
+            if(plant!=null)this.baseColumn = plant.getCol(); // Set reference point
             updateAttackPosition();
         }
         this.eatCooldown = eatInterval;
@@ -204,6 +211,8 @@ public abstract class Zombie {
         hEat = false;
         isEating = false;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/normalzombie.gif")));
+        view.setFitHeight(100);
+        view.setFitWidth(95);
     }
 
     public void takeDamage(int damage) {
@@ -346,19 +355,25 @@ public abstract class Zombie {
     }
 
     public void freezeZombie(){
-        //view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/freezedZombie.png")));
+        isFreezed = true;
         tempOriginSpeed = originalSpeed;
         originalSpeed = 0;
+        if(isEating) wasEating = true;
         this.isEating = false;
         stopEating();
     }
     public void resumeZombie(){
+        isFreezed = false;
         originalSpeed = tempOriginSpeed;
         //view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/normalzombie.gif")));
         view.setFitHeight(100);
         view.setFitWidth(95);
-        view.setLayoutY(view.getLayoutY()-15);
-        view.setTranslateX(view.getTranslateX()-42);
+
+        if(wasEating) {
+            //view.setTranslateX(view.getTranslateX()+10);
+            isEating = true;
+            startEating();
+        }
     }
     public double getOriginalSpeed() {
         return originalSpeed;
