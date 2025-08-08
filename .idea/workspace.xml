@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="add the freezed mode of Zombies for IceShroom">
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="add doomShroom and fix IceShroom problems">
+      <change afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GraveBuster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Mower,sun,pea,lock/grave.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Mower,sun,pea,lock/grave1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Night.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Plants/GraveBuster.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/button_menus/Night.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/DoomShroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/DoomShroom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/IceShroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/IceShroom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Jalapeno.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Jalapeno.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" afterDir="false" />
     </list>
@@ -55,32 +57,37 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2ys8vLogMwDCVzaR9YBWe07XQcI" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.MainApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;setayesh&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/resources/game/plantsvszambies/images/Plants&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/java/game/plantsvszambies/Sunflower.java&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MainApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "setayesh",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/resources/game/plantsvszambies/images/Plants",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "two.files.diff.last.used.file": "D:/FUM/projects/PlantsVsZambies/PlantsVsZambies/src/main/java/game/plantsvszambies/Sunflower.java",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\FUM\projects\PlantsVsZambies\PlantsVsZambies\src\main\resources\game\plantsvszambies\images\Plants" />
-      <recent name="D:\FUM\projects\PlantsVsZambies\PlantsVsZambies\src\main\resources\game\plantsvszambies\images\Zombie" />
+      <recent name="D:\FUM\projects\PlantsVsZambies\PlantsVsZambies\src\main\resources\game\plantsvszambies\images" />
+      <recent name="D:\FUM\projects\PlantsVsZambies\PlantsVsZambies\src\main\resources\game\plantsvszambies\images\button_menus" />
       <recent name="D:\FUM\projects\PlantsVsZambies\PlantsVsZambies\src\main\resources\game\plantsvszambies\images\Mower,sun,pea,lock" />
+      <recent name="D:\FUM\projects\PlantsVsZambies\PlantsVsZambies\src\main\resources\game\plantsvszambies\images\Zombie" />
     </key>
   </component>
   <component name="RunManager">
@@ -156,7 +163,7 @@
       <workItem from="1754515077049" duration="243000" />
       <workItem from="1754547304457" duration="8517000" />
       <workItem from="1754601964143" duration="3241000" />
-      <workItem from="1754646862387" duration="1123000" />
+      <workItem from="1754646862387" duration="9460000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -342,7 +349,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754513458002</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="add doomShroom and fix IceShroom problems">
+      <option name="closed" value="true" />
+      <created>1754648290221</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1754648290221</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -400,6 +415,7 @@
     <MESSAGE value="merge setayesh and parham and add NIGHT PLANTS to card menu" />
     <MESSAGE value="planting the hypnoShroom" />
     <MESSAGE value="add the freezed mode of Zombies for IceShroom" />
-    <option name="LAST_COMMIT_MESSAGE" value="add the freezed mode of Zombies for IceShroom" />
+    <MESSAGE value="add doomShroom and fix IceShroom problems" />
+    <option name="LAST_COMMIT_MESSAGE" value="add doomShroom and fix IceShroom problems" />
   </component>
 </project>

@@ -80,11 +80,7 @@ public abstract class Zombie {
     }
 
     public void update(double deltaTime) {
-        if (isDead) {return;}
-        if(isFreezed) {
-            System.out.println("I'm FREEZED!");
-            return;
-        }
+        if (isDead || isFreezed) {return;}
         if (System.currentTimeMillis() < frostEndTime) {
             view.setEffect(frostEffect);
         } else {
