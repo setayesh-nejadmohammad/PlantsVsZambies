@@ -13,14 +13,16 @@ public class Bullet {
     private boolean isFrozen;     // For snow peas
     private ImageView view;
     private int row;             // Track which row the bullet is in
+    private boolean isPuff;
 
-    public Bullet(double startX, double startY, int row, int damage, double speed, boolean isFrozen) {
+    public Bullet(double startX, double startY, int row, int damage, double speed, boolean isFrozen, boolean isPuff) {
         this.x = startX;
         this.y = startY;
         this.row = row;
         this.damage = damage;
         this.speed = speed;
         this.isFrozen = isFrozen;
+        this.isPuff = isPuff;
 
         // Set up visual representation
         this.view = new ImageView();
@@ -39,9 +41,9 @@ public class Bullet {
         }
     }
     private Image getBulletImage() {
-        return isFrozen ?
-                new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/blue pea.gif")):
-                new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/pea.png"));
+        if(isFrozen) return new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/blue pea.gif"));
+        else if(isPuff) return new Image(getClass().getResourceAsStream("images/Plants/puff.png"));
+        return new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/pea.png"));
     }
 
     public void update(double deltaTime) {

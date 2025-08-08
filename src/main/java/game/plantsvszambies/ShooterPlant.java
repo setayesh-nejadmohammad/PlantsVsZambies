@@ -10,7 +10,7 @@ public abstract class ShooterPlant extends Plant {
     protected int damage;
     protected boolean isSnowPea;
 
-    public ShooterPlant(int row, int col, int health, int cost, int rechargeTime, ImageView imageView) {
+    public ShooterPlant(int row, int col, int health, int cost, float rechargeTime, ImageView imageView) {
         super(row, col, health, cost, rechargeTime, imageView);
         this.fireRate = 1.5;
         this.damage = 15;
@@ -36,7 +36,8 @@ public abstract class ShooterPlant extends Plant {
                 this.getRow(),
                 damage,
                 300.0,                // Pixel per second speed
-                isSnowPea
+                isSnowPea,
+                false
         );
 
         Game.getInstance().addBullet(bullet);
