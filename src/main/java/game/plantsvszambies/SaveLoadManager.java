@@ -77,6 +77,12 @@ public class SaveLoadManager {
                 );
                 writer.write(line + "\n");
             }
+            String sTime = String.format("TIME %d", Game.getInstance().getTime());
+            writer.write(sTime);
+            writer.write("\n");
+            String phase = String.format("currentP %d", Game.getInstance().getCurrentPhaseS());
+            writer.write(phase);
+            writer.write("\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,7 +119,7 @@ public class SaveLoadManager {
         }
     }*/
 
-    public static void loadGame(String filename, List<Plant> plants, List<Zombie> zombies, ArrayList<String> chosenCards, int[] score) {
+    public static void loadGame(String filename, List<Plant> plants, List<Zombie> zombies, ArrayList<String> chosenCards, int[] score , long time) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 
             Game.getInstance().clearGame();
@@ -141,9 +147,24 @@ public class SaveLoadManager {
                     if(score != null) score[0] = Integer.parseInt(parts[1]);
                 }
                 else if (parts[0].equals("ZOMBIE")) {
-                    for(int i = 1; i <= 6; i++){
+                        String type = parts[1];
+                        int row = Integer.parseInt(parts[2]);
+                        double col = Double.parseDouble(parts[3]);
+                        int health = Integer.parseInt(parts[4]);
+                        double layX = Double.parseDouble(parts[5]);
+                        double layY = Double.parseDouble(parts[6]);
+                        Zombie zombie = Game.getInstance().createZombieByType(type, row, col);
+                        zombie.setHealth(health);
+                        zombie.getView().setLayoutX(layX);
+                        zombie.getView().setLayoutY(layY);
+                        zombie.getView().setTranslateX(180);
+                        zombies.add(zombie);
+                }
+                else if (parts[0].equals("TIME")) {
+                    Game.getInstance().setTime(Long.parseLong(parts[1]));
+                }
+                else if (parts[0].equals("PLANT")) {
 
-                    }
                 }
             }
         } catch (IOException e) {

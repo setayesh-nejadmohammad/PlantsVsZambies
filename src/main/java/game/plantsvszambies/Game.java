@@ -25,22 +25,24 @@ public class Game {
     public int[] score = {0};
     private long lastFrameTime = 0;
     private double accumulatedTime = 0;
+
     private static final double FRAME_TIME = 1.0 / 60.0;
     ArrayList<String> chosenCards = new ArrayList<String>();
     private List<Bullet> activeBullets = new ArrayList<>();
     private long startTime;
+    private long time;
     private static final double SPAWN_INTERVAL1 = 3.0;
     private static final double SPAWN_INTERVAL2 = 2.0;
     private static final double SPAWN_INTERVAL3 = 1.8;
+    private int currentPhase = 0;
     private Timeline spawnTimeline;
     private List<Zombie> zombies = new ArrayList<>();
     private List<Zombie> Hzombies = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
+    private boolean durAt = false;
     private Map<Integer, List<Plant>> plantsByRow = new HashMap<Integer, List<Plant>>();
-
     public Plant findPlantBeingEaten(Zombie zombie) {
         List<Plant> plantsInRow = plantsByRow.getOrDefault(zombie.getRow(), Collections.emptyList());
-
         for (Plant plant : plantsInRow) {
             if (!plant.isDead()) {
                 double distance = Math.abs(zombie.getColumn() - (plant.getCol() + 0.9));
@@ -51,25 +53,24 @@ public class Game {
         }
         return null;
     }
-
+    public boolean getDurAt() {
+        return durAt;
+    }
     public List<Zombie> getHzombies() {
         return Hzombies;
     }
-
     public Game(Stage stage){
         frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
         this.stage = stage;
         ChooseCard();
 
     }
-
     public static Game getInstance() {
         if (instance == null) {
             instance = new Game(new Stage());
         }
         return instance;
     }
-
     public void addBullet(Bullet bullet) {
         activeBullets.add(bullet);
         map.borderPane.getChildren().add(bullet.getView());
@@ -103,8 +104,6 @@ public class Game {
                     break;
                 }
             }
-
-            // Remove if out of bounds
             if (bullet.isOutOfBounds(map.borderPane.getWidth())) {
                 iterator.remove();
                 map.borderPane.getChildren().remove(bullet.getView());
@@ -119,7 +118,6 @@ public class Game {
     public List<Plant> getPlants() {
         return plants;
     }
-
     public void ChooseCard(){
         StackPane pane = new StackPane();
         Scene ChooseCardScene = new Scene(pane, 1024, 626);
@@ -353,13 +351,13 @@ public class Game {
     }
     public void startGame(){
         startTime = System.currentTimeMillis();
+        time = 0;
+        if(this.map == null)
         this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
-        setupSpawnTimer();
+        //setupSpawnTimer();
+        setupAttackPhases();
         startGameLoop();
-        //setupAttackPhases();
-
-
     }
     private void positionZombie(Zombie zombie) {
         ImageView view = zombie.getView();
@@ -370,34 +368,30 @@ public class Game {
             view.setLayoutY(map.grid.getLayoutY() + zombie.getRow() * 80 + zombie.getRow() * 8 - 10);
         else if (row >= 3)
             view.setLayoutY(map.grid.getLayoutY() + zombie.getRow() * 80 + zombie.getRow() * 8);
-
         else
-
             view.setLayoutY(map.grid.getLayoutY() + zombie.getRow() * 80 + zombie.getRow() * 4);
-
     }
-
-
     private void setupSpawnTimer() {
-//        spawnTimeline = new Timeline(
-//                new KeyFrame(Duration.seconds(SPAWN_INTERVAL1), e -> spawnZombie())
-//        );
-//        spawnTimeline.setCycleCount(5);
-//        spawnTimeline.play();
-//        spawnTimeline.setOnFinished(e -> {
-//
-//
-//        });
         spawner();
         spawnTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(15), e -> spawner())
         );
         spawnTimeline.setCycleCount(3);
         spawnTimeline.play();
-        spawnTimeline.setOnFinished(e -> {
+    }
+    private void setupSpawnTimer(long time) {
+        int phase = (int) (time / 15000) + 1;
 
+        int remainingTimeMil = (15000 - ((int)time % 15000));
+        int count = 4 - phase;
+            spawner(remainingTimeMil);
 
-        });
+        spawnTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(15), e -> spawner(15000))
+        );
+        spawnTimeline.setCycleCount(count);
+        spawnTimeline.jumpTo(Duration.millis(15000 - remainingTimeMil));
+        spawnTimeline.play();
     }
     private void spawner() {
         double du = 0;
@@ -413,15 +407,35 @@ public class Game {
         else if (getCurrentPhase() == 4) {
             du = SPAWN_INTERVAL3;
         }
-
         spawnTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(du), e -> spawnZombie())
         );
         spawnTimeline.setCycleCount((int) (15/du));
         spawnTimeline.play();
     }
+    private void spawner(int remainingTimeMil) {
+        System.out.println("spawner");
+        double du = 0;
+        if (getCurrentPhaseS() == 1) {
+            du = SPAWN_INTERVAL1;
+        }
+        else if (getCurrentPhaseS() == 2) {
+            du = SPAWN_INTERVAL2;
+        }
+        else if (getCurrentPhaseS() == 3) {
+            du = SPAWN_INTERVAL3;
+        }
+        else if (getCurrentPhaseS() == 4) {
+            du = SPAWN_INTERVAL3;
+        }
+        spawnTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(du), e -> spawnZombie())
+        );
+        spawnTimeline.setCycleCount((int) (remainingTimeMil/(du * 1000)));
+        spawnTimeline.play();
+    }
     private void spawnZombie() {
-        int currentPhase = getCurrentPhase();
+        int currentPhase = getCurrentPhaseS();
         int row = (new Random()).nextInt(5);
         Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row);
         zombies.add(zombie);
@@ -434,63 +448,92 @@ public class Game {
         atTimeline.setCycleCount(2);
         atTimeline.play();
     }
+    private void  setupAttackPhaseS(){
+        if (time <= 28655 || (time > 34255 && time <= 57919)) {
+            Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> createAttackPhase()));
+            atTimeline.setCycleCount(2);
+            atTimeline.jumpTo(Duration.millis(time));
+            atTimeline.play();
+        }
+        else if(time <= 34255) {
+            int c = (int) ((34255 - time) / 280);
+            createAttackPhase(c);
+            Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> createAttackPhase()));
+            atTimeline.setCycleCount(2);
+            atTimeline.jumpTo(Duration.millis(time));
+            atTimeline.play();
+        }
+        else if(time < 63519) {
+            int c = (int) ((63519 - time) / 280);
+            createAttackPhase(c);
+        }
+
+    }
     public void loadGame(){
         plants.clear();
         zombies.clear();
         chosenCards.clear();
         this.map = new Mapp(stage, chosenCards, plants);
-        SaveLoadManager.loadGame("savedData.txt", plants, zombies, chosenCards, score);
+        SaveLoadManager.loadGame("savedData.txt", plants, zombies, chosenCards, score, time);
         map.setChosenCards(chosenCards);
         map.setPlants((ArrayList<Plant>) plants);
         startTime = System.currentTimeMillis();
         map.gameController.totalScore = score[0];   // score logic update
         map.gameController.UpdateScoreLabel(score[0]); // score label update
-
         for(Plant p: Game.getInstance().getPlants()){  // draw plants on the scene
             if(p != null && p.view != null){
                 if(p.getClass().getSimpleName().equals("WallNut") || p.getClass().getSimpleName().equals("TallNut")){
                     map.plantss[p.row][p.col] = p;
-                    //map.numArr.set((p.row)*map.ROWS+p.col, 5);
                 }
                 else if(p.getClass().getSimpleName().equals("Sunflower")){
                     map.plantss[p.row][p.col] = p;
-                    //map.numArr.set((p.row)*map.ROWS+p.col, 1);
                 }
                 else{
-//                    StackPane cell = map.createCell(p.row, p.col);
-//                    cell.getChildren().add(p.view);
-//                    map.grid.add(cell, p.col, p.row);
                     map.plantss[p.row][p.col] = p;
-                    //map.numArr.set((p.row)*map.ROWS+p.col, 2); // set 2 for all shooter plants
                 }
             }
         }
-
         map.drawMap();
-        setupSpawnTimer();
+        for(Zombie z: zombies){
+            map.borderPane.getChildren().add(z.getView());
+        }
+        //setupSpawnTimer(time);
+        setupAttackPhaseS();
         startGameLoop();
     }
-
     private void createAttackPhase() {
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhase();int row = (new Random()).nextInt(5);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
             positionZombie(zombie);}));
         timeline.setCycleCount(20);
         timeline.play();
+        System.out.println(time);
+    }
+    private void createAttackPhase(int c) {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
+            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
+            zombies.add(zombie);
+            map.borderPane.getChildren().add(zombie.getView());
+            positionZombie(zombie);}));
+        timeline.setCycleCount(c);
+        timeline.play();
     }
 
-    private int getCurrentPhase() {
+    public int getCurrentPhase() {
         double elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000.0;
-
-        // Cap at phase 4 (60 seconds is end of game)
         if (elapsedSeconds >= 60) return 4;
-
         return (int) (elapsedSeconds / 15) + 1;
     }
-
+    public int getCurrentPhaseS() {
+        double elapsedSeconds = time / 1000.0;
+        if (elapsedSeconds >= 60) return 4;
+        return (int) (elapsedSeconds / 15) + 1;
+    }
+    public long getTime(){
+        return time;
+    }
     private void startGameLoop() {
         AnimationTimer gameLoop = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -500,22 +543,17 @@ public class Game {
                     lastUpdate = now;
                     return;
                 }
-
                 double deltaTime = (now - lastUpdate) / 1_000_000_000.0;
                 lastUpdate = now;
-
-                // Update all game systems
+                time += (long) (deltaTime * 1000);
+                System.out.println(time);
+                currentPhase = getCurrentPhaseS();
                 updatePlants(deltaTime);
                 updateHZombies(deltaTime);
                 checkZombiePlantCollisions();
                 checkZombieHzombieCollisions();
                 updateBullets(deltaTime);
                 updateZombies(deltaTime);
-
-                // Cap at 60 FPS if needed
-//                try {
-//                    Thread.sleep((long)(16.67 - deltaTime*1000));
-//                } catch (InterruptedException e) {}
             }
         };
         gameLoop.start();
@@ -545,7 +583,6 @@ public class Game {
             }
         }
     }
-
     private Zombie findHzombieAt(int row, double column) {
         return Hzombies.stream()
                 .filter(p -> p.getRow() == row)
@@ -553,7 +590,6 @@ public class Game {
                 .findFirst()
                 .orElse(null);
     }
-
     private Plant findPlantAt(int row, double column) {
         return plants.stream()
                 .filter(p -> p.getRow() == row)
@@ -561,7 +597,6 @@ public class Game {
                 .findFirst()
                 .orElse(null);
     }
-
     private void updateZombies(double deltaTime) {
         Map<Plant, List<Zombie>> zombiesByPlant = zombies.stream()
                 .filter(Objects::nonNull)
@@ -575,7 +610,6 @@ public class Game {
                                 Collectors.toList()
                         )
                 ));
-
         zombiesByPlant.forEach((plant, zombies) -> {
             if (plant != null) {
                 plant.repositionAttackers();
@@ -597,7 +631,6 @@ public class Game {
             }
         }
     }
-
     private void updatePlants(double deltaTime) {
         for(Iterator<Plant> iterator = plants.iterator(); iterator.hasNext();) {
             Plant plant = iterator.next();
@@ -611,53 +644,43 @@ public class Game {
         }
     }
     private void updateHZombies(double deltaTime){
-        Hzombies.forEach(zombie -> {
-            zombie.update(deltaTime);
-        });
-
+      for (Iterator<Zombie> iterator = Hzombies.iterator(); iterator.hasNext();) {
+          Zombie zombie = iterator.next();
+          zombie.update(deltaTime);
+          if (zombie.getColumn() > 9.3) iterator.remove();
+      }
     }
-
     private boolean checkReachedEnd(Zombie zombie) {
         return zombie.getColumn() <= 0;
     }
-
     public void removeZombie(Zombie zombie) {
         zombies.remove(zombie);
         map.borderPane.getChildren().remove(zombie.getView());
     }
-
     public List<Zombie> getZombies() {
         return zombies;
     }
-
     public void removePlant(Plant plant) {
+        if (plant.getClass().getSimpleName().equals("Sunflower")) {
+            ((Sunflower) plant).stop();
+        }
         plants.remove(plant);
         if(plant.view.getParent() != null)
         ((StackPane)plant.view.getParent()).getChildren().remove(plant.view);
     }
-
     public List<Zombie> getHZombies() {
         return Hzombies;
     }
-
     public void removeHZombie(Zombie zombie) {
         Hzombies.remove(zombie);
         map.borderPane.getChildren().remove(zombie.getView());
     }
 
-//    private void checkCollisions(Zombie zombie) {
-//
-//    }
 public void clearGame(){
     for(Plant p : Game.getInstance().getPlants()){
         ((StackPane)p.view.getParent()).getChildren().remove(p.view);
     }
     plants.clear();
-
-    // this shit has a stupid ERROR!
-        /*for(Zombie z : zombies){
-            removeZombie(z);
-        }*/
 }
     public Plant createPlantByType(String type, int row, int col) {
         Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
@@ -697,5 +720,20 @@ public void clearGame(){
             default: return null;
         }
     }
-
+    public Zombie createZombieByType(String type, int row, double col) {
+        ImageView normalZombie = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/normalzombie.gif")));
+        ImageView impZombie = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/imp.gif")));
+        ImageView screenDoorZombie = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/ScreendoorZombie.gif")));
+        ImageView coneHeadZombie = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/coneheadzombie.gif")));
+        switch (type) {
+            case "NormalZombie": return new NormalZombie(row, col);
+            case "ConeheadZombie": return new ConeheadZombie(row, col);
+            case "ImpZombie": return new ImpZombie(row, col);
+            case "ScreenDoorZombie": return new ScreenDoorZombie(row, col);
+            default: return null;
+        }
+    }
+    public void setTime(long l) {
+        this.time = l;
+    }
 }

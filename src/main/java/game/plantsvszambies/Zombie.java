@@ -311,7 +311,7 @@ public abstract class Zombie {
         if (!isEating) return;
 
         // Calculate new position with offset
-        double newX = view.getLayoutX() + (attackOffset * 80) - (Math.random() * 10);;
+        double newX = view.getLayoutX() + (attackOffset * 80) - (Math.random() * 15);;
 
         // Apply with smooth transition
         Timeline reposition = new Timeline(

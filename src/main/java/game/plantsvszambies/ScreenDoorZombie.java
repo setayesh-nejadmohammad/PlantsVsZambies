@@ -7,6 +7,10 @@ public class ScreenDoorZombie extends Zombie {
     public ScreenDoorZombie(int row) {
         super(150, 25, 0.25, row);
     }
+    public ScreenDoorZombie(int row, double col) {
+        super(100, 50, 0.25, row);
+        this.column = col;
+    }
 
     @Override
     protected ImageView createImageView() {

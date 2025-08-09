@@ -15,7 +15,7 @@ public class HypnoShroom extends Plant {
 
     public void act() {
         for (Zombie zombie : Game.getInstance().getZombies()) {
-            if (zombie.getRow() == this.row && Math.abs(this.col - zombie.getColumn()) <= 1.35 && Math.abs(this.col - zombie.getColumn()) >= 0.5) {
+            if (zombie.getRow() == this.row && (zombie.getColumn() - this.getCol()) <= 1.35 && -(this.col - zombie.getColumn()) >= 0.5) {
                 hypnotizeZombie(zombie);
                 this.health = 0;
                 break;

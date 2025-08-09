@@ -107,22 +107,22 @@ public class Mapp {
         this.gridCells = new Cell[ROWS][COLS];
 
 
-//        for (int row = 0; row < ROWS; row++) {
-//            for (int col = 0; col < COLS; col++) {
-//                StackPane cellPane = new StackPane();
-//
-//                Rectangle background = new Rectangle(CELL_SIZE, CELL_SIZE + 10);
-//                background.setFill(null);
-//                background.setStroke(Color.BLACK);
-//                background.setStrokeWidth(0.5);
-//
-//                cellPane.getChildren().add(background);
-//                grid.add(cellPane, col, row);
-//
-//                Cell cell = new Cell(row, col, cellPane);
-//                gridCells[row][col] = cell;
-//            }
-//       }
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                StackPane cellPane = new StackPane();
+
+                Rectangle background = new Rectangle(CELL_SIZE, CELL_SIZE + 10);
+                background.setFill(null);
+                background.setStroke(Color.BLACK);
+                background.setStrokeWidth(0.5);
+
+                cellPane.getChildren().add(background);
+                grid.add(cellPane, col, row);
+
+                Cell cell = new Cell(row, col, cellPane);
+                gridCells[row][col] = cell;
+            }
+       }
         ImageCursor imageCursor = new ImageCursor(shovelCursor, shovelCursor.getWidth() / 2, shovelCursor.getHeight() / 2);
         shovelCurs = (Cursor) imageCursor;
     }
@@ -337,12 +337,11 @@ public class Mapp {
     }
 
     private void createCardWithCooldown(StackPane cardButton, Button b1, double cooldownSeconds) {
-        Rectangle overlay = new Rectangle(b1.getWidth(), CELL_SIZE); // Adjust size to match button
-        overlay.setFill(Color.color(0, 0, 0, 0.5)); // semi-transparent black
+        Rectangle overlay = new Rectangle(b1.getWidth(), CELL_SIZE);
+        overlay.setFill(Color.color(0, 0, 0, 0.5));
         overlay.setTranslateY(0);
-        overlay.setViewOrder(-1); // Make sure it's above the button
-
-        overlay.setVisible(false); // Hide until used
+        overlay.setViewOrder(-1);
+        overlay.setVisible(false);
         cardButton.getChildren().addAll(overlay);
         cardButton.setAlignment(overlay, Pos.TOP_CENTER);
         b1.setDisable(true);
