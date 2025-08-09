@@ -34,6 +34,7 @@ public class Sun extends ImageView {
         this.setY(0); // Start at the top
 
         parent.getChildren().add(this);
+        this.setViewOrder(-1001);
 
         // Start falling
         startFalling();

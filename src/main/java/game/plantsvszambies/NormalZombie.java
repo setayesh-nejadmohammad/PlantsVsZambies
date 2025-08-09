@@ -9,6 +9,10 @@ public class NormalZombie extends Zombie{
     public NormalZombie(int row) {
         super(100, 50, 0.25, row);
     }
+    public NormalZombie(int row, double col) {
+        super(100, 50, 0.25, row);
+        this.column = col;
+    }
 
     public ImageView getImageView() {
         ImageView imageView = new ImageView(normalZombieImage);

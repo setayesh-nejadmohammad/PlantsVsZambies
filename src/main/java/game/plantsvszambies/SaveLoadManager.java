@@ -1,7 +1,5 @@
 package game.plantsvszambies;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -74,11 +72,17 @@ public class SaveLoadManager {
                         z.getRow(),
                         z.getColumn(),
                         (int) z.health,
-                        z.getX(),
-                        z.getY()
+                        z.getView().getLayoutX(),
+                        z.getView().getLayoutY()
                 );
                 writer.write(line + "\n");
             }
+            String sTime = String.format("TIME %d", Game.getInstance().getTime());
+            writer.write(sTime);
+            writer.write("\n");
+            String phase = String.format("currentP %d", Game.getInstance().getCurrentPhaseS());
+            writer.write(phase);
+            writer.write("\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,10 +119,10 @@ public class SaveLoadManager {
         }
     }*/
 
-    public static void loadGame(String filename, List<Plant> plants, List<Zombie> zombies, ArrayList<String> chosenCards, int[] score) {
+    public static void loadGame(String filename, List<Plant> plants, List<Zombie> zombies, ArrayList<String> chosenCards, int[] score , long time) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            Game.getInstance().clearGame();
 
+            Game.getInstance().clearGame();
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
@@ -142,11 +146,32 @@ public class SaveLoadManager {
                 else if(parts[0].equals("SCORE")) {
                     if(score != null) score[0] = Integer.parseInt(parts[1]);
                 }
+                else if (parts[0].equals("ZOMBIE")) {
+                    String type = parts[1];
+                    int row = Integer.parseInt(parts[2]);
+                    double col = Double.parseDouble(parts[3]);
+                    int health = Integer.parseInt(parts[4]);
+                    double layX = Double.parseDouble(parts[5]);
+                    double layY = Double.parseDouble(parts[6]);
+                    Zombie zombie = Game.getInstance().createZombieByType(type, row, col);
+                    zombie.setHealth(health);
+                    zombie.getView().setLayoutX(layX);
+                    zombie.getView().setLayoutY(layY);
+                    zombie.getView().setTranslateX(180);
+                    zombies.add(zombie);
+                }
+                else if (parts[0].equals("TIME")) {
+                    Game.getInstance().setTime(Long.parseLong(parts[1]));
+                }
+                else if (parts[0].equals("PLANT")) {
+
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 }
 
@@ -155,16 +180,4 @@ public class SaveLoadManager {
 /*class PlantData {
     String type;
     int row, col, health;
-}*/
-
-class ZombieData {
-    String type;
-    int row;
-    double column;
-    int health;
-}
-
-/*public class SaveGameData {
-    public List<PlantData> plants;
-    //public List<ZombieData> zombies;
 }*/

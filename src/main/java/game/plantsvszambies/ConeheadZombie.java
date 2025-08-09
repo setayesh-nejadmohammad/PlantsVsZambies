@@ -7,6 +7,10 @@ public class ConeheadZombie extends Zombie {
     public ConeheadZombie(int row) {
         super(150, 25, 0.25, row);
     }
+    public ConeheadZombie(int row, double col) {
+        super(150, 25, 0.25, row);
+        this.column = col;
+    }
 
     @Override
     protected ImageView createImageView() {

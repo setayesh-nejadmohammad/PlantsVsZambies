@@ -20,9 +20,11 @@ public class Sunflower extends Plant {
         startProducing(cell);
     }
 
-    private void startProducing(StackPane cell) {
+    public void startProducing(StackPane cell) {
+        System.out.println("Sunflower starting producing...");
         sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
-            new Sun(cell, row+270, col+100); // `this` is GameController
+            new Sun((StackPane) Game.getInstance().map.getNodeFromGrid(Game.getInstance().map.grid, col, row), row+270, col+100); // `this` is GameController
+            System.out.println("تولید شد دلقککککک");
         }));
         sunSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
         sunSpawnTimeline.play();

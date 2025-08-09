@@ -11,6 +11,10 @@ public class ImpZombie extends Zombie{
     public ImpZombie(int row) {
         super(100, 25, 0.5, row);
     }
+    public ImpZombie(int row, double col) {
+        super(100, 25, 0.5, row);
+        this.column = col;
+    }
 
     @Override
     protected ImageView createImageView() {
