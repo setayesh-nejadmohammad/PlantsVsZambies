@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 public class PuffShroom extends ShooterPlant{
     public PuffShroom(int row, int col, ImageView imageView){
         super(row, col, 5, 0, 5, imageView);
-        this.fireRate = 2;
+        this.fireRate = 0.9;
     }
     protected void shoot() {
         Bullet bullet = new Bullet(
