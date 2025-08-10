@@ -4,23 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="ScaredyShroom">
-      <change afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Blover.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Fog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Plants/fog0.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/Plants/fog0.png" afterDir="false" />
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="add fog and Blover">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ConeheadZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ConeheadZombie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ImpZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ImpZombie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/NormalZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/NormalZombie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/SaveLoadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/SaveLoadManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ScreenDoorZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ScreenDoorZombie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sunflower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Sunflower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/ConeheadZombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/ConeheadZombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/NormalZombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/NormalZombie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sunflower.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sun.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Sun.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +159,8 @@
       <workItem from="1754646862387" duration="16050000" />
       <workItem from="1754731945966" duration="5658000" />
       <workItem from="1754744805711" duration="2971000" />
-      <workItem from="1754764171252" duration="11210000" />
+      <workItem from="1754764171252" duration="11323000" />
+      <workItem from="1754805347766" duration="1010000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -399,7 +386,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754739486522</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="add fog and Blover">
+      <option name="closed" value="true" />
+      <created>1754776034073</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1754776034073</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -434,7 +429,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="cherryBomb check Zombie Row ... Still not working!" />
     <MESSAGE value="update!!!" />
     <MESSAGE value="updates" />
     <MESSAGE value="jalapeno" />
@@ -459,6 +453,7 @@
     <MESSAGE value="add the night frontyard pic" />
     <MESSAGE value="PuffShroom" />
     <MESSAGE value="ScaredyShroom" />
-    <option name="LAST_COMMIT_MESSAGE" value="ScaredyShroom" />
+    <MESSAGE value="add fog and Blover" />
+    <option name="LAST_COMMIT_MESSAGE" value="add fog and Blover" />
   </component>
 </project>

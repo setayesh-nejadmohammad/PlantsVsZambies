@@ -15,15 +15,14 @@ public class Blover extends Plant{
     public void update(double time){}
     public void act(StackPane pane){
         Timeline blowingTime = new Timeline(
-                new KeyFrame(Duration.seconds(3), e->{
+                new KeyFrame(Duration.seconds(3.5), e->{
                     pane.getChildren().remove(view);
+                    for(Fog f:Game.getInstance().map.fogs){
+                        f.imageView.setVisible(false);
+                    }
                 })
         );
         blowingTime.play();
-
-        for(Fog f:Game.getInstance().map.fogs){
-            f.imageView.setVisible(false);
-        }
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(10), e->{
