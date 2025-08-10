@@ -905,6 +905,15 @@ public class Game {
         if(plant != null && plant.getClass().getSimpleName().equals("Sunflower")){
             ((Sunflower)plant).stop();
         }
+        else if(plant != null && plant.getClass().getSimpleName().equals("Plantern")){
+            for(Fog f: Game.getInstance().map.fogs){
+                if(f.getRow() <= plant.row+1 && f.getRow() >= plant.row-1
+                        && f.getCol() <= plant.col+1 && f.getCol() >= plant.col-1){
+                    f.imageView.setVisible(true);
+                    f.isPlanternInArea = false;
+                }
+            }
+        }
         plants.remove(plant);
         if(plant != null && plant.view.getParent() != null)
             ((StackPane)plant.view.getParent()).getChildren().remove(plant.view);

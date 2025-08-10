@@ -27,7 +27,7 @@ public class Blover extends Plant{
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(10), e->{
                     for(Fog f:Game.getInstance().map.fogs){
-                        f.imageView.setVisible(true);
+                        if(!f.isPlanternInArea)f.imageView.setVisible(true);
                     }
                 })
         );

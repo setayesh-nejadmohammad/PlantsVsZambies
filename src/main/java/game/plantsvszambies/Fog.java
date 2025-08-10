@@ -6,6 +6,7 @@ public class Fog {
     private int row;
     private int col;
     ImageView imageView;
+    public boolean isPlanternInArea = false;
     public Fog(int row, int col, ImageView imageView){
         this.col = col;
         this.row = row;
