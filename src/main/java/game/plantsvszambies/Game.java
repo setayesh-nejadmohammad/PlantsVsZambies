@@ -811,7 +811,6 @@ public class Game {
             }
         }
     }
-
     private Zombie findHzombieAt(int row, double column) {
         return Hzombies.stream()
                 .filter(p -> p.getRow() == row)
@@ -908,7 +907,7 @@ public class Game {
         else if(plant != null && plant.getClass().getSimpleName().equals("Plantern")){
             for(Fog f: Game.getInstance().map.fogs){
                 if(f.getRow() <= plant.row+1 && f.getRow() >= plant.row-1
-                        && f.getCol() <= plant.col+1 && f.getCol() >= plant.col-1){
+                && f.getCol() <= plant.col+1 && f.getCol() >= plant.col-1){
                     f.imageView.setVisible(true);
                     f.isPlanternInArea = false;
                 }

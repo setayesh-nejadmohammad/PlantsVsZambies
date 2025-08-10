@@ -7,7 +7,9 @@ public class Plantern extends Plant {
         super(row, col, 5, 75, 7.5f, imageView);
         lanteningAround();
     }
-    public void update(double t){}
+    public void update(double t){
+        lanteningAround();
+    }
     public void lanteningAround(){
         for(Fog f: Game.getInstance().map.fogs){
             if(f.getRow() <= row+1 && f.getRow() >= row-1
