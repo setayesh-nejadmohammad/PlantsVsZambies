@@ -128,7 +128,6 @@ public class Game {
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
         pane.setBackground(new Background(bgImage));
-
         Image sunflowerCard = new Image(getClass().getResourceAsStream("images/Cards/sunflowerCard.png"));
         Image peashooterCard = new Image(getClass().getResourceAsStream("images/Cards/peashooterCard.png"));
         Image snowpeaCard = new Image(getClass().getResourceAsStream("images/Cards/snowpeaCard.jpg"));
@@ -137,6 +136,15 @@ public class Game {
         Image repeaterCard = new Image(getClass().getResourceAsStream("images/Cards/repeaterCard.png"));
         Image jalapenoCard = new Image(getClass().getResourceAsStream("images/Cards/jalapenoCard.png"));
         Image cherrybombCard = new Image(getClass().getResourceAsStream("images/Cards/cherrybombCard.png"));
+        Image graveBusterCard = new Image(getClass().getResourceAsStream("images/Cards/graveBusterCard.png"));
+        Image doomShroomCard = new Image(getClass().getResourceAsStream("images/Cards/DoomShroomCard.png"));
+        Image hypnoShroomCard = new Image(getClass().getResourceAsStream("images/Cards/HypnoShroomCard.png"));
+        Image iceShroomCard = new Image(getClass().getResourceAsStream("images/Cards/IceShroomCard.jpg"));
+        Image planternCard = new Image(getClass().getResourceAsStream("images/Cards/PlanternCard.png"));
+        Image puffShroom = new Image(getClass().getResourceAsStream("images/Cards/PuffShroomCard.png"));
+        Image scaredyShroom = new Image(getClass().getResourceAsStream("images/Cards/ScaredyShroomCard.png"));
+        Image bloverCard = new Image(getClass().getResourceAsStream("images/Cards/BloverCard.png"));
+        Image coffeeBean = new Image(getClass().getResourceAsStream("images/Cards/CoffeeBeanCard.png"));
         ImageView sunflowerImageView = new ImageView(sunflowerCard);
         ImageView peashooterImageView = new ImageView(peashooterCard);
         ImageView snowpeaImageView = new ImageView(snowpeaCard);
@@ -145,6 +153,16 @@ public class Game {
         ImageView repeaterImageView = new ImageView(repeaterCard);
         ImageView jalapenoImageView = new ImageView(jalapenoCard);
         ImageView cherrybombImageView = new ImageView(cherrybombCard);
+        ImageView graveBusterImageView = new ImageView(graveBusterCard);
+        ImageView doomShroomImageView = new ImageView(doomShroomCard);
+        ImageView hypnoShroomImageView = new ImageView(hypnoShroomCard);
+        ImageView iceShroomImageView = new ImageView(iceShroomCard);
+        ImageView planternImageView = new ImageView(planternCard);
+        ImageView puffShroomImageView = new ImageView(puffShroom);
+        ImageView scaredyShroomImageView = new ImageView(scaredyShroom);
+        ImageView bloverCardImageView = new ImageView(bloverCard);
+        ImageView coffeeBeanImageView = new ImageView(coffeeBean);
+
         sunflowerImageView.setFitWidth(CELL_SIZE*1.5); sunflowerImageView.setFitHeight(CELL_SIZE);
         peashooterImageView.setFitWidth(CELL_SIZE*1.5); peashooterImageView.setFitHeight(CELL_SIZE);
         snowpeaImageView.setFitWidth(CELL_SIZE*1.5); snowpeaImageView.setFitHeight(CELL_SIZE);
@@ -153,6 +171,15 @@ public class Game {
         repeaterImageView.setFitWidth(CELL_SIZE*1.5); repeaterImageView.setFitHeight(CELL_SIZE);
         jalapenoImageView.setFitWidth(CELL_SIZE*1.5); jalapenoImageView.setFitHeight(CELL_SIZE);
         cherrybombImageView.setFitWidth(CELL_SIZE*1.5); cherrybombImageView.setFitHeight(CELL_SIZE);
+        graveBusterImageView.setFitWidth(CELL_SIZE*1.5); graveBusterImageView.setFitHeight(CELL_SIZE);
+        doomShroomImageView.setFitWidth(CELL_SIZE*1.5); doomShroomImageView.setFitHeight(CELL_SIZE);
+        hypnoShroomImageView.setFitWidth(CELL_SIZE*1.5); hypnoShroomImageView.setFitHeight(CELL_SIZE);
+        iceShroomImageView.setFitWidth(CELL_SIZE*1.5); iceShroomImageView.setFitHeight(CELL_SIZE);
+        planternImageView.setFitWidth(CELL_SIZE*1.5); planternImageView.setFitHeight(CELL_SIZE);
+        puffShroomImageView.setFitWidth(CELL_SIZE*1.5); puffShroomImageView.setFitHeight(CELL_SIZE);
+        scaredyShroomImageView.setFitWidth(CELL_SIZE*1.5); scaredyShroomImageView.setFitHeight(CELL_SIZE);
+        bloverCardImageView.setFitWidth(CELL_SIZE*1.5); bloverCardImageView.setFitHeight(CELL_SIZE);
+        coffeeBeanImageView.setFitWidth(CELL_SIZE*1.5); coffeeBeanImageView.setFitHeight(CELL_SIZE);
 
         sunflowerImageView.setOpacity(0.5);
         peashooterImageView.setOpacity(0.5);
@@ -162,6 +189,15 @@ public class Game {
         repeaterImageView.setOpacity(0.5);
         jalapenoImageView.setOpacity(0.5);
         wallnutImageView.setOpacity(0.5);
+        graveBusterImageView.setOpacity(0.5);
+        doomShroomImageView.setOpacity(0.5);
+        hypnoShroomImageView.setOpacity(0.5);
+        iceShroomImageView.setOpacity(0.5);
+        planternImageView.setOpacity(0.5);
+        puffShroomImageView.setOpacity(0.5);
+        scaredyShroomImageView.setOpacity(0.5);
+        bloverCardImageView.setOpacity(0.5);
+        coffeeBeanImageView.setOpacity(0.5);
 
         Button sunflowerButton = new Button();
         Button peashooterButton = new Button();
@@ -171,6 +207,15 @@ public class Game {
         Button repeaterButton = new Button();
         Button jalapenoButton = new Button();
         Button wallnutButton = new Button();
+        Button graveBusterButton = new Button();
+        Button doomShroomButton = new Button();
+        Button hypnoShroomButton = new Button();
+        Button iceShroomButton = new Button();
+        Button planternButton = new Button();
+        Button puffShroomButton = new Button();
+        Button scaredyShroomButton = new Button();
+        Button bloverButton = new Button();
+        Button coffeeBeanButton = new Button();
 
         sunflowerButton.getStyleClass().add("button");
         sunflowerButton.setGraphic(sunflowerImageView);
@@ -188,8 +233,27 @@ public class Game {
         jalapenoButton.setGraphic(jalapenoImageView);
         wallnutButton.getStyleClass().add("button");
         wallnutButton.setGraphic(wallnutImageView);
+        graveBusterButton.getStyleClass().add("button");
+        graveBusterButton.setGraphic(graveBusterImageView);
+        doomShroomButton.getStyleClass().add("button");
+        doomShroomButton.setGraphic(doomShroomImageView);
+        hypnoShroomButton.getStyleClass().add("button");
+        hypnoShroomButton.setGraphic(hypnoShroomImageView);
+        iceShroomButton.getStyleClass().add("button");
+        iceShroomButton.setGraphic(iceShroomImageView);
+        planternButton.getStyleClass().add("button");
+        planternButton.setGraphic(planternImageView);
+        puffShroomButton.getStyleClass().add("button");
+        puffShroomButton.setGraphic(puffShroomImageView);
+        scaredyShroomButton.getStyleClass().add("button");
+        scaredyShroomButton.setGraphic(scaredyShroomImageView);
+        bloverButton.getStyleClass().add("button");
+        bloverButton.setGraphic(bloverCardImageView);
+        coffeeBeanButton.getStyleClass().add("button");
+        coffeeBeanButton.setGraphic(coffeeBeanImageView);
 
-        boolean[] checkButtonPressed = {false, false, false, false, false, false, false, false, false};
+        boolean[] checkButtonPressed = {false, false, false, false, false, false, false, false, false,
+                false, false, false, false, false, false, false, false, false};
 
         sunflowerButton.setOnAction(e->{
             if(!checkButtonPressed[0]){
@@ -304,6 +368,132 @@ public class Game {
                 repeaterImageView.setOpacity(0.5);
             }
         });
+        graveBusterButton.setOnAction(e ->{
+            if(!checkButtonPressed[8]){
+                checkButtonPressed[8] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("GraveBuster");
+                    graveBusterImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[8] = false;
+                chosenCards.remove("GraveBuster");
+                graveBusterImageView.setOpacity(0.5);
+            }
+        });
+        doomShroomButton.setOnAction(e ->{
+            if(!checkButtonPressed[9]){
+                checkButtonPressed[9] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("DoomShroom");
+                    doomShroomImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[9] = false;
+                chosenCards.remove("DoomShroom");
+                doomShroomImageView.setOpacity(0.5);
+            }
+        });
+        hypnoShroomButton.setOnAction(e ->{
+            if(!checkButtonPressed[10]){
+                checkButtonPressed[10] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("HypnoShroom");
+                    hypnoShroomImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[10] = false;
+                chosenCards.remove("HypnoShroom");
+                hypnoShroomImageView.setOpacity(0.5);
+            }
+        });
+        iceShroomButton.setOnAction(e ->{
+            if(!checkButtonPressed[11]){
+                checkButtonPressed[11] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("IceShroom");
+                    iceShroomImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[11] = false;
+                chosenCards.remove("IceShroom");
+                iceShroomImageView.setOpacity(0.5);
+            }
+        });
+        planternButton.setOnAction(e ->{
+            if(!checkButtonPressed[12]){
+                checkButtonPressed[12] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("Plantern");
+                    planternImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[12] = false;
+                chosenCards.remove("Plantern");
+                planternImageView.setOpacity(0.5);
+            }
+        });
+        puffShroomButton.setOnAction(e ->{
+            if(!checkButtonPressed[13]){
+                checkButtonPressed[13] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("PuffShroom");
+                    puffShroomImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[13] = false;
+                chosenCards.remove("PuffShroom");
+                puffShroomImageView.setOpacity(0.5);
+            }
+        });
+        scaredyShroomButton.setOnAction(e ->{
+            if(!checkButtonPressed[14]){
+                checkButtonPressed[14] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("ScaredyShroom");
+                    scaredyShroomImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[14] = false;
+                chosenCards.remove("ScaredyShroom");
+                scaredyShroomImageView.setOpacity(0.5);
+            }
+        });
+        coffeeBeanButton.setOnAction(e ->{
+            if(!checkButtonPressed[15]){
+                checkButtonPressed[15] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("CoffeeBean");
+                    coffeeBeanImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[15] = false;
+                chosenCards.remove("CoffeeBean");
+                coffeeBeanImageView.setOpacity(0.5);
+            }
+        });
+        bloverButton.setOnAction(e ->{
+            if(!checkButtonPressed[16]){
+                checkButtonPressed[16] = true;
+                if(chosenCards.size() < 6){
+                    chosenCards.add("Blover");
+                    bloverCardImageView.setOpacity(1);
+                }
+            }
+            else{
+                checkButtonPressed[16] = false;
+                chosenCards.remove("Blover");
+                bloverCardImageView.setOpacity(0.5);
+            }
+        });
         Image startGameImage = new Image(getClass().getResourceAsStream("images/button_menus/startgame.png"));
         ImageView startGameView = new ImageView(startGameImage);
         Image loadImage = new Image(getClass().getResourceAsStream("images/button_menus/loadgame.png"));
@@ -329,19 +519,22 @@ public class Game {
         hbox3.getChildren().addAll(startButton, loadButton);
         HBox hbox1 = new HBox();
         HBox hbox2 = new HBox();
+        HBox hbox4 = new HBox();
         hbox1.setAlignment(Pos.CENTER);
         hbox2.setAlignment(Pos.CENTER);
+        hbox4.setAlignment(Pos.CENTER);
         hbox1.setSpacing(10);
         hbox2.setSpacing(10);
-        hbox1.getChildren().addAll(sunflowerButton, peashooterButton, snowpeaButton, tallnutButton);
-        hbox2.getChildren().addAll(wallnutButton, repeaterButton, jalapenoButton, cherrybombButton);
-
+        hbox4.setSpacing(10);
+        hbox1.getChildren().addAll(sunflowerButton, peashooterButton, snowpeaButton, tallnutButton, wallnutButton, repeaterButton);
+        hbox2.getChildren().addAll(jalapenoButton, cherrybombButton, doomShroomButton, graveBusterButton, hypnoShroomButton, iceShroomButton);
+        hbox4.getChildren().addAll(planternButton, puffShroomButton, scaredyShroomButton, coffeeBeanButton, bloverButton);
 
         Label label = new Label("Choose 6 cards to play");
         //label.setPadding(new Insets(100));
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(label, hbox1, hbox2, hbox3);
+        vbox.getChildren().addAll(label, hbox1, hbox2,hbox4, hbox3);
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
         pane.getChildren().addAll(vbox);
@@ -355,7 +548,7 @@ public class Game {
         if(this.map == null)
         this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
-        //setupSpawnTimer();
+        setupSpawnTimer();
         setupAttackPhases();
         startGameLoop();
     }
@@ -380,12 +573,11 @@ public class Game {
         spawnTimeline.play();
     }
     private void setupSpawnTimer(long time) {
+        if (time > 60000) return;
         int phase = (int) (time / 15000) + 1;
-
         int remainingTimeMil = (15000 - ((int)time % 15000));
         int count = 4 - phase;
-            spawner(remainingTimeMil);
-
+        spawner(remainingTimeMil);
         spawnTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(15), e -> spawner(15000))
         );
@@ -472,9 +664,10 @@ public class Game {
     public void loadGame(){
         plants.clear();
         zombies.clear();
+        Hzombies.clear();
         chosenCards.clear();
         this.map = new Mapp(stage, chosenCards, plants);
-        SaveLoadManager.loadGame("savedData.txt", plants, zombies, chosenCards, score, time);
+        SaveLoadManager.loadGame("savedData.txt", plants, zombies, Hzombies,chosenCards, score, time);
         map.setChosenCards(chosenCards);
         map.setPlants((ArrayList<Plant>) plants);
         startTime = System.currentTimeMillis();
@@ -497,7 +690,10 @@ public class Game {
         for(Zombie z: zombies){
             map.borderPane.getChildren().add(z.getView());
         }
-        //setupSpawnTimer(time);
+        for(Zombie z: Hzombies){
+            map.borderPane.getChildren().add(z.getView());
+        }
+        setupSpawnTimer(time);
         setupAttackPhaseS();
         startGameLoop();
     }
@@ -647,7 +843,10 @@ public class Game {
       for (Iterator<Zombie> iterator = Hzombies.iterator(); iterator.hasNext();) {
           Zombie zombie = iterator.next();
           zombie.update(deltaTime);
-          if (zombie.getColumn() > 9.3) iterator.remove();
+          if (zombie.getColumn() > 9.3) {
+              iterator.remove();
+              map.borderPane.getChildren().remove(zombie.getView());
+          }
       }
     }
     private boolean checkReachedEnd(Zombie zombie) {
@@ -661,12 +860,14 @@ public class Game {
         return zombies;
     }
     public void removePlant(Plant plant) {
-        if (plant.getClass().getSimpleName().equals("Sunflower")) {
-            ((Sunflower) plant).stop();
+        if(plant != null) {
+            if (plant.getClass().getSimpleName().equals("Sunflower")) {
+                ((Sunflower) plant).stop();
+            }
+            plants.remove(plant);
+            if (plant.view.getParent() != null)
+                ((StackPane) plant.view.getParent()).getChildren().remove(plant.view);
         }
-        plants.remove(plant);
-        if(plant.view.getParent() != null)
-        ((StackPane)plant.view.getParent()).getChildren().remove(plant.view);
     }
     public List<Zombie> getHZombies() {
         return Hzombies;

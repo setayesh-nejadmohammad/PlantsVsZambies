@@ -36,6 +36,9 @@ public abstract class Zombie {
     protected double baseColumn;
     protected boolean hEat;
     private boolean isR;
+    private boolean isFreezed;
+    private double tempOriginSpeed;
+    private boolean wasEating;
 
     public Zombie(int health, int damage, double speed, int row) {
         // Initialize with normal color
@@ -57,6 +60,9 @@ public abstract class Zombie {
     protected abstract ImageView createImageView();
     public int getHealth() {
         return health;
+    }
+    public boolean wasEating() {
+        return wasEating;
     }
     public void setHealth(int health) {
         this.health = health;
@@ -343,4 +349,29 @@ public abstract class Zombie {
     public void isR(boolean b) {
         isR = b;
     }
+    public void freezeZombie(){
+        isFreezed = true;
+        tempOriginSpeed = originalSpeed;
+        originalSpeed = 0;
+        if(isEating) wasEating = true;
+        this.isEating = false;
+        stopEating();
+    }
+    public void resumeZombie(){
+        isFreezed = false;
+        originalSpeed = tempOriginSpeed;
+        //view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/normalzombie.gif")));
+        view.setFitHeight(100);
+        view.setFitWidth(95);
+
+        if(wasEating) {
+            //view.setTranslateX(view.getTranslateX()+10);
+            isEating = true;
+            startEating();
+        }
+    }
+    public double getOriginalSpeed() {
+        return originalSpeed;
+    }
+
 }

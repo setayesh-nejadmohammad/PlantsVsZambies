@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -34,6 +35,7 @@ public class Sun extends ImageView {
         this.setY(0); // Start at the top
 
         parent.getChildren().add(this);
+        this.setViewOrder(-1001);
 
         // Start falling
         startFalling();

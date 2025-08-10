@@ -10,9 +10,9 @@ public abstract class ShooterPlant extends Plant {
     protected int damage;
     protected boolean isSnowPea;
 
-    public ShooterPlant(int row, int col, int health, int cost, int rechargeTime, ImageView imageView) {
+    public ShooterPlant(int row, int col, int health, int cost, float rechargeTime, ImageView imageView) {
         super(row, col, health, cost, rechargeTime, imageView);
-        this.fireRate = 1;
+        this.fireRate = 1.5;
         this.damage = 15;
         this.isSnowPea = false;
     }
@@ -31,12 +31,13 @@ public abstract class ShooterPlant extends Plant {
 
     protected void shoot() {
         Bullet bullet = new Bullet(
-                this.getX() + 10,     // Start slightly ahead of plant
+                this.getX() + 20,     // Start slightly ahead of plant
                 this.getY(),     // Center vertically
                 this.getRow(),
                 damage,
                 300.0,                // Pixel per second speed
-                isSnowPea
+                isSnowPea,
+                false
         );
 
         Game.getInstance().addBullet(bullet);
@@ -46,7 +47,7 @@ public abstract class ShooterPlant extends Plant {
         // Check if any zombies exist in this row to the right of plant
 
         for (Zombie zombie : Game.getInstance().getZombies()) {
-            if (zombie.getRow() == this.getRow() && zombie.getView().getLayoutX() >= this.getCol() * 80 + 75) {
+            if (zombie.getRow() == this.getRow() && zombie.getView().getLayoutX() >= this.getCol() * 80 + 70) {
 
                 return true;
             }
@@ -57,4 +58,3 @@ public abstract class ShooterPlant extends Plant {
 }
 
 // Concrete implementations
-

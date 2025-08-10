@@ -19,7 +19,8 @@ public class SnowPea extends ShooterPlant {
                 this.getRow(),
                 damage,
                 300.0,                // Pixel per second speed
-                isSnowPea
+                isSnowPea,
+                false
         );
 
         Game.getInstance().addBullet(bullet);

@@ -13,14 +13,16 @@ public class Bullet {
     private boolean isFrozen;     // For snow peas
     private ImageView view;
     private int row;             // Track which row the bullet is in
+    private boolean isPuff;
 
-    public Bullet(double startX, double startY, int row, int damage, double speed, boolean isFrozen) {
+    public Bullet(double startX, double startY, int row, int damage, double speed, boolean isFrozen, boolean isPuff) {
         this.x = startX;
         this.y = startY;
         this.row = row;
         this.damage = damage;
         this.speed = speed;
         this.isFrozen = isFrozen;
+        this.isPuff = isPuff;
 
         // Set up visual representation
         this.view = new ImageView();
@@ -28,6 +30,7 @@ public class Bullet {
         this.view.setLayoutX(startX);
         this.view.setLayoutY(startY);
     }
+
     public void applyEffect(Zombie zombie) {
         zombie.takeDamage(damage);
 
@@ -37,11 +40,10 @@ public class Bullet {
 
         }
     }
-
     private Image getBulletImage() {
-        return isFrozen ?
-                new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/snopea.gif")):
-                new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/pea.png"));
+        if(isFrozen) return new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/blue pea.gif"));
+        else if(isPuff) return new Image(getClass().getResourceAsStream("images/Plants/puff.png"));
+        return new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/pea.png"));
     }
 
     public void update(double deltaTime) {
@@ -50,22 +52,13 @@ public class Bullet {
     }
 
     public boolean checkCollision(Zombie zombie) {
-        System.out.println(x + "    " + zombie.getX());
+        //System.out.println(x + "    " + zombie.getX());
         // Simple bounding box collision
-        if (zombie.isEating)  return zombie.getRow() == this.row &&
-                (x - 250 )>= zombie.getX()  &&
-                (x - 250) <= zombie.getX() + 10;
         return zombie.getRow() == this.row &&
-                (x - 250 )>= zombie.getX() - 20 &&
-                (x - 250) <= zombie.getX() + 10;
+                (x - 250 )>= zombie.getX() - 30 &&
+                (x - 250) <= zombie.getX() + 30;
     }
 
-//    public void applyEffect(Zombie zombie) {
-//        zombie.takeDamage(damage);
-//        if (isFrozen) {
-//           // zombie.applySlow(3.0); // Slow for 3 seconds
-//        }
-//    }
 
     // Getters
     public ImageView getView() { return view; }
