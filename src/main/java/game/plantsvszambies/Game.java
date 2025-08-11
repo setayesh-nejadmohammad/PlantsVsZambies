@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class Game {
 
     public Image day = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     public Image night = new Image(getClass().getResourceAsStream("images/night1.png"));
-    public Image ZombieStaring = new Image(getClass().getResourceAsStream("images/button_menus/MenuBackground.png"));
+    public Image ZombieStaring = new Image(getClass().getResourceAsStream("images/button_menus/StartgameBg.png"));
 
     private static final double FRAME_TIME = 1.0 / 60.0;
     ArrayList<String> chosenCards = new ArrayList<String>();
@@ -69,6 +70,7 @@ public class Game {
     public Game(Stage stage){
         frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
         this.stage = stage;
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/button_menus/ZombieHead.png")));
         ChooseState();
     }
     public static Game getInstance() {
@@ -126,7 +128,7 @@ public class Game {
     }
 
     public void ChooseState(){
-        StackPane pane = new StackPane();
+        Pane pane = new Pane();
         Scene ChooseStateScene = new Scene(pane, 1024, 626);
         frontYard = ZombieStaring;
         BackgroundImage bgImage = new BackgroundImage(
@@ -137,9 +139,23 @@ public class Game {
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
         pane.setBackground(new Background(bgImage));
 
-        Button chooseNight = new Button("Night");
-        Button chooseDay = new Button("Day");
-        Button chooseFog = new Button("Fog");
+        ImageView nightButtonView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/nightButton (2).png")));
+        ImageView dayButtonView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/dayButton (2).png")));
+        ImageView fogButtonView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/fogButton (2).png")));
+        nightButtonView.setFitHeight(50); nightButtonView.setFitWidth(150);
+        dayButtonView.setFitHeight(50); dayButtonView.setFitWidth(150);
+        fogButtonView.setFitHeight(50); fogButtonView.setFitWidth(150);
+        Button chooseNight = new Button();
+        chooseNight.setGraphic(nightButtonView);
+        chooseNight.getStyleClass().add("button");
+
+        Button chooseDay = new Button();
+        chooseDay.setGraphic(dayButtonView);
+        chooseDay.getStyleClass().add("button");
+
+        Button chooseFog = new Button();
+        chooseFog.setGraphic(fogButtonView);
+        chooseFog.getStyleClass().add("button");
 
         chooseDay.setOnAction(e -> {
             isNight = false;
@@ -158,14 +174,16 @@ public class Game {
             ChooseCard();
         });
 
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(chooseNight, chooseDay, chooseFog);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setPadding(new Insets(30));
-        hBox.setSpacing(20);
-        pane.getChildren().add(hBox);
-        pane.setAlignment(Pos.CENTER);
-        //ChooseStateScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(chooseNight, chooseDay, chooseFog);
+        vbox.setSpacing(15);
+        vbox.setAlignment(Pos.CENTER);
+
+        vbox.setLayoutX(195);
+        vbox.setLayoutY(295);
+
+        pane.getChildren().add(vbox);
+        ChooseStateScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(ChooseStateScene);
         stage.show();
     }
