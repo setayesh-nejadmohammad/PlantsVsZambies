@@ -29,6 +29,7 @@ public class Game {
     private double accumulatedTime = 0;
     public static boolean isNight = false;
     public static boolean isFog = false;
+    public static StackPane scoreStack = new StackPane();
 
     public Image day = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     public Image night = new Image(getClass().getResourceAsStream("images/night1.png"));

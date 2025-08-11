@@ -218,7 +218,8 @@ public class Mapp {
 
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
-        vbox.setPadding(new Insets(10));
+        vbox.setPadding(new Insets(5));
+        vbox.setSpacing(6);
 
         borderPane.getChildren().add(grid);
 
@@ -363,17 +364,27 @@ public class Mapp {
         fade.play();
     }
     public void addSaveLoadButton(){
-        Button saveButton = new Button("Save");
-        Button loadButton = new Button("Load");
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/saveButton.png")));
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(40);
+        if(!Game.isNight){
+            imageView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/saveGameBtton.png")));
+            imageView.setFitHeight(60);
+            imageView.setFitWidth(170);
+        }
+
+        Button saveButton = new Button();
+        saveButton.setGraphic(imageView);
+        saveButton.getStyleClass().add("button");
+
         VBox vbox = new VBox();
         vbox.getChildren().add(saveButton);
+        vbox.setMaxSize(100, 100);
+
         //vbox.getChildren().add(loadButton);
         borderPane.setRight(vbox);
         saveButton.setOnAction(e -> {
             SaveLoadManager.saveGame("savedData.txt", gameController.totalScore);
-        });
-        loadButton.setOnAction(e -> {
-            //SaveLoadManager.loadGame("savedData.txt"); // ?????!?!?!?
         });
     }
 
@@ -388,6 +399,8 @@ public class Mapp {
 
 
     public void buttonsHandler(VBox vbox) {
+        vbox.getChildren().add(Game.scoreStack);
+
         sunflowerCardImageView.setFitWidth(CELL_SIZE * 1.5);
         sunflowerCardImageView.setFitHeight(CELL_SIZE);
         peashooterCardImageView.setFitWidth(CELL_SIZE * 1.5);
@@ -625,6 +638,7 @@ public class Mapp {
             }
             num.set(18);
         });
+
     }
 
     public void findPosForGraves(){

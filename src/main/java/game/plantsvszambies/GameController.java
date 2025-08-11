@@ -17,14 +17,16 @@ import java.util.concurrent.Executors;
 
 public class GameController {
     //private List<Zombie> activeZombies = new ArrayList<>();
-    int totalScore = 99999999;
+    int totalScore = 200;
     GridPane gridPane;
-
+    StackPane scoreStack = Game.scoreStack;
     BorderPane borderPane;
-    Label scoreLabel = new Label("Score: " + totalScore);
+    Label scoreLabel = new Label("     "+totalScore);
+
     private StackPane shovelStack = new StackPane();
     private ImageView shovelConImage = new ImageView(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/shovelBack.png")));
     private ImageView shovelImage = new ImageView(new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/shovel.png")));
+    public ImageView scoreBox = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/score box.jpg")));
 
     public ImageView getShovelConImage() {
         return shovelConImage;
@@ -47,9 +49,15 @@ public class GameController {
     public GameController(BorderPane borderPane, GridPane gridPane) {
         this.borderPane = borderPane;
         this.gridPane = gridPane;
-        borderPane.setTop(scoreLabel);
+        scoreBox.setFitHeight(37);
+        scoreBox.setFitWidth(165);
+        scoreStack.getChildren().add(scoreBox);
+        scoreStack.getChildren().add(scoreLabel);
+        borderPane.setTop(scoreStack);
+        scoreStack.setLayoutX(10);
         borderPane.setPadding(new Insets(10));
-        scoreLabel.setStyle("-fx-font-size: 40px; -fx-text-fill: black; -fx-background-color: white");
+        scoreLabel.setStyle("-fx-font-size: 21px; -fx-text-fill: black ; -fx-font-weight: 800");
+
         shovelStack.getChildren().addAll(shovelConImage, shovelImage);
     }
 
@@ -65,9 +73,10 @@ public class GameController {
         UpdateScoreLabel(totalScore);
     }
     public void UpdateScoreLabel(int newScore) {
-        scoreLabel = new Label("Score: " + totalScore);
-        borderPane.setTop(scoreLabel);
-        scoreLabel.setStyle("-fx-font-size: 40px; -fx-text-fill: black; -fx-background-color: white");
+        scoreStack.getChildren().remove(scoreLabel);
+        scoreLabel = new Label("     "+totalScore);
+        scoreStack.getChildren().add(scoreLabel);
+        scoreLabel.setStyle("-fx-font-size: 21px; -fx-text-fill: black; -fx-font-weight: 800");
         borderPane.setPadding(new Insets(10));
     }
 }
