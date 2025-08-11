@@ -15,7 +15,13 @@ public class DoomShroom extends Plant{
         super(row, col, 5, 75, 7, imageView);
         this.pane = pane;
         pane.getChildren().add(imageView);
-        setupExplosion(pane);
+        if(Game.isNight) setupExplosion(pane);
+
+        this.isNightPlant = true;
+        if(!Game.isNight) {
+            this.isSleeping = true;
+            view.setImage(new Image(getClass().getResourceAsStream("images/Plants/Sleep.gif")));
+        }
     }
     public void update(double deltaTime){}
 
@@ -62,5 +68,10 @@ public class DoomShroom extends Plant{
         removeTimeline.play();
         Game.getInstance().getPlants().remove(this);
 
+    }
+    public void beAwake(){
+        isSleeping = false;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Plants/DoomShroom.gif")));
+        setupExplosion(pane);
     }
 }

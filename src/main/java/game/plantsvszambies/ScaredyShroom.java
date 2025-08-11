@@ -10,10 +10,15 @@ public class ScaredyShroom extends ShooterPlant{
         super(row, col, 5, 25, 5, imageView);
         this.fireRate = 1.5;
         //view.setImage(new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroom.gif")));
+        this.isNightPlant = true;
+        if(!Game.isNight) {
+            this.isSleeping = true;
+            view.setImage(new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroomSleep.gif")));
+        }
     }
 
     public void update(double deltaTime) {
-
+        if(isSleeping) return;
         if(isTimeToBeScared() && !isScared){
             view.setImage(new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroomCry.gif")));
             isScared = true;
@@ -57,5 +62,10 @@ public class ScaredyShroom extends ShooterPlant{
             }
         }
         return false;
+    }
+
+    public void beAwake(){
+        isSleeping = false;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroom.gif")));
     }
 }

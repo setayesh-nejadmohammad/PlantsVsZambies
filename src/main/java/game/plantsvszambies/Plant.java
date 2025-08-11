@@ -20,6 +20,8 @@ public abstract class Plant {
     protected int cost;
     protected float rechargeTime;
     protected ImageView view;
+    public boolean isNightPlant = false;
+    public boolean isSleeping = false;
 
     public Plant(int row, int col, int health, int cost, float rechargeTime, ImageView view) {
         this.row = row;
@@ -129,4 +131,5 @@ public abstract class Plant {
     public int getRow() { return row; }
     public int getCol() { return col; }
     public int getCost() { return cost; }
+    public void beAwake(){}
 }

@@ -94,6 +94,7 @@ public class Mapp {
     Image scaredyShroom = new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroom.gif"));
     Image blover = new Image(getClass().getResourceAsStream("images/Plants/Bloverpagedoll.gif"));
     Image plantern = new Image(getClass().getResourceAsStream("images/Plants/Plantern.gif"));
+    Image coffeeBean = new Image(getClass().getResourceAsStream("images/Plants/coffeebean.gif"));
     Image frontYard = new Image(getClass().getResourceAsStream("images/Frontyard.png"));
     Image sunflowerCard = new Image(getClass().getResourceAsStream("images/Cards/sunflowerCard.png"));
     Image peashooterCard = new Image(getClass().getResourceAsStream("images/Cards/peashooterCard.png"));
@@ -111,7 +112,7 @@ public class Mapp {
     Image puffShroomCard = new Image(getClass().getResourceAsStream("images/Cards/PuffShroomCard.png"));
     Image scaredyShroomCard = new Image(getClass().getResourceAsStream("images/Cards/ScaredyShroomCard.png"));
     Image bloverCard = new Image(getClass().getResourceAsStream("images/Cards/BloverCard.png"));
-    Image coffeeBean = new Image(getClass().getResourceAsStream("images/Cards/CoffeeBeanCard.png"));
+    Image coffeeBeanCard = new Image(getClass().getResourceAsStream("images/Cards/CoffeeBeanCard.png"));
     Image grave = new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/grave.png"));
     ImageView sunflowerCardImageView = new ImageView(sunflowerCard);
     ImageView peashooterCardImageView = new ImageView(peashooterCard);
@@ -129,7 +130,7 @@ public class Mapp {
     ImageView puffShroomImageView = new ImageView(puffShroomCard);
     ImageView scaredyShroomImageView = new ImageView(scaredyShroomCard);
     ImageView bloverCardImageView = new ImageView(bloverCard);
-    ImageView coffeeBeanImageView = new ImageView(coffeeBean);
+    ImageView coffeeBeanImageView = new ImageView(coffeeBeanCard);
     Image shovelCursor = new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/Shovel.png"), 50, 50, true, true);
     Cursor shovelCurs;
     ImageView sunflowerView = new ImageView(sunflower);
@@ -153,6 +154,11 @@ public class Mapp {
         grid.setLayoutX(250);
         grid.setLayoutY(85);
         this.gridCells = new Cell[ROWS][COLS];
+
+        for(int i = 0;i < 5; i++){
+            gravePosPairs[i][0] = -1;
+            gravePosPairs[i][1] = -1;
+        }
 
 
         /*for (int row = 0; row < ROWS; row++) {
@@ -183,8 +189,19 @@ public class Mapp {
 
     public void drawMap() {
         addSaveLoadButton();
-        sunFalling();
-        findPosForGraves();
+        if(!Game.isNight) {
+            sunFalling();
+        }
+        else{
+            findPosForGraves();
+        }
+
+        if(Game.isNight){
+            frontYard = Game.getInstance().night;
+        }
+        else{
+            frontYard = Game.getInstance().day;
+        }
 
         BackgroundImage bgImage = new BackgroundImage(
                 frontYard,
@@ -196,8 +213,6 @@ public class Mapp {
 
         VBox vbox = new VBox();
         borderPane.setLeft(vbox);
-        //vbox.getChildren().add(sunFlowerPane);
-        //vbox.getChildren().add(peashooterPane);
         buttonsHandler(vbox);
         vbox.getChildren().add(gameController.getShovelStack());
 
@@ -224,14 +239,7 @@ public class Mapp {
             }
         }
 
-        /*StackPane cell = new StackPane();
-        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("images/plants/HypnoShroom.gif")));
-        HypnoShroom hypnoShroom = new HypnoShroom(3, 3, imageView);
-        cell.getChildren().add(imageView);
-        Game.getInstance().getPlants().add(hypnoShroom);
-        grid.add(cell, 3, 3);*/
-
-        addFog();
+        if(Game.isFog) addFog();
 
         stage.setTitle("plant vs zambies");
         scene = new Scene(borderPane, 1024, 626);
@@ -300,7 +308,7 @@ public class Mapp {
 
         StackPane cell = new StackPane();
         boolean isGrave = checkForGravePos(row,col);
-        if(isGrave){
+        if(isGrave && Game.isNight) {
             cell.getChildren().add(graveView);
         }
         cell.setOnMouseClicked((MouseEvent e) -> {
@@ -662,7 +670,7 @@ public class Mapp {
         for(int row = 0; row < 5; row++){
             for(int col = 4; col < 9; col++){
                 ImageView fogView = new ImageView(new Image(getClass().getResourceAsStream("images/Plants/fog0.png")));
-                fogView.setFitWidth(CELL_SIZE*2.2); fogView.setFitHeight(CELL_SIZE*2.2);
+                fogView.setFitWidth(CELL_SIZE*2); fogView.setFitHeight(CELL_SIZE*2.2);
                 fogView.setViewOrder(-1000);
 
                 Fog fog = new Fog(row, col, fogView);
@@ -704,6 +712,7 @@ public class Mapp {
         ImageView scaredyShroomView = new ImageView(scaredyShroom);
         ImageView bloverView = new ImageView(blover);
         ImageView planternView = new ImageView(plantern);
+        ImageView coffeeBeanView = new ImageView(coffeeBean);
         sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
         peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
         snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
@@ -720,6 +729,7 @@ public class Mapp {
         puffShroomView.setFitHeight(CELL_SIZE); puffShroomView.setFitWidth(50);
         bloverView.setFitHeight(CELL_SIZE); bloverView.setFitWidth(CELL_SIZE);
         planternView.setFitWidth(CELL_SIZE); planternView.setFitWidth(CELL_SIZE);
+        coffeeBeanView.setFitWidth(30); coffeeBeanView.setFitHeight(80);
 
         boolean isGrave = checkForGravePos(row,col);
         if(isGrave){
@@ -799,7 +809,7 @@ public class Mapp {
             //cell.getChildren().addAll(cherrybombView);
             gameController.reduceScore(150);
         }
-        else if(num.intValue() == 9 && cell.getChildren().size() != 0) {
+        else if(num.intValue() == 9 && cell.getChildren().size() != 0 && !isGrave) {
             scene.setCursor(Cursor.DEFAULT);
             Game.getInstance().removePlant(findPlantAt(row, col));
             cell.getChildren().clear();
@@ -855,6 +865,14 @@ public class Mapp {
             plants.add(p);
             cell.getChildren().add(p.view);
             createCardWithCooldown(planternPane, planternButton, p.rechargeTime);
+        }
+        else if(num.intValue() == 17 && cell.getChildren().size() != 0 && gameController.totalScore >= 75
+            && findPlantAt(row, col).isNightPlant && findPlantAt(row, col).isSleeping){
+            num.set(0);
+            CoffeeBean coffeeBean = new CoffeeBean(row, col, cell, coffeeBeanView, findPlantAt(row, col));
+            cell.getChildren().add(coffeeBean.view);
+            createCardWithCooldown(coffeeBeanPane, coffeeBeanButton, coffeeBean.rechargeTime);
+
         }
     }
 

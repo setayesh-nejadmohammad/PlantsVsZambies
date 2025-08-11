@@ -9,10 +9,10 @@ import javafx.util.Duration;
 
 public class ImpZombie extends Zombie{
     public ImpZombie(int row) {
-        super(100, 25, 0.5, row);
+        super(45, 25, 0.5, row);
     }
     public ImpZombie(int row, double col) {
-        super(100, 25, 0.5, row);
+        super(100, 50, 0.25, row);
         this.column = col;
     }
 
@@ -24,34 +24,21 @@ public class ImpZombie extends Zombie{
         view.setLayoutY(view.getLayoutY()-30);
         return view;
     }
-
-    public void dieWithShooter(){
-        if(isDead) return;
-        isDead = true;
-        Game.getInstance().removeZombie(this);
-
-        // make the head
-        ImageView headGif = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/ImpDie.gif")));
-        headGif.setFitWidth(64);
-        headGif.setFitHeight(80);
-
-        // put in stackPane
-        StackPane animationPane = new StackPane();
-        animationPane.getChildren().addAll(headGif);
-
-        // Put in Zombies Pos
-        animationPane.setLayoutX(view.getX());
-        animationPane.setLayoutY(view.getY());
-
-        // add it to the scene
-        Game.getInstance().map.grid.add(animationPane, (int)getColumn(), getRow());
-
-        // remove it after a few sec
-        PauseTransition delay = new PauseTransition(Duration.seconds(2.6));
-        delay.setOnFinished(e -> Game.getInstance().map.grid.getChildren().remove(animationPane));
-        delay.play();
+    public void startEating() {
+        this.isEating = true;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/impAttack.gif")));
+        Plant plant = findPlantInFront();
+        if (!hEat) {
+            super.baseColumn = plant.getCol(); // Set reference point
+            updateAttackPosition();
+        }
+        super.eatCooldown = super.eatInterval;
     }
-
+    public void stopEating() {
+        hEat = false;
+        isEating = false;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/imp.gif")));
+    }
     public void die() {
         if(isDead) return;
         isDead = true;
@@ -79,19 +66,38 @@ public class ImpZombie extends Zombie{
         delay.play();
     }
 
-    public void startEating() {
-        this.isEating = true;
-        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/impAttack.gif")));
-        Plant plant = findPlantInFront();
-        if (!hEat) {
-            super.baseColumn = plant.getCol(); // Set reference point
-            updateAttackPosition();
+
+    public void dieWithShooter() {
+        if(isDead) return;
+        if (isEating) {
+            Plant target = Game.getInstance().findPlantBeingEaten(this);
+            if (target != null) {
+                target.removeAttacker(this); // <-- HERE
+            }
         }
-        super.eatCooldown = super.eatInterval;
-    }
-    public void stopEating() {
-        hEat = false;
-        isEating = false;
-        view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/imp.gif")));
+        isDead = true;
+        Game.getInstance().removeZombie(this);
+        Game.getInstance().removeHZombie(this);
+
+        // make the head
+        ImageView headGif = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/ImpDie.gif")));
+        headGif.setFitWidth(64);
+        headGif.setFitHeight(80);
+
+        // put in stackPane
+        StackPane animationPane = new StackPane();
+        animationPane.getChildren().addAll(headGif); // ترتیب مهمه: بدن زیر، کله بالا
+
+        // Put in Zombies Pos
+        animationPane.setLayoutX(view.getX());
+        animationPane.setLayoutY(view.getY());
+
+        // add it to the scene
+        Game.getInstance().map.grid.add(animationPane, (int)getColumn(), getRow());
+
+        // remove it after a few sec
+        PauseTransition delay = new PauseTransition(Duration.seconds(2.6));
+        delay.setOnFinished(e -> Game.getInstance().map.grid.getChildren().remove(animationPane));
+        delay.play();
     }
 }
