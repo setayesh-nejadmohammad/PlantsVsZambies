@@ -40,7 +40,10 @@ public class Game {
     private List<Zombie> Hzombies = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
     private boolean durAt = false;
+    private List<Integer> chargeTimes = new ArrayList<>();
     private Map<Integer, List<Plant>> plantsByRow = new HashMap<Integer, List<Plant>>();
+    private boolean[] clicked = new boolean[6];
+
     public Plant findPlantBeingEaten(Zombie zombie) {
         List<Plant> plantsInRow = plantsByRow.getOrDefault(zombie.getRow(), Collections.emptyList());
         for (Plant plant : plantsInRow) {
@@ -56,12 +59,21 @@ public class Game {
     public boolean getDurAt() {
         return durAt;
     }
+    public boolean[] getClicked() {
+        return clicked;
+    }
     public List<Zombie> getHzombies() {
         return Hzombies;
+    }
+    public List<Integer> getCT() {
+        return chargeTimes;
     }
     public Game(Stage stage){
         frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
         this.stage = stage;
+        for(int i = 0; i < 6 ; i++) {
+            chargeTimes.add(0);
+        }
         ChooseCard();
 
     }
@@ -548,8 +560,9 @@ public class Game {
         if(this.map == null)
         this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
-        setupSpawnTimer();
-        setupAttackPhases();
+       // setupSpawnTimer();
+       // setupAttackPhases();
+        setupGraveZombies();
         startGameLoop();
     }
     private void positionZombie(Zombie zombie) {
@@ -563,6 +576,32 @@ public class Game {
             view.setLayoutY(map.grid.getLayoutY() + zombie.getRow() * 80 + zombie.getRow() * 8);
         else
             view.setLayoutY(map.grid.getLayoutY() + zombie.getRow() * 80 + zombie.getRow() * 4);
+    }
+    private void setupGraveZombies() {
+        spawnTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), e -> {
+                    if (time > 57500 && time < 58600 && !map.checkForGravePos(map.getGravePosPairs()[0][0], map.getGravePosPairs()[0][1])) {
+
+                        spawnFromGrave();
+
+                    }
+                })
+        );
+        spawnTimeline.setCycleCount(Timeline.INDEFINITE);
+        spawnTimeline.play();
+
+    }
+    private void spawnFromGrave() {
+        for (int i = 0 ; i < 5 ; i++) {
+            Zombie zombie = ZombieFactory.createRandomZombie(4, map.getGravePosPairs()[i][0]);
+            zombie.setColumn(map.getGravePosPairs()[i][1]+ 0.5);
+            positionZombie(zombie);
+            zombie.getView().setLayoutX(map.getGridPane().getLayoutX() + zombie.getColumn() * 80 + 30);
+            zombies.add(zombie);
+            map.borderPane.getChildren().add(zombie.getView());
+                ((StackPane)(map.getNodeFromGrid(map.getGridPane(), map.getGravePosPairs()[i][1], map.getGravePosPairs()[i][0]))).getChildren().clear();
+
+        }
     }
     private void setupSpawnTimer() {
         spawner();
@@ -695,6 +734,7 @@ public class Game {
         }
         setupSpawnTimer(time);
         setupAttackPhaseS();
+        //setupGraveZombies();
         startGameLoop();
     }
     private void createAttackPhase() {
@@ -735,6 +775,7 @@ public class Game {
             private long lastUpdate = 0;
             @Override
             public void handle(long now) {
+                boolean happened = false;
                 if (lastUpdate == 0) {
                     lastUpdate = now;
                     return;
@@ -742,8 +783,13 @@ public class Game {
                 double deltaTime = (now - lastUpdate) / 1_000_000_000.0;
                 lastUpdate = now;
                 time += (long) (deltaTime * 1000);
+                if (time >= 58000 && time <= 58033 && !happened) {
+                    happened = true;
+                    spawnFromGrave();
+                }
                 System.out.println(time);
                 currentPhase = getCurrentPhaseS();
+                updateChargeTimes((int) (deltaTime * 1000));
                 updatePlants(deltaTime);
                 updateHZombies(deltaTime);
                 checkZombiePlantCollisions();
@@ -754,6 +800,13 @@ public class Game {
         };
         gameLoop.start();
     }
+    private void updateChargeTimes(int delta) {
+        for (int i = 0 ; i < 6; i++) {
+            if (clicked[i])
+            chargeTimes.set(i,chargeTimes.get(i) + delta);
+        }
+    }
+
     public void checkZombiePlantCollisions() {
         for (Zombie zombie : zombies) {
             // Check if zombie reached a plant's cell
@@ -864,6 +917,15 @@ public class Game {
             if (plant.getClass().getSimpleName().equals("Sunflower")) {
                 ((Sunflower) plant).stop();
             }
+            else if(plant != null && plant.getClass().getSimpleName().equals("Plantern")){
+                for(Fog f: Game.getInstance().map.fogs){
+                    if(f.getRow() <= plant.row+1 && f.getRow() >= plant.row-1
+                            && f.getCol() <= plant.col+1 && f.getCol() >= plant.col-1){
+                        f.imageView.setVisible(true);
+                        f.isPlanternInArea = false;
+                    }
+                }
+            }
             plants.remove(plant);
             if (plant.view.getParent() != null)
                 ((StackPane) plant.view.getParent()).getChildren().remove(plant.view);
@@ -933,6 +995,9 @@ public void clearGame(){
             case "ScreenDoorZombie": return new ScreenDoorZombie(row, col);
             default: return null;
         }
+    }
+    public Mapp getMap() {
+        return map;
     }
     public void setTime(long l) {
         this.time = l;

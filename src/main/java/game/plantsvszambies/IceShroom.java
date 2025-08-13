@@ -22,13 +22,10 @@ public class IceShroom extends Plant{
 
     public void act(StackPane pane){
         freezAllZombies();
-
-        Timeline snowComing = new Timeline(
-                new KeyFrame(Duration.seconds(0.7), event -> {SnowGif(pane);})
-        );
-        snowComing.play();
-
-
+//        Timeline snowComing = new Timeline(
+//                new KeyFrame(Duration.seconds(0.7), event -> {SnowGif(pane);})
+//        );
+//        snowComing.play();
         Timeline removeTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.7), e -> {
                     pane.getChildren().remove(view);

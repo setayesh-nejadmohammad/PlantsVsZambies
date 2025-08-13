@@ -56,7 +56,9 @@ public abstract class Zombie {
         frostEffect.setSaturation(0.65);
         frostEffect.setBrightness(0.1);
     }
-
+    public void setColumn(double column) {
+        this.column = column;
+    }
     protected abstract ImageView createImageView();
     public int getHealth() {
         return health;

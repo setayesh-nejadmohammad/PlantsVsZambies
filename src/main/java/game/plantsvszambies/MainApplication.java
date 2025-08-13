@@ -1,5 +1,4 @@
 package game.plantsvszambies;
-
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.fxml.FXMLLoader;
@@ -13,11 +12,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
 public class MainApplication extends Application {
     public static int rowNum = 5;
     public static int colNum = 9;
@@ -37,16 +34,12 @@ public class MainApplication extends Application {
         //         new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
         // );
         // borderPane.setBackground(new Background(bgImage));
-
         // GridPane grid = new GridPane();
         // grid.setHgap(0); // Remove horizontal gap
         // grid.setVgap(0); // Remove vertical gap
-
         // grid.setLayoutX(250);
         // grid.setLayoutY(85);
-
         // borderPane.getChildren().add(grid);
-
         // // Create 5x9 grid of squares
         // for (int row = 0; row < rowNum; row++) {
         //     for (int col = 0; col < colNum; col++) {
@@ -56,7 +49,6 @@ public class MainApplication extends Application {
         //         rect.setStrokeWidth(0.5);
         //         grid.add(rect, col, row);
         //         StackPane cell = createCell();
-
         //         grid.add(cell,col, row);
         //     }
         // }
@@ -65,7 +57,6 @@ public class MainApplication extends Application {
 
         // VBox vbox = new VBox();
         // borderPane.setLeft(vbox);
-
 
 //         Scene scene = new Scene(borderPane, 1024, 626);
 //         stage.setTitle("Map");

@@ -51,8 +51,14 @@ public class SaveLoadManager {
                 writer.write(s);
                 writer.write(" ");
             }
-            writer.write("\n");
 
+            writer.write("\n");
+            writer.write("CTIMES ");
+            for(int n : Game.getInstance().getCT()){
+                writer.write(n + "");
+                writer.write(" ");
+            }
+            writer.write("\n");
             writer.write("SCORE ");
             writer.write(String.format("%d",score));
             writer.write("\n");
@@ -77,6 +83,15 @@ public class SaveLoadManager {
                 );
                 writer.write(line + "\n");
             }
+            String lin = "GR ";
+            for (int i = 0 ; i < 5 ; i++) {
+                for (int j = 0 ; j < 2 ; j++) {
+                    lin += Game.getInstance().getMap().getGravePosPairs()[i][j];
+                    lin += " ";
+                }
+
+            }
+            writer.write(lin + "\n");
             for (Zombie z : Game.getInstance().getHZombies()) {
                 String line = String.format("HZOMBIE %s %d %f %d %f %f",
                         z.getClass().getSimpleName(),
@@ -157,6 +172,13 @@ public class SaveLoadManager {
                 else if(parts[0].equals("SCORE")) {
                     if(score != null) score[0] = Integer.parseInt(parts[1]);
                 }
+                else if(parts[0].equals("CTIMES")) {
+                    Game.getInstance().getCT().clear();
+                    for (int i = 1; i <= 6; i++) {
+                         Game.getInstance().getCT().add(Integer.parseInt(parts[i]));
+
+                    }
+                }
                 else if (parts[0].equals("ZOMBIE")) {
                         String type = parts[1];
                         int row = Integer.parseInt(parts[2]);
@@ -170,6 +192,18 @@ public class SaveLoadManager {
                         zombie.getView().setLayoutY(layY);
                         zombie.getView().setTranslateX(180);
                         zombies.add(zombie);
+                }
+                else if (parts[0].equals("GR")) {
+                    Game.getInstance().getMap().getGravePosPairs()[0][0] = Integer.parseInt(parts[1]);
+                    Game.getInstance().getMap().getGravePosPairs()[0][1] = Integer.parseInt(parts[2]);
+                    Game.getInstance().getMap().getGravePosPairs()[1][0] = Integer.parseInt(parts[3]);
+                    Game.getInstance().getMap().getGravePosPairs()[1][1] = Integer.parseInt(parts[4]);
+                    Game.getInstance().getMap().getGravePosPairs()[2][0] = Integer.parseInt(parts[5]);
+                    Game.getInstance().getMap().getGravePosPairs()[2][1] = Integer.parseInt(parts[6]);
+                    Game.getInstance().getMap().getGravePosPairs()[3][0] = Integer.parseInt(parts[7]);
+                    Game.getInstance().getMap().getGravePosPairs()[3][1] = Integer.parseInt(parts[8]);
+                    Game.getInstance().getMap().getGravePosPairs()[4][0] = Integer.parseInt(parts[9]);
+                    Game.getInstance().getMap().getGravePosPairs()[4][1] = Integer.parseInt(parts[10]);
                 }
                 else if (parts[0].equals("HZOMBIE")) {
                     String type = parts[1];
