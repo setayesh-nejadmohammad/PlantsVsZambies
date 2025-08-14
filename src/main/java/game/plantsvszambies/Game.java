@@ -32,11 +32,17 @@ public class Game {
     public static StackPane scoreStack = new StackPane();
     private ArrayList<Integer> chargeTimes = new ArrayList<>();
     private boolean[] clicked = new boolean[6];
+    private int startAttackTime = 0;
 
     public Image day = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     public Image night = new Image(getClass().getResourceAsStream("images/night1.png"));
     public Image ZombieStaring = new Image(getClass().getResourceAsStream("images/button_menus/StartgameBg.png"));
-
+    public void setStartAttackTime(int time) {
+        this.startAttackTime = time;
+    }
+    public int getStartAttackTime(){
+        return startAttackTime;
+    }
     private static final double FRAME_TIME = 1.0 / 60.0;
     ArrayList<String> chosenCards = new ArrayList<String>();
     private List<Bullet> activeBullets = new ArrayList<>();
@@ -105,10 +111,8 @@ public class Game {
         Iterator<Bullet> iterator = activeBullets.iterator();
         while (iterator.hasNext()) {
             Bullet bullet = iterator.next();
-
             // Update position
             bullet.update(deltaTime);
-
             // Check collisions
             for (Zombie zombie : getZombiesInRow(bullet.getRow())) {
                 if (bullet.checkCollision(zombie)) {
@@ -644,7 +648,7 @@ public class Game {
         if(this.map == null)
             this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
-        setupSpawnTimer();
+        //setupSpawnTimer();
         setupAttackPhases();
         startGameLoop();
     }
@@ -739,30 +743,20 @@ public class Game {
     }
     private void setupAttackPhases() {
 
-        Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> createAttackPhase()));
-        atTimeline.setCycleCount(2);
+        Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
+        atTimeline.setCycleCount(3);
+        atTimeline.setDelay(Duration.seconds(15));
         atTimeline.play();
     }
-    private void setupAttackPhaseS(){
-        if (time <= 28655 || (time > 34255 && time <= 57919)) {
-            Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> createAttackPhase()));
-            atTimeline.setCycleCount(2);
-            atTimeline.jumpTo(Duration.millis(time));
-            atTimeline.play();
-        }
-        else if(time <= 34255) {
-            int c = (int) ((34255 - time) / 280);
-            createAttackPhase(c);
-            Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(30), e -> createAttackPhase()));
-            atTimeline.setCycleCount(2);
-            atTimeline.jumpTo(Duration.millis(time));
-            atTimeline.play();
-        }
-        else if(time < 63519) {
-            int c = (int) ((63519 - time) / 280);
-            createAttackPhase(c);
-        }
-
+    private void setupAttackPhaseS() {
+        if (startAttackTime != 0)
+        createAttackPhaseS();
+        Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
+        atTimeline.setCycleCount(3);
+        atTimeline.jumpTo(Duration.millis(time - startAttackTime));
+        if (startAttackTime == 0)
+        atTimeline.setDelay(Duration.millis(30000 - time));
+        atTimeline.play();
     }
     public void loadGame(){
         plants.clear();
@@ -796,40 +790,55 @@ public class Game {
         for(Zombie z: Hzombies){
             map.borderPane.getChildren().add(z.getView());
         }
-        setupSpawnTimer(time);
+        //setupSpawnTimer(time);
         setupAttackPhaseS();
         //setupGraveZombies();
         startGameLoop();
 
     }
+//    private void createAttackPhase() {
+//        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
+//            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
+//            zombies.add(zombie);
+//            map.borderPane.getChildren().add(zombie.getView());
+//            positionZombie(zombie);}));
+//        timeline.setCycleCount(15);
+//        timeline.play();
+//        System.out.println(time);
+//    }
     private void createAttackPhase() {
+        startAttackTime = (int)time;
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
             positionZombie(zombie);}));
-        timeline.setCycleCount(20);
+        timeline.setCycleCount(15);
+        //timeline.jumpTo(Duration.millis(time % 15000));
         timeline.play();
-        System.out.println(time);
     }
-    private void createAttackPhase(int c) {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
-            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
+    private void createAttackPhaseS() {
+        int phase = getCurrentPhaseS();
+        if (time > 55000) phase = 4;
+        int finalPhase = phase;
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int row = (new Random()).nextInt(5);
+            Zombie zombie = ZombieFactory.createRandomZombie(finalPhase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
             positionZombie(zombie);}));
-        timeline.setCycleCount(c);
+        timeline.setCycleCount(15);
+        timeline.jumpTo(Duration.millis(time - startAttackTime));
         timeline.play();
     }
 
     public int getCurrentPhase() {
         double elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000.0;
-        if (elapsedSeconds >= 75) return 4;
+        if (elapsedSeconds >= 73.5) return 4;
         return (int) (elapsedSeconds / 15);
     }
     public int getCurrentPhaseS() {
         double elapsedSeconds = time / 1000.0;
-        if (elapsedSeconds >= 75) return 4;
+        if (elapsedSeconds >= 73.5) return 4;
         return (int) (elapsedSeconds / 15);
     }
     public long getTime(){
@@ -856,7 +865,7 @@ public class Game {
                         map.gravePosPairs[i][1] = -1;
                     }
                 }
-                System.out.println(time);
+                System.out.println("___________" + time);
                 currentPhase = getCurrentPhaseS();
                 updateChargeTimes((int) (deltaTime * 1000));
                 updatePlants(deltaTime);

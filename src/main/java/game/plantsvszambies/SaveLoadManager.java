@@ -92,6 +92,7 @@ public class SaveLoadManager {
 
             }
             writer.write(lin + "\n");
+            writer.write("STARTATTACK " + Game.getInstance().getStartAttackTime() + "\n");
             for (Zombie z : Game.getInstance().getHZombies()) {
                 String line = String.format("HZOMBIE %s %d %f %d %f %f",
                         z.getClass().getSimpleName(),
@@ -171,6 +172,9 @@ public class SaveLoadManager {
                 }
                 else if(parts[0].equals("SCORE")) {
                     if(score != null) score[0] = Integer.parseInt(parts[1]);
+                }
+                else if(parts[0].equals("STARTATTACK")) {
+                    Game.getInstance().setStartAttackTime(Integer.parseInt(parts[1]));
                 }
                 else if(parts[0].equals("CTIMES")) {
                     Game.getInstance().getCT().clear();
