@@ -377,4 +377,8 @@ public abstract class Zombie {
     public void setColumn(double column) {
         this.column = column;
     }
+
+    public void setSpeed(double speed){
+        this.originalSpeed = speed;
+    }
 }

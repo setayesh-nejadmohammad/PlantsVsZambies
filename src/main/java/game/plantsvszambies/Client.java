@@ -1,5 +1,6 @@
-/*
 package game.plantsvszambies;
+
+import javafx.application.Platform;
 
 import java.io.*;
 import java.net.*;
@@ -25,9 +26,17 @@ public class Client {
                 switch (parts[0]) {
                     case "SPAWN":
                         String type = parts[1];
-                        int lane = Integer.parseInt(parts[2]);
-                        Zombie z = ZombieFactory.createZombie(type, lane);
-                        Mapp.addZombie(z);
+                        int row = Integer.parseInt(parts[2]);
+                        Zombie z = Game.getInstance().createZombieByType(type, row, 9.3);
+                        Game.getInstance().positionZombie(z);
+                        Game.getInstance().getZombies().add(z);
+
+                        Platform.runLater(() -> {  // because it should be in JavaFx thread?!
+                            Game.getInstance().map.borderPane.getChildren().add(z.getView());
+                        });
+                        //System.out.println("A Zombie created in client!");
+                        //Zombie z = ZombieFactory.createZombie(type, lane);
+                        //Mapp.addZombie(z);
                         break;
                     case "GAME_OVER":
                         if (parts[1].equals("WIN")) {
@@ -47,4 +56,3 @@ public class Client {
         out.println("LOST");
     }
 }
-*/

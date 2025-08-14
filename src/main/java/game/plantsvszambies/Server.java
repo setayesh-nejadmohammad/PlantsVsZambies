@@ -1,4 +1,3 @@
-/*
 package game.plantsvszambies;
 
 import java.io.*;
@@ -24,21 +23,21 @@ public class Server {
         new Thread(this::listenToClient).start();
 
         // شروع تایمر زامبی
-        new Thread(this::spawnLoop).start();
+        //new Thread(this::spawnLoop).start();
     }
 
-    private void spawnLoop() {
+    public void spawnLoop() {
         try {
             while (true) {
                 Thread.sleep(3000);
                 String type = randomZombie();
                 int lane = random.nextInt(5);
 
-                // اضافه به بازی سرور
-                Zombie z = ZombieFactory.createZombie(type, lane);
-                Mapp.addZombie(z);
+                // add zombie to server game
+                //Zombie z = ZombieFactory.createZombie(type, lane);
+                //Mapp.addZombie(z);
 
-                // ارسال به کلاینت
+                // send to client
                 out.println("SPAWN " + type + " " + lane);
             }
         } catch (InterruptedException e) {
@@ -64,5 +63,14 @@ public class Server {
             e.printStackTrace();
         }
     }
+
+    public void setOut(PrintWriter p){
+        this.out = p;
+    }
+    public PrintWriter getOut(){
+        return out;
+    }
+    public void printLnOut(String s){
+        out.println(s);
+    }
 }
-*/

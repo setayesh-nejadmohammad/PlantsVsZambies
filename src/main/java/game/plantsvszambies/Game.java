@@ -12,6 +12,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -32,11 +34,21 @@ public class Game {
     public static StackPane scoreStack = new StackPane();
     private ArrayList<Integer> chargeTimes = new ArrayList<>();
     private boolean[] clicked = new boolean[6];
+    private int startAttackTime = 0;
+    public static boolean isServer = false;
+    public static boolean isClient = false;
+    private Server server;
+    private Client client;
 
     public Image day = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     public Image night = new Image(getClass().getResourceAsStream("images/night1.png"));
     public Image ZombieStaring = new Image(getClass().getResourceAsStream("images/button_menus/StartgameBg.png"));
-    private int startAttackTime = 0;
+    public void setStartAttackTime(int time) {
+        this.startAttackTime = time;
+    }
+    public int getStartAttackTime(){
+        return startAttackTime;
+    }
     private static final double FRAME_TIME = 1.0 / 60.0;
     ArrayList<String> chosenCards = new ArrayList<String>();
     private List<Bullet> activeBullets = new ArrayList<>();
@@ -105,10 +117,8 @@ public class Game {
         Iterator<Bullet> iterator = activeBullets.iterator();
         while (iterator.hasNext()) {
             Bullet bullet = iterator.next();
-
             // Update position
             bullet.update(deltaTime);
-
             // Check collisions
             for (Zombie zombie : getZombiesInRow(bullet.getRow())) {
                 if (bullet.checkCollision(zombie)) {
@@ -131,6 +141,60 @@ public class Game {
     }
     public List<Plant> getPlants() {
         return plants;
+    }
+
+    public void startGameAsServer() { // Server
+        try {
+            server = new Server();
+            server.start(5555);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        startGame();
+    }
+    public void startGameAsClient() {  // Client  ... this should be different from main startGame
+        try {
+            client = new Client();
+            client.start("127.0.0.1", 5555); // we should get the ip ; (127.0.0.1) is for lockal host
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //startGame();
+        // new StartGame for Client:
+        startTime = System.currentTimeMillis();
+        time = 0;
+        if(chosenCards == null){
+            List<String> elementsToAdd = Arrays.asList("Sunflower", "Peashooter", "WallNut", "Jalapeno", "SnowPea", "TallNut");
+            chosenCards.addAll(elementsToAdd);
+        }
+        if(this.map == null)
+            this.map = new Mapp(stage, chosenCards, plants);
+        map.drawMap();
+
+        startGameLoop();  // ??!!
+    }
+
+    public void ChooseServerOrClient(){
+        Pane pane = new Pane();
+        Scene chooseServerScene = new Scene(pane, 1024, 626);
+        Button serverButton = new Button("Server");
+        Button clientButton = new Button("Client");
+        serverButton.setOnAction(e -> {
+            isServer = true;
+            //startGameAsServer();
+            ChooseCard();
+        });
+        clientButton.setOnAction(e -> {
+            isClient = true;
+            //startGameAsClient();
+            ChooseCard();
+        });
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(serverButton, clientButton);
+        hBox.setAlignment(Pos.CENTER);
+        pane.getChildren().add(hBox);
+        stage.setScene(chooseServerScene);
+        stage.show();
     }
 
     public void ChooseState(){
@@ -181,6 +245,9 @@ public class Game {
             isFog = true;
             frontYard = night;
             ChooseCard();
+        });
+        multiplayerButton.setOnAction(e -> {
+            ChooseServerOrClient();
         });
 
         VBox vbox = new VBox();
@@ -585,7 +652,15 @@ public class Game {
         startButton.setOnAction(e->{
             if(chosenCards.size() == 6){
                 System.out.println("start Game");
-                startGame();
+                if(isServer){
+                    startGameAsServer();
+                }
+                else if(isClient){
+                    startGameAsClient();
+                }
+                else {
+                    startGame();
+                }
             }
         });
         Button loadButton = new Button();
@@ -644,6 +719,10 @@ public class Game {
     public void startGame(){
         startTime = System.currentTimeMillis();
         time = 0;
+        if(chosenCards == null){
+            List<String> elementsToAdd = Arrays.asList("Sunflower", "Peashooter", "WallNut", "Jalapeno", "SnowPea", "TallNut");
+            chosenCards.addAll(elementsToAdd);
+        }
         if(this.map == null)
             this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
@@ -657,7 +736,7 @@ public class Game {
                 chargeTimes.set(i,chargeTimes.get(i) + delta);
         }
     }
-    private void positionZombie(Zombie zombie) {
+    public void positionZombie(Zombie zombie) {
         ImageView view = zombie.getView();
         view.setTranslateX(180);
         int row = zombie.getRow();
@@ -729,7 +808,8 @@ public class Game {
         spawnTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(du), e -> spawnZombie())
         );
-        spawnTimeline.setCycleCount((int) (remainingTimeMil/(du * 1000)));
+        if(du != 0)
+            spawnTimeline.setCycleCount((int) (remainingTimeMil/(du * 1000)));
         spawnTimeline.play();
     }
     private void spawnZombie() {
@@ -739,6 +819,10 @@ public class Game {
         zombies.add(zombie);
         map.borderPane.getChildren().add(zombie.getView());
         positionZombie(zombie);
+
+        if (server.getOut() != null) {
+            server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
+        }
     }
     private void setupAttackPhases() {
 
@@ -795,14 +879,27 @@ public class Game {
         startGameLoop();
 
     }
-
+    //    private void createAttackPhase() {
+//        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
+//            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
+//            zombies.add(zombie);
+//            map.borderPane.getChildren().add(zombie.getView());
+//            positionZombie(zombie);}));
+//        timeline.setCycleCount(15);
+//        timeline.play();
+//        System.out.println(time);
+//    }
     private void createAttackPhase() {
         startAttackTime = (int)time;
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
-            positionZombie(zombie);}));
+            positionZombie(zombie);
+            if(server.getOut() != null) {
+                server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
+            }
+        }));
         timeline.setCycleCount(15);
         //timeline.jumpTo(Duration.millis(time % 15000));
         timeline.play();
@@ -815,7 +912,11 @@ public class Game {
             Zombie zombie = ZombieFactory.createRandomZombie(finalPhase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
-            positionZombie(zombie);}));
+            positionZombie(zombie);
+            if(server.getOut() != null) {
+                server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
+            }
+        }));
         timeline.setCycleCount(15);
         timeline.jumpTo(Duration.millis(time - startAttackTime));
         timeline.play();
@@ -823,17 +924,18 @@ public class Game {
 
     public int getCurrentPhase() {
         double elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000.0;
-        if (elapsedSeconds >= 60) return 4;
-        return (int) (elapsedSeconds / 15) + 1;
+        if (elapsedSeconds >= 73.5) return 4;
+        return (int) (elapsedSeconds / 15);
     }
     public int getCurrentPhaseS() {
         double elapsedSeconds = time / 1000.0;
-        if (elapsedSeconds >= 60) return 4;
-        return (int) (elapsedSeconds / 15) + 1;
+        if (elapsedSeconds >= 73.5) return 4;
+        return (int) (elapsedSeconds / 15);
     }
     public long getTime(){
         return time;
     }
+
     private void startGameLoop() {
         AnimationTimer gameLoop = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -847,7 +949,7 @@ public class Game {
                 double deltaTime = (now - lastUpdate) / 1_000_000_000.0;
                 lastUpdate = now;
                 time += (long) (deltaTime * 1000);
-                if (time >= 58000 && time <= 58033 && !happened && isNight) {
+                if (time >= 58000 && time <= 58040 && !happened && isNight) {
                     happened = true;
                     spawnFromGrave();
                     for(int i = 0; i < 5; i++){
@@ -855,7 +957,7 @@ public class Game {
                         map.gravePosPairs[i][1] = -1;
                     }
                 }
-                System.out.println(time);
+                //System.out.println("___________" + time);
                 currentPhase = getCurrentPhaseS();
                 updateChargeTimes((int) (deltaTime * 1000));
                 updatePlants(deltaTime);
@@ -868,6 +970,7 @@ public class Game {
         };
         gameLoop.start();
     }
+
     public void checkZombiePlantCollisions() {
         for (Zombie zombie : zombies) {
             // Check if zombie reached a plant's cell
@@ -1013,15 +1116,6 @@ public class Game {
         Image repeater = new Image(getClass().getResourceAsStream("images/Plants/repeater.gif"));
         Image jalapeno = new Image(getClass().getResourceAsStream("images/Plants/jalapeno.gif"));
         Image cherrybomb = new Image(getClass().getResourceAsStream("images/Plants/cherrybomb.gif"));
-        Image hypnoShroom = new Image(getClass().getResourceAsStream("images/Plants/HypnoShroom.gif"));
-        Image iceShroom = new Image(getClass().getResourceAsStream("images/Plants/IceShroom.gif"));
-        Image doomShroom = new Image(getClass().getResourceAsStream("images/Plants/DoomShroom.gif"));
-        Image graveBuster = new Image(getClass().getResourceAsStream("images/Plants/GraveBuster.gif"));
-        Image puffShroom = new Image(getClass().getResourceAsStream("images/Plants/puffShroom.gif"));
-        Image scaredyShroom = new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroom.gif"));
-        Image blover = new Image(getClass().getResourceAsStream("images/Plants/Bloverpagedoll.gif"));
-        Image plantern = new Image(getClass().getResourceAsStream("images/Plants/Plantern.gif"));
-        Image coffeeBean = new Image(getClass().getResourceAsStream("images/Plants/coffeebean.gif"));
         ImageView sunflowerView = new ImageView(sunflower);
         ImageView peashooterView = new ImageView(peashooter);
         ImageView snowpeaView = new ImageView(snowpea);
@@ -1030,24 +1124,6 @@ public class Game {
         ImageView repeaterView = new ImageView(repeater);
         ImageView jalapenoView = new ImageView(jalapeno);
         ImageView cherrybombView = new ImageView(cherrybomb);
-        ImageView hypnoShroomView = new ImageView(hypnoShroom);
-        ImageView iceShroomView = new ImageView(iceShroom);
-        ImageView doomShroomView = new ImageView(doomShroom);
-        ImageView graveBusterView = new ImageView(graveBuster);
-        ImageView puffShroomView = new ImageView(puffShroom);
-        ImageView scaredyShroomView = new ImageView(scaredyShroom);
-        ImageView bloverView = new ImageView(blover);
-        ImageView planternView = new ImageView(plantern);
-        ImageView coffeeBeanView = new ImageView(coffeeBean);
-        hypnoShroomView.setFitHeight(CELL_SIZE);
-        iceShroomView.setFitHeight(CELL_SIZE); iceShroomView.setFitWidth(CELL_SIZE);
-        doomShroomView.setFitHeight(CELL_SIZE); doomShroomView.setFitWidth(CELL_SIZE);
-        graveBusterView.setFitHeight(CELL_SIZE); graveBusterView.setFitWidth(CELL_SIZE);
-        puffShroomView.setFitHeight(CELL_SIZE); puffShroomView.setFitWidth(50);
-        bloverView.setFitHeight(CELL_SIZE); bloverView.setFitWidth(CELL_SIZE);
-        planternView.setFitWidth(CELL_SIZE); planternView.setFitWidth(CELL_SIZE);
-        coffeeBeanView.setFitWidth(30); coffeeBeanView.setFitHeight(80);
-
         sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
         peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
         snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
@@ -1056,18 +1132,6 @@ public class Game {
         repeaterView.setFitHeight(CELL_SIZE); repeaterView.setFitWidth(CELL_SIZE);
         jalapenoView.setFitHeight(CELL_SIZE); jalapenoView.setFitWidth(CELL_SIZE);
         cherrybombView.setFitHeight(CELL_SIZE); cherrybombView.setFitWidth(CELL_SIZE);
-
-        // sleeping version of night plants
-        ImageView puffShroomSleepView = new ImageView(new Image(getClass().getResourceAsStream("images/Plants/PuffShroomSleep.gif")));
-        ImageView scardyShroomSleepView = new ImageView(new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroomSleep.gif")));
-        ImageView doomShroomSleepView = new ImageView(new Image(getClass().getResourceAsStream("images/Plants/Sleep.gif")));
-        ImageView iceShroomSleepView = new ImageView(new Image(getClass().getResourceAsStream("images/Plants/iceShroomSleep.gif")));
-        ImageView hypnoShroomSleepView = new ImageView(new Image(getClass().getResourceAsStream("images/Plants/HypnoShroomSleep.gif")));
-
-        //puffShroomSleepView.setFitHeight(CELL_SIZE); puffShroomSleepView.setFitWidth(50);
-        //doomShroomSleepView.setFitHeight(CELL_SIZE); doomShroomSleepView.setFitHeight(CELL_SIZE);
-
-
         StackPane cell = map.createCell(row, col);
 
         switch (type) {
@@ -1077,35 +1141,6 @@ public class Game {
             case "WallNut": return new WallNut(row, col, wallnutImageView, cell);
             case "TallNut": return new TallNut(row, col, tallnutImageView, cell);
             case "RepeaterPeaShooter": return new RepeaterPeaShooter(row, col, repeaterView);
-            case "PuffShroom":
-                PuffShroom p = new PuffShroom(row, col, puffShroomView);
-                if(!Game.isNight) { // make sure that constructor don't make the puff sleep in DAY state
-                    p.isSleeping = false;
-                    p.view.setImage(puffShroom);
-                }
-                return p;
-            case "ScaredyShroom":
-                ScaredyShroom s = new ScaredyShroom(row, col, scaredyShroomView);
-                if(!Game.isNight) {
-                    s.isSleeping = false;
-                    s.view.setImage(puffShroom);
-                }
-                return s;
-            case "PuffShroomSleep": return new PuffShroom(row, col, puffShroomSleepView);
-            case "ScaredyShroomSleep": return new ScaredyShroom(row, col, scardyShroomSleepView);
-            case "DoomShroomSleep": return new DoomShroom(row, col, cell, doomShroomSleepView);
-            case "IceShroomSleep": return new IceShroom(row, col, cell, iceShroomSleepView);
-            case "Plantern":
-            case "PlanternSleep":
-                return new Plantern(row, col, planternView);
-            case "HypnoShroom":
-                HypnoShroom h = new HypnoShroom(row, col, hypnoShroomView);
-                if(!Game.isNight) {
-                    h.isSleeping = false;
-                    h.view.setImage(hypnoShroom);
-                }
-                return h;
-            case "HypnoShroomSleep": return new HypnoShroom(row, col, hypnoShroomSleepView);
             // Add other types
             default: return null;
         }
@@ -1143,6 +1178,7 @@ public class Game {
     }
     private void spawnFromGrave() {
         for (int i = 0 ; i < 5 ; i++) {
+            if (map.getGravePosPairs()[i][0] == -1) {continue;}
             Zombie zombie = ZombieFactory.createRandomZombie(4, map.getGravePosPairs()[i][0]);
             zombie.setColumn(map.getGravePosPairs()[i][1]+ 0.5);
             positionZombie(zombie);
@@ -1152,12 +1188,5 @@ public class Game {
             ((StackPane)(map.getNodeFromGrid(map.getGridPane(), map.getGravePosPairs()[i][1], map.getGravePosPairs()[i][0]))).getChildren().clear();
 
         }
-    }
-
-    public int getStartAttackTime(){
-        return startAttackTime;
-    }
-    public void setStartAttackTime(int t){
-        this.startAttackTime = t;
     }
 }

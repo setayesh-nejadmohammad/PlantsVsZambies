@@ -745,7 +745,7 @@ public class Mapp {
             cell.getChildren().addAll(peashooterView);
             gameController.reduceScore(100);
         }
-        else if(num.intValue() == 3 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
+        else if(num.intValue() == 3 && cell.getChildren().size() == 0 && gameController.totalScore >= 175) {
             num.set(0);
             Game.getInstance().getPlants().add(new SnowPea(row, col , snowpeaView));
             Game.getInstance().getCT().set(chosenCards.indexOf("SnowPea"), 0);
@@ -829,7 +829,7 @@ public class Mapp {
             gameController.reduceScore(125);
             Game.getInstance().getCT().set(chosenCards.indexOf("DoomShroom"), 0);
             int i = chosenCards.indexOf("DoomShroom");
-            createCardWithCooldown(i, doomShroomPane, doomShroomButton, 3000);
+            createCardWithCooldown(i, doomShroomPane, doomShroomButton, 15000);
         }
         else if(num.intValue() == 12 && cell.getChildren().size() == 0) {
             num.set(0);

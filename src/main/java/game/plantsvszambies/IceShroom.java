@@ -8,6 +8,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class IceShroom extends Plant{
     StackPane pane;
 
@@ -51,7 +54,8 @@ public class IceShroom extends Plant{
     }
 
     public void freezAllZombies(){
-        for(Zombie z: Game.getInstance().getZombies()){
+        ArrayList<Zombie> copy = new ArrayList<>(Game.getInstance().getZombies());
+        for(Zombie z: copy){
             z.freezeZombie();
             if(z.getClass().getSimpleName().equals("NormalZombie")){
                 z.view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/freezedZombie.png")));

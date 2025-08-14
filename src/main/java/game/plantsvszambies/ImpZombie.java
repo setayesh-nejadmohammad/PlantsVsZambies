@@ -12,7 +12,7 @@ public class ImpZombie extends Zombie{
         super(45, 25, 0.5, row);
     }
     public ImpZombie(int row, double col) {
-        super(100, 50, 0.25, row);
+        super(100, 50, 0.5, row);
         this.column = col;
     }
 
