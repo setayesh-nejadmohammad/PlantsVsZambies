@@ -730,6 +730,7 @@ public class Game {
         spawnTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(du), e -> spawnZombie())
         );
+        if(du != 0)
         spawnTimeline.setCycleCount((int) (remainingTimeMil/(du * 1000)));
         spawnTimeline.play();
     }
@@ -857,7 +858,7 @@ public class Game {
                 double deltaTime = (now - lastUpdate) / 1_000_000_000.0;
                 lastUpdate = now;
                 time += (long) (deltaTime * 1000);
-                if (time >= 58000 && time <= 58040 && !happened) {
+                if (time >= 58000 && time <= 58040 && !happened && isNight) {
                     happened = true;
                     spawnFromGrave();
                     for(int i = 0; i < 5; i++){

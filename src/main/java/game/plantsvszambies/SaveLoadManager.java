@@ -65,13 +65,14 @@ public class SaveLoadManager {
 
             for (Plant plant : Game.getInstance().getPlants()) {
                 String line = String.format("PLANT %s %d %d %d",
-                        plant.getClass().getSimpleName(),
+                        plant.isSleeping ? plant.getClass().getSimpleName()+"Sleep" : plant.getClass().getSimpleName(),
                         plant.getRow(),
                         plant.getCol(),
                         (int) plant.getHealth()
                 );
                 writer.write(line + "\n");
             }
+            writer.write("STARTATTACK " + Game.getInstance().getStartAttackTime() + "\n");
             for (Zombie z : Game.getInstance().getZombies()) {
                 String line = String.format("ZOMBIE %s %d %f %d %f %f",
                         z.getClass().getSimpleName(),
@@ -92,7 +93,6 @@ public class SaveLoadManager {
 
             }
             writer.write(lin + "\n");
-            writer.write("STARTATTACK " + Game.getInstance().getStartAttackTime() + "\n");
             for (Zombie z : Game.getInstance().getHZombies()) {
                 String line = String.format("HZOMBIE %s %d %f %d %f %f",
                         z.getClass().getSimpleName(),
@@ -173,29 +173,29 @@ public class SaveLoadManager {
                 else if(parts[0].equals("SCORE")) {
                     if(score != null) score[0] = Integer.parseInt(parts[1]);
                 }
-                else if(parts[0].equals("STARTATTACK")) {
-                    Game.getInstance().setStartAttackTime(Integer.parseInt(parts[1]));
-                }
                 else if(parts[0].equals("CTIMES")) {
                     Game.getInstance().getCT().clear();
                     for (int i = 1; i <= 6; i++) {
-                         Game.getInstance().getCT().add(Integer.parseInt(parts[i]));
+                        Game.getInstance().getCT().add(Integer.parseInt(parts[i]));
 
                     }
                 }
+                else if(parts[0].equals("STARTATTACK")) {
+                    Game.getInstance().setStartAttackTime(Integer.parseInt(parts[1]));
+                }
                 else if (parts[0].equals("ZOMBIE")) {
-                        String type = parts[1];
-                        int row = Integer.parseInt(parts[2]);
-                        double col = Double.parseDouble(parts[3]);
-                        int health = Integer.parseInt(parts[4]);
-                        double layX = Double.parseDouble(parts[5]);
-                        double layY = Double.parseDouble(parts[6]);
-                        Zombie zombie = Game.getInstance().createZombieByType(type, row, col);
-                        zombie.setHealth(health);
-                        zombie.getView().setLayoutX(layX);
-                        zombie.getView().setLayoutY(layY);
-                        zombie.getView().setTranslateX(180);
-                        zombies.add(zombie);
+                    String type = parts[1];
+                    int row = Integer.parseInt(parts[2]);
+                    double col = Double.parseDouble(parts[3]);
+                    int health = Integer.parseInt(parts[4]);
+                    double layX = Double.parseDouble(parts[5]);
+                    double layY = Double.parseDouble(parts[6]);
+                    Zombie zombie = Game.getInstance().createZombieByType(type, row, col);
+                    zombie.setHealth(health);
+                    zombie.getView().setLayoutX(layX);
+                    zombie.getView().setLayoutY(layY);
+                    zombie.getView().setTranslateX(180);
+                    zombies.add(zombie);
                 }
                 else if (parts[0].equals("GR")) {
                     Game.getInstance().getMap().getGravePosPairs()[0][0] = Integer.parseInt(parts[1]);
