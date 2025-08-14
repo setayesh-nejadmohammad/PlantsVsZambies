@@ -1,7 +1,6 @@
 package game.plantsvszambies;
 
 import javafx.animation.*;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,12 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.Map;
-
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,10 +29,14 @@ public class Game {
     private ArrayList<Integer> chargeTimes = new ArrayList<>();
     private boolean[] clicked = new boolean[6];
     private int startAttackTime = 0;
+    private AnimationTimer gameLoop;
+    public int lastSpawnTime = 0;
 
     public Image day = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     public Image night = new Image(getClass().getResourceAsStream("images/night1.png"));
     public Image ZombieStaring = new Image(getClass().getResourceAsStream("images/button_menus/StartgameBg.png"));
+    private boolean lost;
+
     public void setStartAttackTime(int time) {
         this.startAttackTime = time;
     }
@@ -136,7 +136,6 @@ public class Game {
     public List<Plant> getPlants() {
         return plants;
     }
-
     public void ChooseState(){
         Pane pane = new Pane();
         Scene ChooseStateScene = new Scene(pane, 1024, 626);
@@ -651,7 +650,7 @@ public class Game {
         if(this.map == null)
             this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
-        //setupSpawnTimer();
+        setupSpawnTimer();
         setupAttackPhases();
         startGameLoop();
     }
@@ -661,7 +660,7 @@ public class Game {
                 chargeTimes.set(i,chargeTimes.get(i) + delta);
         }
     }
-    private void positionZombie(Zombie zombie) {
+    public void positionZombie(Zombie zombie) {
         ImageView view = zombie.getView();
         view.setTranslateX(180);
         int row = zombie.getRow();
@@ -734,10 +733,11 @@ public class Game {
                 new KeyFrame(Duration.seconds(du), e -> spawnZombie())
         );
         if(du != 0)
-        spawnTimeline.setCycleCount((int) (remainingTimeMil/(du * 1000)));
+        spawnTimeline.setCycleCount((int) (Math.ceil(remainingTimeMil/(du * 1000))));
         spawnTimeline.play();
     }
     private void spawnZombie() {
+        updateLSpawn();
         int currentPhase = getCurrentPhaseS();
         int row = (new Random()).nextInt(5);
         Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row);
@@ -794,25 +794,14 @@ public class Game {
         for(Zombie z: Hzombies){
             map.borderPane.getChildren().add(z.getView());
         }
-        //setupSpawnTimer(time);
+        setupSpawnTimer(time);
         setupAttackPhaseS();
         //setupGraveZombies();
         startGameLoop();
-
     }
-//    private void createAttackPhase() {
-//        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
-//            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
-//            zombies.add(zombie);
-//            map.borderPane.getChildren().add(zombie.getView());
-//            positionZombie(zombie);}));
-//        timeline.setCycleCount(15);
-//        timeline.play();
-//        System.out.println(time);
-//    }
     private void createAttackPhase() {
         startAttackTime = (int)time;
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { updateLSpawn(); int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
@@ -849,7 +838,7 @@ public class Game {
         return time;
     }
     private void startGameLoop() {
-        AnimationTimer gameLoop = new AnimationTimer() {
+        gameLoop = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
             public void handle(long now) {
@@ -878,20 +867,39 @@ public class Game {
                 checkZombieHzombieCollisions();
                 updateBullets(deltaTime);
                 updateZombies(deltaTime);
+                if (lost) gameLoop.stop();
+                if (time > 75000 && time - lastSpawnTime > 1900) {
+                    WinnerWinner();
+                    gameLoop.stop();
+                }
             }
         };
         gameLoop.start();
     }
+
+    private void WinnerWinner() {
+        StackPane pane = new StackPane();
+        Scene scene = new Scene(pane, 600 ,800);
+        Label label = new Label("Winner Winner Chicken Dinner");
+        pane.getChildren().add(label);
+        stage.setScene(scene);
+        
+        
+    }
+
     public void checkZombiePlantCollisions() {
         for (Zombie zombie : zombies) {
             // Check if zombie reached a plant's cell
-            if (!zombie.isEating) {
+            if (!zombie.isEating()) {
                 Plant plant = findPlantAt(zombie.getRow(), zombie.getColumn());
                 if (plant != null) {
                     zombie.startEating();
                 }
             }
         }
+    }
+    public void updateLSpawn() {
+        lastSpawnTime = (int) time;
     }
     public void checkZombieHzombieCollisions() {
         for (Zombie zombie : zombies) {
@@ -949,9 +957,10 @@ public class Game {
             }
             zombie.update(deltaTime);
             if(checkReachedEnd(zombie)) {
+                Scene scene = new Scene(new StackPane(new Label("LOOOOser")), 600, 800);
+                stage.setScene(scene);
                 map.borderPane.getChildren().remove(zombie.getView());
-                iterator.remove();
-
+                lost = true;
             }
         }
     }
