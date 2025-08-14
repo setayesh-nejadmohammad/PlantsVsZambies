@@ -167,6 +167,9 @@ public class Game {
         chooseFog.setGraphic(fogButtonView);
         chooseFog.getStyleClass().add("button");
 
+        Button multiplayerButton = new Button("Multiplayer");
+
+
         chooseDay.setOnAction(e -> {
             isNight = false;
             frontYard = day;
@@ -185,7 +188,7 @@ public class Game {
         });
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(chooseNight, chooseDay, chooseFog);
+        vbox.getChildren().addAll(chooseNight, chooseDay, chooseFog, multiplayerButton);
         vbox.setSpacing(15);
         vbox.setAlignment(Pos.CENTER);
 
