@@ -65,13 +65,14 @@ public class SaveLoadManager {
 
             for (Plant plant : Game.getInstance().getPlants()) {
                 String line = String.format("PLANT %s %d %d %d",
-                        plant.getClass().getSimpleName(),
+                        plant.isSleeping ? plant.getClass().getSimpleName()+"Sleep" : plant.getClass().getSimpleName(),
                         plant.getRow(),
                         plant.getCol(),
                         (int) plant.getHealth()
                 );
                 writer.write(line + "\n");
             }
+            writer.write("STARTATTACK " + Game.getInstance().getStartAttackTime() + "\n");
             for (Zombie z : Game.getInstance().getZombies()) {
                 String line = String.format("ZOMBIE %s %d %f %d %f %f",
                         z.getClass().getSimpleName(),
@@ -178,6 +179,9 @@ public class SaveLoadManager {
                         Game.getInstance().getCT().add(Integer.parseInt(parts[i]));
 
                     }
+                }
+                else if(parts[0].equals("STARTATTACK")) {
+                    Game.getInstance().setStartAttackTime(Integer.parseInt(parts[1]));
                 }
                 else if (parts[0].equals("ZOMBIE")) {
                     String type = parts[1];
