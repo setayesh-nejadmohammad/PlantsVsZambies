@@ -19,8 +19,8 @@ public class ZombieFactory {
     public static Zombie createRandomZombie(int currentPhase, int row) {
         ZombieType[] availableTypes = switch (currentPhase) {
             case 1 -> new ZombieType[]{ZombieType.NORMAL};
-            case 2 -> new ZombieType[]{ ZombieType.CONEHEAD};
-            case 3 -> new ZombieType[]{ ZombieType.CONEHEAD, ZombieType.SCREEN_DOOR};
+            case 2 -> new ZombieType[]{ZombieType.NORMAL, ZombieType.CONEHEAD};
+            case 3 -> new ZombieType[]{ZombieType.NORMAL, ZombieType.CONEHEAD, ZombieType.SCREEN_DOOR};
             case 4 -> ZombieType.values();
             default -> throw new IllegalArgumentException("Invalid phase");
         };

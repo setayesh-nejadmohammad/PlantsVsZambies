@@ -1,13 +1,20 @@
 package game.plantsvszambies;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class PuffShroom extends ShooterPlant{
     public PuffShroom(int row, int col, ImageView imageView){
         super(row, col, 5, 0, 5, imageView);
         this.fireRate = 0.9;
+        this.isNightPlant = true;
+        if(!Game.isNight) {
+            this.isSleeping = true;
+            view.setImage(new Image(getClass().getResourceAsStream("images/Plants/PuffShroomSleep.gif")));
+        }
     }
     protected void shoot() {
+        if(isSleeping) {return;}
         Bullet bullet = new Bullet(
                 this.getX() + 10,     // Start slightly ahead of plant
                 this.getY()+45,     // Center vertically
@@ -31,6 +38,10 @@ public class PuffShroom extends ShooterPlant{
             }
         }
         return false;
+    }
 
+    public void beAwake(){
+        isSleeping = false;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Plants/PuffShroom.gif")));
     }
 }

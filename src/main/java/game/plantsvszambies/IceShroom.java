@@ -15,17 +15,25 @@ public class IceShroom extends Plant{
         super(row, col, 5, 75, 7, imageView);
         this.pane = pane;
         pane.getChildren().add(view);
-        act(pane);
+        if(Game.isNight) act(pane);
+        this.isNightPlant = true;
+        if(!Game.isNight) {
+            this.isSleeping = true;
+            view.setImage(new Image(getClass().getResourceAsStream("images/Plants/IceShroomSleep.gif")));
+        }
     }
 
     public void update(double time){}
 
     public void act(StackPane pane){
         freezAllZombies();
-//        Timeline snowComing = new Timeline(
-//                new KeyFrame(Duration.seconds(0.7), event -> {SnowGif(pane);})
-//        );
-//        snowComing.play();
+
+        Timeline snowComing = new Timeline(
+                new KeyFrame(Duration.seconds(0.7), event -> {SnowGif(pane);})
+        );
+        snowComing.play();
+
+
         Timeline removeTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.7), e -> {
                     pane.getChildren().remove(view);
@@ -113,5 +121,11 @@ public class IceShroom extends Plant{
                 z.resumeZombie();
             }
         }
+    }
+
+    public void beAwake(){
+        isSleeping = false;
+        view.setImage(new Image(getClass().getResourceAsStream("images/Plants/iceShroom.gif")));
+        act(pane);
     }
 }

@@ -1,10 +1,8 @@
-CARDS Sunflower Peashooter SnowPea GraveBuster DoomShroom HypnoShroom 
-CTIMES 0 964 0 0 0 0 
-SCORE 99999849
-PLANT Sunflower 0 0 5
-PLANT Peashooter 1 0 5
-ZOMBIE NormalZombie 2 8.496405 100 679.712364 253.000000
-ZOMBIE NormalZombie 3 9.247983 100 739.838626 349.000000
-GR 2 3 1 1 1 5 3 5 2 8 
-TIME 10445
-currentP 1
+CARDS Plantern Blover DoomShroom GraveBuster Sunflower SnowPea 
+CTIMES 0 0 0 1138 0 0 
+SCORE 19875
+ZOMBIE ConeheadZombie 3 8.448023 150 675.841848 349.000000
+ZOMBIE ConeheadZombie 1 8.896215 150 711.697178 169.000000
+GR -1 -1 1 8 -1 -1 0 4 1 6 
+TIME 42595
+currentP 3

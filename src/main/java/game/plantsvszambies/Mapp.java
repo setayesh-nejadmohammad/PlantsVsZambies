@@ -75,6 +75,7 @@ public class Mapp {
     public GridPane grid;
     public BorderPane borderPane = new BorderPane();
     ArrayList chosenCards;
+    // GameController gameController;
     GameController gameController = new GameController(borderPane, grid);
 
     Image sunflower = new Image(getClass().getResourceAsStream("images/Plants/sunflower.gif"));
@@ -93,6 +94,7 @@ public class Mapp {
     Image scaredyShroom = new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroom.gif"));
     Image blover = new Image(getClass().getResourceAsStream("images/Plants/Bloverpagedoll.gif"));
     Image plantern = new Image(getClass().getResourceAsStream("images/Plants/Plantern.gif"));
+    Image coffeeBean = new Image(getClass().getResourceAsStream("images/Plants/coffeebean.gif"));
     Image frontYard = new Image(getClass().getResourceAsStream("images/Frontyard.png"));
     Image sunflowerCard = new Image(getClass().getResourceAsStream("images/Cards/sunflowerCard.png"));
     Image peashooterCard = new Image(getClass().getResourceAsStream("images/Cards/peashooterCard.png"));
@@ -110,7 +112,7 @@ public class Mapp {
     Image puffShroomCard = new Image(getClass().getResourceAsStream("images/Cards/PuffShroomCard.png"));
     Image scaredyShroomCard = new Image(getClass().getResourceAsStream("images/Cards/ScaredyShroomCard.png"));
     Image bloverCard = new Image(getClass().getResourceAsStream("images/Cards/BloverCard.png"));
-    Image coffeeBean = new Image(getClass().getResourceAsStream("images/Cards/CoffeeBeanCard.png"));
+    Image coffeeBeanCard = new Image(getClass().getResourceAsStream("images/Cards/CoffeeBeanCard.png"));
     Image grave = new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/grave.png"));
     ImageView sunflowerCardImageView = new ImageView(sunflowerCard);
     ImageView peashooterCardImageView = new ImageView(peashooterCard);
@@ -128,7 +130,7 @@ public class Mapp {
     ImageView puffShroomImageView = new ImageView(puffShroomCard);
     ImageView scaredyShroomImageView = new ImageView(scaredyShroomCard);
     ImageView bloverCardImageView = new ImageView(bloverCard);
-    ImageView coffeeBeanImageView = new ImageView(coffeeBean);
+    ImageView coffeeBeanImageView = new ImageView(coffeeBeanCard);
     Image shovelCursor = new Image(getClass().getResourceAsStream("images/Mower,sun,pea,lock/Shovel.png"), 50, 50, true, true);
     Cursor shovelCurs;
     ImageView sunflowerView = new ImageView(sunflower);
@@ -152,6 +154,11 @@ public class Mapp {
         grid.setLayoutX(250);
         grid.setLayoutY(85);
         this.gridCells = new Cell[ROWS][COLS];
+
+        for(int i = 0;i < 5; i++){
+            gravePosPairs[i][0] = -1;
+            gravePosPairs[i][1] = -1;
+        }
 
 
         /*for (int row = 0; row < ROWS; row++) {
@@ -182,10 +189,20 @@ public class Mapp {
 
     public void drawMap() {
         addSaveLoadButton();
-        sunFalling();
-        if (Game.getInstance().getTime() < 400) {
+        if(!Game.isNight) {
+            sunFalling();
+        }
+        else if(Game.getInstance().getTime() < 300){
             findPosForGraves();
         }
+
+        if(Game.isNight){
+            frontYard = Game.getInstance().night;
+        }
+        else{
+            frontYard = Game.getInstance().day;
+        }
+
         BackgroundImage bgImage = new BackgroundImage(
                 frontYard,
                 BackgroundRepeat.NO_REPEAT,
@@ -193,15 +210,16 @@ public class Mapp {
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
         borderPane.setBackground(new Background(bgImage));
+
         VBox vbox = new VBox();
         borderPane.setLeft(vbox);
         buttonsHandler(vbox);
         vbox.getChildren().add(gameController.getShovelStack());
 
-
         vbox.setLayoutX(250);
         vbox.setLayoutY(85);
-        vbox.setPadding(new Insets(10));
+        vbox.setPadding(new Insets(5));
+        vbox.setSpacing(6);
 
         borderPane.getChildren().add(grid);
 
@@ -222,14 +240,7 @@ public class Mapp {
             }
         }
 
-        /*StackPane cell = new StackPane();
-        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("images/plants/HypnoShroom.gif")));
-        HypnoShroom hypnoShroom = new HypnoShroom(3, 3, imageView);
-        cell.getChildren().add(imageView);
-        Game.getInstance().getPlants().add(hypnoShroom);
-        grid.add(cell, 3, 3);*/
-
-        //addFog();
+        if(Game.isFog) addFog();
 
         stage.setTitle("plant vs zambies");
         scene = new Scene(borderPane, 1024, 626);
@@ -299,7 +310,7 @@ public class Mapp {
 
         StackPane cell = new StackPane();
         boolean isGrave = checkForGravePos(row,col);
-        if(isGrave){
+        if(isGrave && Game.isNight) {
             cell.getChildren().add(graveView);
         }
         cell.setOnMouseClicked((MouseEvent e) -> {
@@ -357,17 +368,27 @@ public class Mapp {
         fade.play();
     }
     public void addSaveLoadButton(){
-        Button saveButton = new Button("Save");
-        Button loadButton = new Button("Load");
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/saveButton.png")));
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(40);
+        if(!Game.isNight){
+            imageView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/saveGameBtton.png")));
+            imageView.setFitHeight(60);
+            imageView.setFitWidth(170);
+        }
+
+        Button saveButton = new Button();
+        saveButton.setGraphic(imageView);
+        saveButton.getStyleClass().add("button");
+
         VBox vbox = new VBox();
         vbox.getChildren().add(saveButton);
+        vbox.setMaxSize(100, 100);
+
         //vbox.getChildren().add(loadButton);
         borderPane.setRight(vbox);
         saveButton.setOnAction(e -> {
             SaveLoadManager.saveGame("savedData.txt", gameController.totalScore);
-        });
-        loadButton.setOnAction(e -> {
-            //SaveLoadManager.loadGame("savedData.txt"); // ?????!?!?!?
         });
     }
 
@@ -382,6 +403,8 @@ public class Mapp {
 
 
     public void buttonsHandler(VBox vbox) {
+        vbox.getChildren().add(Game.scoreStack);
+
         sunflowerCardImageView.setFitWidth(CELL_SIZE * 1.5);
         sunflowerCardImageView.setFitHeight(CELL_SIZE);
         peashooterCardImageView.setFitWidth(CELL_SIZE * 1.5);
@@ -619,85 +642,6 @@ public class Mapp {
             }
             num.set(18);
         });
-    }
-    private void checkCards(){
-        for (int i = 0; i < chosenCards.size(); i++) {
-            if (Game.getInstance().getCT().get(i) != 0) {
-                System.out.println("Hahahaha" + Game.getInstance().getCT().get(i));
-                if (chosenCards.get(i).equals("Sunflower")) {
-                    createCardWithCooldown(i, sunFlowerPane, sunflowerButton, 5000);
-                } else if (chosenCards.get(i).equals("Peashooter")) {
-                    createCardWithCooldown(i, peashooterPane, peashooterButton, 5000);
-                } else if (chosenCards.get(i).equals("SnowPea")) {
-                    createCardWithCooldown(i, snowpeaPane, snowpeaButton, 17500);
-                } else if (chosenCards.get(i).equals("TallNut")) {
-                    createCardWithCooldown(i, tallnutPane, tallnutButton, 12500);
-                } else if (chosenCards.get(i).equals("WallNut")) {
-                    createCardWithCooldown(i, wallnutPane, wallnutButton, 5000);
-
-                } else if (chosenCards.get(i).equals("RepeaterPeaShooter")) {
-                    createCardWithCooldown(i, repeaterPane, repeaterButton, 5000);
-                } else if (chosenCards.get(i).equals("Jalapeno")) {
-                    createCardWithCooldown(i, jalapenoPane, jalapenoButton, 5000);
-                } else if (chosenCards.get(i).equals("CherryBomb")) {
-                    createCardWithCooldown(i, cherrybombPane, cherrybombButton, 5000);
-                } else if (chosenCards.get(i).equals("Plantern")) {
-                    createCardWithCooldown(i, planternPane, planternButton, 5000);
-                } else if (chosenCards.get(i).equals("PuffShroom")) {
-                    createCardWithCooldown(i, puffShroomPane, puffShroomButton, 5000);
-
-                } else if (chosenCards.get(i).equals("ScaredyShroom")) {
-                    createCardWithCooldown(i, puffShroomPane, puffShroomButton, 5000);
-                } else if (chosenCards.get(i).equals("IceShroom")) {
-                    createCardWithCooldown(i, iceShroomPane, iceShroomButton, 5000);
-
-                } else if (chosenCards.get(i).equals("GraveBuster")) {
-                    createCardWithCooldown(i, graveBusterPane, graveBusterButton, 5000);
-                } else if (chosenCards.get(i).equals("DoomShroom")) {
-                    createCardWithCooldown(i, doomShroomPane, doomShroomButton, 5000);
-                } else if (chosenCards.get(i).equals("CoffeeBean")) {
-                    createCardWithCooldown(i, coffeeBeanPane, coffeeBeanButton, 5000);
-
-                } else if (chosenCards.get(i).equals("HypnoShroom")) {
-                    createCardWithCooldown(i, hypnoShroomPane, hypnoShroomButton, 5000);
-                } else if (chosenCards.get(i).equals("Blover")) {
-                    createCardWithCooldown(i, bloverPane, bloverButton, 5000);
-                }
-            }
-        }
-    }
-
-    public void findPosForGraves(){
-        Random random = new Random();
-        Set<String> usedPairs = new HashSet<>();
-        int count = 0;
-        while (count < 5) {
-            int first = random.nextInt(5);
-            int second = random.nextInt(9);
-            String key = first + "," + second;
-            if (!usedPairs.contains(key)) {
-                usedPairs.add(key);
-                gravePosPairs[count][0] = first;
-                gravePosPairs[count][1] = second;
-                count++;
-            }
-        }
-        for (int i = 0; i < gravePosPairs.length; i++) {
-            System.out.println("(" + gravePosPairs[i][0] + ", " + gravePosPairs[i][1] + ")");
-        }
-    }
-    public int[][] getGravePosPairs() {
-        return gravePosPairs;
-    }
-
-    public boolean checkForGravePos(int row, int col){
-        for(int i = 0; i < 5; i++){
-            if(gravePosPairs[i][0] == row && gravePosPairs[i][1] == col){
-                System.out.println("found a grave!");
-                return true;
-            }
-        }
-        return false;
 
     }
 
@@ -705,7 +649,7 @@ public class Mapp {
         for(int row = 0; row < 5; row++){
             for(int col = 4; col < 9; col++){
                 ImageView fogView = new ImageView(new Image(getClass().getResourceAsStream("images/Plants/fog0.png")));
-                fogView.setFitWidth(CELL_SIZE*2.2); fogView.setFitHeight(CELL_SIZE*2.2);
+                fogView.setFitWidth(CELL_SIZE*2); fogView.setFitHeight(CELL_SIZE*2.2);
                 fogView.setViewOrder(-1000);
 
                 Fog fog = new Fog(row, col, fogView);
@@ -722,12 +666,14 @@ public class Mapp {
                 //fogView.toFront(); fogStack.toFront();
                 //grid.add(fogStack, col, row);
                 borderPane.getChildren().add(fogView);
-                fogView.setLayoutX(grid.getLayoutX()+col*80-25);
+                fogView.setLayoutX(grid.getLayoutX()+col*80-10);
                 fogView.setLayoutY(grid.getLayoutY()+row*90-50);
             }
         }
     }
+
     public void click(StackPane cell, int row, int col){
+
         ImageView sunflowerView = new ImageView(sunflower);
         ImageView peashooterView = new ImageView(peashooter);
         ImageView snowpeaView = new ImageView(snowpea);
@@ -745,6 +691,7 @@ public class Mapp {
         ImageView scaredyShroomView = new ImageView(scaredyShroom);
         ImageView bloverView = new ImageView(blover);
         ImageView planternView = new ImageView(plantern);
+        ImageView coffeeBeanView = new ImageView(coffeeBean);
         sunflowerView.setFitHeight(CELL_SIZE); sunflowerView.setFitWidth(CELL_SIZE);
         peashooterView.setFitHeight(CELL_SIZE); peashooterView.setFitWidth(CELL_SIZE);
         snowpeaView.setFitHeight(CELL_SIZE); snowpeaView.setFitWidth(CELL_SIZE);
@@ -761,6 +708,7 @@ public class Mapp {
         puffShroomView.setFitHeight(CELL_SIZE); puffShroomView.setFitWidth(50);
         bloverView.setFitHeight(CELL_SIZE); bloverView.setFitWidth(CELL_SIZE);
         planternView.setFitWidth(CELL_SIZE); planternView.setFitWidth(CELL_SIZE);
+        coffeeBeanView.setFitWidth(30); coffeeBeanView.setFitHeight(80);
         boolean isGrave = checkForGravePos(row,col);
 //        if(isGrave){
 //            cell.getChildren().add(graveView);
@@ -769,9 +717,9 @@ public class Mapp {
             num.set(0);
             GraveBuster graveBuster = new GraveBuster(row, col, cell, graveBusterView, gravePosPairs);
             //plants.add(graveBuster); // don't need to bee add to plant (Zombies shouldn't eat it!)
-            Game.getInstance().getCT().set(chosenCards.indexOf("graveBuster"), 0);
-            int i = chosenCards.indexOf("graveBuster");
-            createCardWithCooldown(i, graveBusterPane, graveBusterButton, 7500 - Game.getInstance().getCT().get(chosenCards.indexOf("graveBuster")));
+            Game.getInstance().getCT().set(chosenCards.indexOf("GraveBuster"), 0);
+            int i = chosenCards.indexOf("GraveBuster");
+            createCardWithCooldown(i, graveBusterPane, graveBusterButton, 7500 - Game.getInstance().getCT().get(chosenCards.indexOf("GraveBuster")));
             return;
         }
         if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
@@ -927,6 +875,15 @@ public class Mapp {
             int i = chosenCards.indexOf("Plantern");
             createCardWithCooldown(i, planternPane, planternButton, p.rechargeTime * 1000);
         }
+        else if(num.intValue() == 17 && cell.getChildren().size() != 0 && gameController.totalScore >= 75
+                && findPlantAt(row, col).isNightPlant && findPlantAt(row, col).isSleeping){
+            num.set(0);
+            CoffeeBean coffeeBean = new CoffeeBean(row, col, cell, coffeeBeanView, findPlantAt(row, col));
+            cell.getChildren().add(coffeeBean.view);
+            int i = chosenCards.indexOf("CoffeeBean");
+            createCardWithCooldown(i, coffeeBeanPane, coffeeBeanButton, coffeeBean.rechargeTime);
+
+        }
     }
 
     public Node getNodeFromGrid(GridPane gridPane, int col, int row) {
@@ -945,5 +902,86 @@ public class Mapp {
         }
 
         return null; // اگه چیزی پیدا نشد
+    }
+
+    private void checkCards(){
+        for (int i = 0; i < chosenCards.size(); i++) {
+            if (Game.getInstance().getCT().get(i) != 0) {
+                System.out.println("Hahahaha" + Game.getInstance().getCT().get(i));
+                if (chosenCards.get(i).equals("Sunflower")) {
+                    createCardWithCooldown(i, sunFlowerPane, sunflowerButton, 5000);
+                } else if (chosenCards.get(i).equals("Peashooter")) {
+                    createCardWithCooldown(i, peashooterPane, peashooterButton, 5000);
+                } else if (chosenCards.get(i).equals("SnowPea")) {
+                    createCardWithCooldown(i, snowpeaPane, snowpeaButton, 17500);
+                } else if (chosenCards.get(i).equals("TallNut")) {
+                    createCardWithCooldown(i, tallnutPane, tallnutButton, 12500);
+                } else if (chosenCards.get(i).equals("WallNut")) {
+                    createCardWithCooldown(i, wallnutPane, wallnutButton, 5000);
+
+                } else if (chosenCards.get(i).equals("RepeaterPeaShooter")) {
+                    createCardWithCooldown(i, repeaterPane, repeaterButton, 5000);
+                } else if (chosenCards.get(i).equals("Jalapeno")) {
+                    createCardWithCooldown(i, jalapenoPane, jalapenoButton, 5000);
+                } else if (chosenCards.get(i).equals("CherryBomb")) {
+                    createCardWithCooldown(i, cherrybombPane, cherrybombButton, 5000);
+                } else if (chosenCards.get(i).equals("Plantern")) {
+                    createCardWithCooldown(i, planternPane, planternButton, 5000);
+                } else if (chosenCards.get(i).equals("PuffShroom")) {
+                    createCardWithCooldown(i, puffShroomPane, puffShroomButton, 5000);
+
+                } else if (chosenCards.get(i).equals("ScaredyShroom")) {
+                    createCardWithCooldown(i, puffShroomPane, puffShroomButton, 5000);
+                } else if (chosenCards.get(i).equals("IceShroom")) {
+                    createCardWithCooldown(i, iceShroomPane, iceShroomButton, 5000);
+
+                } else if (chosenCards.get(i).equals("GraveBuster")) {
+                    createCardWithCooldown(i, graveBusterPane, graveBusterButton, 5000);
+                } else if (chosenCards.get(i).equals("DoomShroom")) {
+                    createCardWithCooldown(i, doomShroomPane, doomShroomButton, 5000);
+                } else if (chosenCards.get(i).equals("CoffeeBean")) {
+                    createCardWithCooldown(i, coffeeBeanPane, coffeeBeanButton, 5000);
+
+                } else if (chosenCards.get(i).equals("HypnoShroom")) {
+                    createCardWithCooldown(i, hypnoShroomPane, hypnoShroomButton, 5000);
+                } else if (chosenCards.get(i).equals("Blover")) {
+                    createCardWithCooldown(i, bloverPane, bloverButton, 5000);
+                }
+            }
+        }
+    }
+
+    public void findPosForGraves(){
+        Random random = new Random();
+        Set<String> usedPairs = new HashSet<>();
+        int count = 0;
+        while (count < 5) {
+            int first = random.nextInt(5);
+            int second = random.nextInt(9);
+            String key = first + "," + second;
+            if (!usedPairs.contains(key)) {
+                usedPairs.add(key);
+                gravePosPairs[count][0] = first;
+                gravePosPairs[count][1] = second;
+                count++;
+            }
+        }
+        for (int i = 0; i < gravePosPairs.length; i++) {
+            System.out.println("(" + gravePosPairs[i][0] + ", " + gravePosPairs[i][1] + ")");
+        }
+    }
+    public int[][] getGravePosPairs() {
+        return gravePosPairs;
+    }
+
+    public boolean checkForGravePos(int row, int col){
+        for(int i = 0; i < 5; i++){
+            if(gravePosPairs[i][0] == row && gravePosPairs[i][1] == col){
+                System.out.println("found a grave!");
+                return true;
+            }
+        }
+        return false;
+
     }
 }
