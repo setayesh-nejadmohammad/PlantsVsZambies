@@ -17,10 +17,8 @@ public class Client {
         socket = new Socket(ip, port);
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
         new Thread(this::listenToServer).start();
     }
-
     private void listenToServer() {
         try {
             String msg;
@@ -33,22 +31,30 @@ public class Client {
                         Zombie z = Game.getInstance().createZombieByType(type, row, 9.3);
                         Game.getInstance().positionZombie(z);
                         Game.getInstance().getZombies().add(z);
-
-                        Platform.runLater(() -> {  // because it should be in JavaFx thread?!
+                        Platform.runLater(() -> {
                             Game.getInstance().map.borderPane.getChildren().add(z.getView());
                         });
-                        //System.out.println("A Zombie created in client!");
-                        //Zombie z = ZombieFactory.createZombie(type, lane);
-                        //Mapp.addZombie(z);
                         break;
                     case "GAME_OVER":
                         if (parts[1].equals("WIN")) {
-                            WinnerWinner();
+                            Game.getInstance().showGameOver(true);
                             System.out.println("You Win!");
                         } else {
-                            Looooser();
+                            Game.getInstance().showGameOver(false);
                             System.out.println("You Lose!");
                         }
+                        break;
+                    case "gr":
+                        Game.getInstance().getMap().getGravePosPairs()[0][0] = Integer.parseInt(parts[1]);
+                        Game.getInstance().getMap().getGravePosPairs()[0][1] = Integer.parseInt(parts[2]);
+                        Game.getInstance().getMap().getGravePosPairs()[1][0] = Integer.parseInt(parts[3]);
+                        Game.getInstance().getMap().getGravePosPairs()[1][1] = Integer.parseInt(parts[4]);
+                        Game.getInstance().getMap().getGravePosPairs()[2][0] = Integer.parseInt(parts[5]);
+                        Game.getInstance().getMap().getGravePosPairs()[2][1] = Integer.parseInt(parts[6]);
+                        Game.getInstance().getMap().getGravePosPairs()[3][0] = Integer.parseInt(parts[7]);
+                        Game.getInstance().getMap().getGravePosPairs()[3][1] = Integer.parseInt(parts[8]);
+                        Game.getInstance().getMap().getGravePosPairs()[4][0] = Integer.parseInt(parts[9]);
+                        Game.getInstance().getMap().getGravePosPairs()[4][1] = Integer.parseInt(parts[10]);
                         break;
                 }
             }

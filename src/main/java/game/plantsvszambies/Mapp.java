@@ -192,7 +192,7 @@ public class Mapp {
         if(!Game.isNight) {
             sunFalling();
         }
-        else if(Game.getInstance().getTime() < 300){
+        else if(Game.getInstance().getTime() < 300 && !Game.getInstance().isClient()) {
             findPosForGraves();
         }
 
@@ -966,8 +966,13 @@ public class Mapp {
                 count++;
             }
         }
-        for (int i = 0; i < gravePosPairs.length; i++) {
-            System.out.println("(" + gravePosPairs[i][0] + ", " + gravePosPairs[i][1] + ")");
+        if(Game.getInstance().isServer) {
+            StringBuilder ms = new StringBuilder("gr ");
+            for (int i = 0; i < gravePosPairs.length; i++) {
+                ms.append(gravePosPairs[i][0]).append(" ");
+                ms.append(gravePosPairs[i][1]).append(" ");
+            }
+            Game.getInstance().getServer().getOut().println(ms);
         }
     }
     public int[][] getGravePosPairs() {

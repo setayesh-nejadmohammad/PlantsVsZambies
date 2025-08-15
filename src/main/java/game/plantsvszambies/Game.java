@@ -56,6 +56,9 @@ public class Game {
     public int getStartAttackTime(){
         return startAttackTime;
     }
+    public Server getServer() {
+        return server;
+    }
     private static final double FRAME_TIME = 1.0 / 60.0;
     ArrayList<String> chosenCards = new ArrayList<String>();
     private List<Bullet> activeBullets = new ArrayList<>();
@@ -163,7 +166,7 @@ public class Game {
     public void startGameAsClient() {  // Client  ... this should be different from main startGame
         try {
             client = new Client();
-            client.start("10.195.106.73", 5555); // we should get the ip ; (127.0.0.1) is for lockal host
+            client.start(IP, 5555); // we should get the ip ; (127.0.0.1) is for lockal host
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -932,6 +935,9 @@ public class Game {
         //setupGraveZombies();
         startGameLoop();
 
+    }
+    public boolean isClient() {
+        return isClient;
     }
     //    private void createAttackPhase() {
 //        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
