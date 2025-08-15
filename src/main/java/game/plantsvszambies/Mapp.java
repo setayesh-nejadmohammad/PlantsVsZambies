@@ -720,6 +720,7 @@ public class Mapp {
             Game.getInstance().getCT().set(chosenCards.indexOf("GraveBuster"), 0);
             int i = chosenCards.indexOf("GraveBuster");
             createCardWithCooldown(i, graveBusterPane, graveBusterButton, 7500 - Game.getInstance().getCT().get(chosenCards.indexOf("GraveBuster")));
+            gameController.reduceScore(75);
             return;
         }
         if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
@@ -779,7 +780,7 @@ public class Mapp {
             Game.getInstance().getPlants().add(new RepeaterPeaShooter(row, col , repeaterView));
             Game.getInstance().getCT().set(chosenCards.indexOf("RepeaterPeaShooter"), 0);
             int i = chosenCards.indexOf("RepeaterPeaShooter");
-            createCardWithCooldown(i, repeaterPane, repeaterButton, 20000);
+            createCardWithCooldown(i, repeaterPane, repeaterButton, 10000);
             cell.getChildren().addAll(repeaterView);
             gameController.reduceScore(200);
         }
@@ -789,7 +790,7 @@ public class Mapp {
             plants.add(jala);
             Game.getInstance().getCT().set(chosenCards.indexOf("Jalapeno"), 0);
             int i = chosenCards.indexOf("Jalapeno");
-            createCardWithCooldown(i, jalapenoPane, jalapenoButton, 3000);
+            createCardWithCooldown(i, jalapenoPane, jalapenoButton, 5000);
             //cell.getChildren().addAll(jalapenoView);
             gameController.reduceScore(125);
         }
@@ -800,7 +801,7 @@ public class Mapp {
             plants.add(cherry);
             Game.getInstance().getCT().set(chosenCards.indexOf("CherryBomb"), 0);
             int i = chosenCards.indexOf("CherryBomb");
-            createCardWithCooldown(i, cherrybombPane, cherrybombButton,3000);
+            createCardWithCooldown(i, cherrybombPane, cherrybombButton,5000);
             //cell.getChildren().addAll(cherrybombView);
             gameController.reduceScore(150);
         }
@@ -811,18 +812,18 @@ public class Mapp {
             gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
             num.set(0);
         }
-        else if(num.intValue() == 10 && cell.getChildren().size() == 0) {
+        else if(num.intValue() == 10 && cell.getChildren().size() == 0 && gameController.totalScore >= 75) {
             num.set(0);
             HypnoShroom h = new HypnoShroom(row, col, hypnoShroomView);
             plants.add(h);
             //gridCells[row][col].setPlant(h);
             Game.getInstance().getCT().set(chosenCards.indexOf("HypnoShroom"), 0);
             int i = chosenCards.indexOf("HypnoShroom");
-            createCardWithCooldown(i, hypnoShroomPane, hypnoShroomButton,7500 );
+            createCardWithCooldown(i, hypnoShroomPane, hypnoShroomButton,5000 );
             gameController.reduceScore(75);
             cell.getChildren().add(hypnoShroomView);
         }
-        else if(num.intValue() == 11 && cell.getChildren().size() == 0){
+        else if(num.intValue() == 11 && cell.getChildren().size() == 0 && gameController.totalScore >= 125) {
             num.set(0);
             DoomShroom doom = new DoomShroom(row, col, cell, doomShroomView);
             plants.add(doom);
@@ -831,7 +832,7 @@ public class Mapp {
             int i = chosenCards.indexOf("DoomShroom");
             createCardWithCooldown(i, doomShroomPane, doomShroomButton, 15000);
         }
-        else if(num.intValue() == 12 && cell.getChildren().size() == 0) {
+        else if(num.intValue() == 12 && cell.getChildren().size() == 0 && gameController.totalScore >= 75) {
             num.set(0);
             IceShroom ice = new IceShroom(row, col, cell, iceShroomView);
             plants.add(ice);
@@ -854,6 +855,7 @@ public class Mapp {
             ScaredyShroom scaredy = new ScaredyShroom(row, col, scaredyShroomView);
             plants.add(scaredy);
             cell.getChildren().add(scaredy.view);
+            gameController.reduceScore(25);
             Game.getInstance().getCT().set(chosenCards.indexOf("ScaredyShroom"), 0);
             int i = chosenCards.indexOf("ScaredyShroom");
             createCardWithCooldown(i, scaredyShroomPane, scaredyShroomButton, scaredy.rechargeTime * 1000);
@@ -863,6 +865,7 @@ public class Mapp {
             Blover b = new Blover(row, col, cell, bloverView);
             cell.getChildren().add(b.view);
             Game.getInstance().getCT().set(chosenCards.indexOf("Blover"), 0);
+            gameController.reduceScore(100);
             int i = chosenCards.indexOf("Blover");
             createCardWithCooldown(i, bloverPane, bloverButton, b.rechargeTime * 1000);
         }
@@ -872,6 +875,7 @@ public class Mapp {
             plants.add(p);
             cell.getChildren().add(p.view);
             Game.getInstance().getCT().set(chosenCards.indexOf("Plantern"), 0);
+            gameController.reduceScore(25);
             int i = chosenCards.indexOf("Plantern");
             createCardWithCooldown(i, planternPane, planternButton, p.rechargeTime * 1000);
         }
@@ -880,9 +884,9 @@ public class Mapp {
             num.set(0);
             CoffeeBean coffeeBean = new CoffeeBean(row, col, cell, coffeeBeanView, findPlantAt(row, col));
             cell.getChildren().add(coffeeBean.view);
+            gameController.reduceScore(75);
             int i = chosenCards.indexOf("CoffeeBean");
-            createCardWithCooldown(i, coffeeBeanPane, coffeeBeanButton, coffeeBean.rechargeTime);
-
+            createCardWithCooldown(i, coffeeBeanPane, coffeeBeanButton, coffeeBean.rechargeTime * 1000);
         }
     }
 
