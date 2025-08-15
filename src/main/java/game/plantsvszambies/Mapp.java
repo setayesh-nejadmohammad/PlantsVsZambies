@@ -915,7 +915,7 @@ public class Mapp {
                 if (chosenCards.get(i).equals("Sunflower")) {
                     createCardWithCooldown(i, sunFlowerPane, sunflowerButton, 5000);
                 } else if (chosenCards.get(i).equals("Peashooter")) {
-                    createCardWithCooldown(i, peashooterPane, peashooterButton, 5000);
+                    createCardWithCooldown(i, peashooterPane, peashooterButton, 10000);
                 } else if (chosenCards.get(i).equals("SnowPea")) {
                     createCardWithCooldown(i, snowpeaPane, snowpeaButton, 17500);
                 } else if (chosenCards.get(i).equals("TallNut")) {
@@ -924,32 +924,32 @@ public class Mapp {
                     createCardWithCooldown(i, wallnutPane, wallnutButton, 5000);
 
                 } else if (chosenCards.get(i).equals("RepeaterPeaShooter")) {
-                    createCardWithCooldown(i, repeaterPane, repeaterButton, 5000);
+                    createCardWithCooldown(i, repeaterPane, repeaterButton, 10000);
                 } else if (chosenCards.get(i).equals("Jalapeno")) {
                     createCardWithCooldown(i, jalapenoPane, jalapenoButton, 5000);
                 } else if (chosenCards.get(i).equals("CherryBomb")) {
                     createCardWithCooldown(i, cherrybombPane, cherrybombButton, 5000);
                 } else if (chosenCards.get(i).equals("Plantern")) {
-                    createCardWithCooldown(i, planternPane, planternButton, 5000);
+                    createCardWithCooldown(i, planternPane, planternButton, Plantern.rechargeTime*1000);
                 } else if (chosenCards.get(i).equals("PuffShroom")) {
-                    createCardWithCooldown(i, puffShroomPane, puffShroomButton, 5000);
+                    createCardWithCooldown(i, puffShroomPane, puffShroomButton, PuffShroom.rechargeTime * 1000);
 
                 } else if (chosenCards.get(i).equals("ScaredyShroom")) {
-                    createCardWithCooldown(i, puffShroomPane, puffShroomButton, 5000);
+                    createCardWithCooldown(i, scaredyShroomPane, scaredyShroomButton, ScaredyShroom.rechargeTime * 1000);
                 } else if (chosenCards.get(i).equals("IceShroom")) {
-                    createCardWithCooldown(i, iceShroomPane, iceShroomButton, 5000);
+                    createCardWithCooldown(i, iceShroomPane, iceShroomButton, 7500);
 
                 } else if (chosenCards.get(i).equals("GraveBuster")) {
                     createCardWithCooldown(i, graveBusterPane, graveBusterButton, 5000);
                 } else if (chosenCards.get(i).equals("DoomShroom")) {
-                    createCardWithCooldown(i, doomShroomPane, doomShroomButton, 5000);
+                    createCardWithCooldown(i, doomShroomPane, doomShroomButton, 15000);
                 } else if (chosenCards.get(i).equals("CoffeeBean")) {
-                    createCardWithCooldown(i, coffeeBeanPane, coffeeBeanButton, 5000);
+                    createCardWithCooldown(i, coffeeBeanPane, coffeeBeanButton, CoffeeBean.rechargeTime*1000);
 
                 } else if (chosenCards.get(i).equals("HypnoShroom")) {
-                    createCardWithCooldown(i, hypnoShroomPane, hypnoShroomButton, 5000);
+                    createCardWithCooldown(i, hypnoShroomPane, hypnoShroomButton, 7500);
                 } else if (chosenCards.get(i).equals("Blover")) {
-                    createCardWithCooldown(i, bloverPane, bloverButton, 5000);
+                    createCardWithCooldown(i, bloverPane, bloverButton, Blover.rechargeTime*1000);
                 }
             }
         }

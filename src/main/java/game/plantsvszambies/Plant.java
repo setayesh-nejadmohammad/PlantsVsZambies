@@ -18,7 +18,7 @@ public abstract class Plant {
     protected int col;
     protected int health;
     protected int cost;
-    protected float rechargeTime;
+    protected static float rechargeTime;
     protected ImageView view;
     public boolean isNightPlant = false;
     public boolean isSleeping = false;

@@ -985,16 +985,6 @@ public class Game {
         startGameLoop();
 
     }
-    //    private void createAttackPhase() {
-//        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
-//            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
-//            zombies.add(zombie);
-//            map.borderPane.getChildren().add(zombie.getView());
-//            positionZombie(zombie);}));
-//        timeline.setCycleCount(15);
-//        timeline.play();
-//        System.out.println(time);
-//    }
     public void updateLSpawn() {
         lastSpawnTime = (int) time;
     }
@@ -1181,9 +1171,6 @@ public class Game {
         Scene scene = new Scene(new StackPane(new Label("LOOOOser")), 1024, 626);
         stage.setScene(scene);
         lost = true;
-        /*if(!isClient && server != null && server.getOut() != null){
-            server.getOut().println("GAME_OVER WIN"); // second word = client state
-        }*/
     }
     private void updatePlants(double deltaTime) {
         for(Iterator<Plant> iterator = plants.iterator(); iterator.hasNext();) {

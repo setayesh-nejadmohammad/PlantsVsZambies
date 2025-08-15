@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="final">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="score reduce control in map">
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Mapp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Mapp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Plant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Plant.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +173,7 @@
       <workItem from="1755236937756" duration="16043000" />
       <workItem from="1755263216492" duration="20972000" />
       <workItem from="1755284420864" duration="70000" />
-      <workItem from="1755284898871" duration="1156000" />
+      <workItem from="1755284898871" duration="1848000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -535,7 +535,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755284475333</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="score reduce control in map">
+      <option name="closed" value="true" />
+      <created>1755286100912</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1755286100912</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -570,7 +578,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="planting the hypnoShroom" />
     <MESSAGE value="add the freezed mode of Zombies for IceShroom" />
     <MESSAGE value="add doomShroom and fix IceShroom problems" />
     <MESSAGE value="GraveBuster" />
@@ -595,6 +602,7 @@
     <MESSAGE value="add get IP stage" />
     <MESSAGE value="zibaSAZIII" />
     <MESSAGE value="final" />
-    <option name="LAST_COMMIT_MESSAGE" value="final" />
+    <MESSAGE value="score reduce control in map" />
+    <option name="LAST_COMMIT_MESSAGE" value="score reduce control in map" />
   </component>
 </project>
