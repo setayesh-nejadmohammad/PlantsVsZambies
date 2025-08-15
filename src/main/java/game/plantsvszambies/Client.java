@@ -45,9 +45,11 @@ public class Client {
                         if (parts[1].equals("WIN")) {
                             WinnerWinner();
                             System.out.println("You Win!");
+                            Game.getInstance().getGameLoopTimer().stop();
                         } else {
                             Looooser();
                             System.out.println("You Lose!");
+                            Game.getInstance().getGameLoopTimer().stop();
                         }
                         break;
                 }

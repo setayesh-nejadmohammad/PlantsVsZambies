@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="add Sever and Client">
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="add the lose or win for server">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Mapp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Mapp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -173,7 +172,7 @@
       <workItem from="1755120033471" duration="1311000" />
       <workItem from="1755148272202" duration="18695000" />
       <workItem from="1755184714055" duration="19409000" />
-      <workItem from="1755236937756" duration="13544000" />
+      <workItem from="1755236937756" duration="16007000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -495,7 +494,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755205896144</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="add the lose or win for server">
+      <option name="closed" value="true" />
+      <created>1755251936536</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1755251936536</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -530,7 +537,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix the load problem for shooter plans" />
     <MESSAGE value="sunflower problem fixed" />
     <MESSAGE value="score save and load" />
     <MESSAGE value="still has some error but..." />
@@ -555,6 +561,7 @@
     <MESSAGE value="night plant's SAVE" />
     <MESSAGE value="heheh" />
     <MESSAGE value="add Sever and Client" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Sever and Client" />
+    <MESSAGE value="add the lose or win for server" />
+    <option name="LAST_COMMIT_MESSAGE" value="add the lose or win for server" />
   </component>
 </project>

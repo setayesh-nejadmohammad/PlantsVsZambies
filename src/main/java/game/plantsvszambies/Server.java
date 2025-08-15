@@ -64,6 +64,7 @@ public class Server {
                 if (msg.equals("ClientWON")) {
                     //out.println("GAME_OVER WIN");
                     Looooser();
+                    Game.getInstance().getGameLoopTimer().stop();
                     break;
                     // سرور بازنده = پایان بازی سمت خودش
                 }
@@ -71,6 +72,7 @@ public class Server {
                     System.out.println("Client lost and I WONNNNNNNNNN");
                     //out.println("GAME_OVER LOST");
                     WinnerWinner();
+                    Game.getInstance().getGameLoopTimer().stop();
                     break;
                 }
             }

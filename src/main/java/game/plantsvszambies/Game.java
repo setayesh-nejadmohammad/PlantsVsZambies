@@ -1009,6 +1009,7 @@ public class Game {
                     else if (isClient){
                         won = true;
                         client.getOut().println("ClientWON");
+                        WinnerWinner();
                     }
                     else {
                         WinnerWinner();
@@ -1018,6 +1019,9 @@ public class Game {
             }
         };
         gameLoop.start();
+    }
+    public AnimationTimer getGameLoopTimer() {
+        return gameLoop;
     }
 
     public void checkZombiePlantCollisions() {
@@ -1091,6 +1095,7 @@ public class Game {
                 if(isClient){
                     lost = true;
                     client.getOut().println("ClientLOST");
+                    lose();
                 }
                 else if(isServer){
                     lost = true;
