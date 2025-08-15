@@ -95,7 +95,10 @@ public class Game {
             boolean playAgain = endScreen.show(playerWon, stage);
 
             if (playAgain) {
-
+                stage.close();
+                //ChooseMultiOrSingle();
+                //instance = null;
+                //Game game = Game.getInstance();
             } else {
                 Platform.exit();
             }
@@ -163,7 +166,7 @@ public class Game {
     public void startGameAsClient() {  // Client  ... this should be different from main startGame
         try {
             client = new Client();
-            client.start("10.195.106.73", 5555); // we should get the ip ; (127.0.0.1) is for lockal host
+            client.start(IP, 5555); // we should get the ip ; (127.0.0.1) is for lockal host
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1327,5 +1330,11 @@ public class Game {
             ((StackPane)(map.getNodeFromGrid(map.getGridPane(), map.getGravePosPairs()[i][1], map.getGravePosPairs()[i][0]))).getChildren().clear();
 
         }
+    }
+    public Server getServer(){
+        return server;
+    }
+    public boolean isClient() {
+        return isClient;
     }
 }

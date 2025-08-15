@@ -4,21 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="add get IP stage">
-      <change afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameEndScreen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/button_menus/ClientButton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/button_menus/MultiplayerButton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/button_menus/ServerButton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/button_menus/SingleplayerButton.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/winpage.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game/plantsvszambies/images/you_lose.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/game_styles.css" afterDir="false" />
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="zibaSAZIII">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Mapp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Mapp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +174,7 @@
       <workItem from="1755148272202" duration="18695000" />
       <workItem from="1755184714055" duration="19409000" />
       <workItem from="1755236937756" duration="16043000" />
-      <workItem from="1755263216492" duration="18214000" />
+      <workItem from="1755263216492" duration="20972000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -529,7 +520,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755271805767</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="zibaSAZIII">
+      <option name="closed" value="true" />
+      <created>1755281751623</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1755281751624</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,7 +563,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="still has some error but..." />
     <MESSAGE value="merge setayesh and parham and add NIGHT PLANTS to card menu" />
     <MESSAGE value="planting the hypnoShroom" />
     <MESSAGE value="add the freezed mode of Zombies for IceShroom" />
@@ -589,6 +587,7 @@
     <MESSAGE value="add the lose or win for server" />
     <MESSAGE value="add the lose or win for server 2" />
     <MESSAGE value="add get IP stage" />
-    <option name="LAST_COMMIT_MESSAGE" value="add get IP stage" />
+    <MESSAGE value="zibaSAZIII" />
+    <option name="LAST_COMMIT_MESSAGE" value="zibaSAZIII" />
   </component>
 </project>

@@ -192,7 +192,7 @@ public class Mapp {
         if(!Game.isNight) {
             sunFalling();
         }
-        else if(Game.getInstance().getTime() < 300){
+        else if(Game.getInstance().getTime() < 300 && !Game.getInstance().isClient()) {
             findPosForGraves();
         }
 
@@ -525,7 +525,7 @@ public class Mapp {
         sunflowerButton.setOnAction(event -> {
             if (num.get() == 9) {
                 gameController.getShovelStack().getChildren().add(gameController.getShovelImage());
-            scene.setCursor(Cursor.DEFAULT);
+                scene.setCursor(Cursor.DEFAULT);
             }
             num.set(1);
         });
@@ -717,9 +717,9 @@ public class Mapp {
             num.set(0);
             GraveBuster graveBuster = new GraveBuster(row, col, cell, graveBusterView, gravePosPairs);
             //plants.add(graveBuster); // don't need to bee add to plant (Zombies shouldn't eat it!)
-            Game.getInstance().getCT().set(chosenCards.indexOf("graveBuster"), 0);
-            int i = chosenCards.indexOf("graveBuster");
-            createCardWithCooldown(i, graveBusterPane, graveBusterButton, 7500 - Game.getInstance().getCT().get(chosenCards.indexOf("graveBuster")));
+            Game.getInstance().getCT().set(chosenCards.indexOf("GraveBuster"), 0);
+            int i = chosenCards.indexOf("GraveBuster");
+            createCardWithCooldown(i, graveBusterPane, graveBusterButton, 7500 - Game.getInstance().getCT().get(chosenCards.indexOf("GraveBuster")));
             return;
         }
         if (num.intValue() == 1 && cell.getChildren().size() == 0 && gameController.totalScore >= 50) {
@@ -876,7 +876,7 @@ public class Mapp {
             createCardWithCooldown(i, planternPane, planternButton, p.rechargeTime * 1000);
         }
         else if(num.intValue() == 17 && cell.getChildren().size() != 0 && gameController.totalScore >= 75
-            && findPlantAt(row, col).isNightPlant && findPlantAt(row, col).isSleeping){
+                && findPlantAt(row, col).isNightPlant && findPlantAt(row, col).isSleeping){
             num.set(0);
             CoffeeBean coffeeBean = new CoffeeBean(row, col, cell, coffeeBeanView, findPlantAt(row, col));
             cell.getChildren().add(coffeeBean.view);
@@ -966,8 +966,13 @@ public class Mapp {
                 count++;
             }
         }
-        for (int i = 0; i < gravePosPairs.length; i++) {
-            System.out.println("(" + gravePosPairs[i][0] + ", " + gravePosPairs[i][1] + ")");
+        if(Game.getInstance().isServer) {
+            StringBuilder ms = new StringBuilder("gr ");
+            for (int i = 0; i < gravePosPairs.length; i++) {
+                ms.append(gravePosPairs[i][0]).append(" ");
+                ms.append(gravePosPairs[i][1]).append(" ");
+            }
+            Game.getInstance().getServer().getOut().println(ms);
         }
     }
     public int[][] getGravePosPairs() {
