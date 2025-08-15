@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="heheh">
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="add Sever and Client">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/IceShroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/IceShroom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ImpZombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ImpZombie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Mapp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Mapp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/Zombie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game/plantsvszambies/Zombie.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +47,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -177,7 +172,8 @@
       <workItem from="1755021620123" duration="1832000" />
       <workItem from="1755120033471" duration="1311000" />
       <workItem from="1755148272202" duration="18695000" />
-      <workItem from="1755184714055" duration="15367000" />
+      <workItem from="1755184714055" duration="19409000" />
+      <workItem from="1755236937756" duration="13544000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -491,7 +487,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755174494365</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="add Sever and Client">
+      <option name="closed" value="true" />
+      <created>1755205896144</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1755205896144</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -526,7 +530,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="save and load" />
     <MESSAGE value="fix the load problem for shooter plans" />
     <MESSAGE value="sunflower problem fixed" />
     <MESSAGE value="score save and load" />
@@ -551,6 +554,7 @@
     <MESSAGE value="salam" />
     <MESSAGE value="night plant's SAVE" />
     <MESSAGE value="heheh" />
-    <option name="LAST_COMMIT_MESSAGE" value="heheh" />
+    <MESSAGE value="add Sever and Client" />
+    <option name="LAST_COMMIT_MESSAGE" value="add Sever and Client" />
   </component>
 </project>

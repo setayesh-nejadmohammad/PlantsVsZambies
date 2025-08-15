@@ -984,4 +984,7 @@ public class Mapp {
         return false;
 
     }
+    public Scene getScene(){
+        return scene;
+    }
 }

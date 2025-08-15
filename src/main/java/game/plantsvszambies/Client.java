@@ -1,6 +1,9 @@
 package game.plantsvszambies;
 
 import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 
 import java.io.*;
 import java.net.*;
@@ -40,8 +43,10 @@ public class Client {
                         break;
                     case "GAME_OVER":
                         if (parts[1].equals("WIN")) {
+                            WinnerWinner();
                             System.out.println("You Win!");
                         } else {
+                            Looooser();
                             System.out.println("You Lose!");
                         }
                         break;
@@ -52,7 +57,25 @@ public class Client {
         }
     }
 
-    public void lost() {
-        out.println("LOST");
+    public PrintWriter getOut() {
+        return out;
+    }
+    private void WinnerWinner() {
+        Platform.runLater(()->{
+            StackPane pane = new StackPane();
+            Scene scene = new Scene(pane, 1024, 626);
+            Label label = new Label("Winner Winner Chicken Dinner (client WON)");
+            pane.getChildren().add(label);
+            Game.getInstance().map.stage.setScene(scene);
+        });
+    }
+    private void Looooser(){
+        Platform.runLater(()->{
+            StackPane pane = new StackPane();
+            Scene scene = new Scene(pane, 1024, 626);
+            Label label = new Label("LOOOOser (client LOST)");
+            pane.getChildren().add(label);
+            Game.getInstance().map.stage.setScene(scene);
+        });
     }
 }

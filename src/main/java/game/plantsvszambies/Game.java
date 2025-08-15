@@ -39,10 +39,15 @@ public class Game {
     public static boolean isClient = false;
     private Server server;
     private Client client;
+    private int lastSpawnTime = 0;
+    private AnimationTimer gameLoop;
 
     public Image day = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     public Image night = new Image(getClass().getResourceAsStream("images/night1.png"));
     public Image ZombieStaring = new Image(getClass().getResourceAsStream("images/button_menus/StartgameBg.png"));
+    public static boolean lost = false;
+    public static boolean won = false;
+
     public void setStartAttackTime(int time) {
         this.startAttackTime = time;
     }
@@ -813,6 +818,7 @@ public class Game {
         spawnTimeline.play();
     }
     private void spawnZombie() {
+        updateLSpawn();
         int currentPhase = getCurrentPhaseS();
         int row = (new Random()).nextInt(5);
         Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row);
@@ -889,10 +895,36 @@ public class Game {
 //        timeline.play();
 //        System.out.println(time);
 //    }
+    public void WinnerWinner() {
+        won = true;
+        StackPane pane = new StackPane();
+        Scene scene = new Scene(pane, 1024, 626);
+        Label label = new Label("Winner Winner Chicken Dinner");
+        pane.getChildren().add(label);
+        stage.setScene(scene);
+        /*if(isServer){
+            System.out.println("Server WON!");
+        }
+        else if(isClient){
+            System.out.println("Client WON!");
+        }
+        if(server.getOut() != null){
+            server.getOut().println("GAME_OVER LOSE"); // second word is the client state
+        }
+        else if(client.getOut() != null){
+            client.getOut().println("ClientWON");
+        }*/
+    }
+    public void updateLSpawn() {
+        lastSpawnTime = (int) time;
+    }
     private void createAttackPhase() {
         startAttackTime = (int)time;
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
-            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
+        int phase = getCurrentPhaseS();
+        if(time > 55000) phase = 4;
+        final int PHASE = phase;
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { updateLSpawn(); int row = (new Random()).nextInt(5);
+            Zombie zombie = ZombieFactory.createRandomZombie(PHASE, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
             positionZombie(zombie);
@@ -908,7 +940,7 @@ public class Game {
         int phase = getCurrentPhaseS();
         if (time > 55000) phase = 4;
         int finalPhase = phase;
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int row = (new Random()).nextInt(5);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> {updateLSpawn(); int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(finalPhase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
@@ -937,7 +969,7 @@ public class Game {
     }
 
     private void startGameLoop() {
-        AnimationTimer gameLoop = new AnimationTimer() {
+        gameLoop = new AnimationTimer() {
             private long lastUpdate = 0;
             @Override
             public void handle(long now) {
@@ -966,6 +998,23 @@ public class Game {
                 checkZombieHzombieCollisions();
                 updateBullets(deltaTime);
                 updateZombies(deltaTime);
+
+                if (lost || won) gameLoop.stop();
+                if (time > 75000 && time - lastSpawnTime > 1900 && zombies.isEmpty()) {
+                    if(isServer){
+                        won = true;
+                        server.getOut().println("GAME_OVER LOST");
+                        WinnerWinner();
+                    }
+                    else if (isClient){
+                        won = true;
+                        client.getOut().println("ClientWON");
+                    }
+                    else {
+                        WinnerWinner();
+                    }
+                    gameLoop.stop();
+                }
             }
         };
         gameLoop.start();
@@ -1039,10 +1088,28 @@ public class Game {
             zombie.update(deltaTime);
             if(checkReachedEnd(zombie)) {
                 map.borderPane.getChildren().remove(zombie.getView());
-                iterator.remove();
-
+                if(isClient){
+                    lost = true;
+                    client.getOut().println("ClientLOST");
+                }
+                else if(isServer){
+                    lost = true;
+                    server.getOut().println("GAME_OVER WIN");
+                    lose();
+                }
+                else{
+                    lose();
+                }
             }
         }
+    }
+    public void lose(){
+        Scene scene = new Scene(new StackPane(new Label("LOOOOser")), 1024, 626);
+        stage.setScene(scene);
+        lost = true;
+        /*if(!isClient && server != null && server.getOut() != null){
+            server.getOut().println("GAME_OVER WIN"); // second word = client state
+        }*/
     }
     private void updatePlants(double deltaTime) {
         for(Iterator<Plant> iterator = plants.iterator(); iterator.hasNext();) {
@@ -1182,6 +1249,7 @@ public class Game {
             Zombie zombie = ZombieFactory.createRandomZombie(4, map.getGravePosPairs()[i][0]);
             zombie.setColumn(map.getGravePosPairs()[i][1]+ 0.5);
             positionZombie(zombie);
+            updateLSpawn();
             zombie.getView().setLayoutX(map.getGridPane().getLayoutX() + zombie.getColumn() * 80 + 30);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
