@@ -45,11 +45,9 @@ public class Client {
                         if (parts[1].equals("WIN")) {
                             WinnerWinner();
                             System.out.println("You Win!");
-                            Game.getInstance().getGameLoopTimer().stop();
                         } else {
                             Looooser();
                             System.out.println("You Lose!");
-                            Game.getInstance().getGameLoopTimer().stop();
                         }
                         break;
                 }
@@ -68,6 +66,7 @@ public class Client {
             Scene scene = new Scene(pane, 1024, 626);
             Label label = new Label("Winner Winner Chicken Dinner (client WON)");
             pane.getChildren().add(label);
+            Game.getInstance().getGameLoop().stop();
             Game.getInstance().map.stage.setScene(scene);
         });
     }
@@ -77,6 +76,7 @@ public class Client {
             Scene scene = new Scene(pane, 1024, 626);
             Label label = new Label("LOOOOser (client LOST)");
             pane.getChildren().add(label);
+            Game.getInstance().getGameLoop().stop();
             Game.getInstance().map.stage.setScene(scene);
         });
     }

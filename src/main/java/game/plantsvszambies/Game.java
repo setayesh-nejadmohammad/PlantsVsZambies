@@ -1,8 +1,6 @@
 package game.plantsvszambies;
-
-import com.almasb.fxgl.input.Input;
 import javafx.animation.*;
-import javafx.geometry.Insets;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -53,7 +50,7 @@ public class Game {
     public static boolean lost = false;
     public static boolean won = false;
 
-    public void setStartAttackTime(int time){
+    public void setStartAttackTime(int time) {
         this.startAttackTime = time;
     }
     public int getStartAttackTime(){
@@ -86,24 +83,33 @@ public class Game {
         }
         return null;
     }
-    public boolean getDurAt() {
-        return durAt;
+    public AnimationTimer getGameLoop() {
+        return gameLoop;
     }
     public List<Zombie> getHzombies() {
         return Hzombies;
     }
+    public void showGameOver(boolean playerWon) {
+        Platform.runLater(() -> {
+            GameEndScreen endScreen = new GameEndScreen();
+            boolean playAgain = endScreen.show(playerWon, stage);
 
+            if (playAgain) {
+
+            } else {
+                Platform.exit();
+            }
+        });
+    }
     public Game(Stage stage){
-        frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
+        frontYard = new Image(getClass().getResourceAsStream("images/button_menus/startGameBg.png"));
         this.stage = stage;
         stage.getIcons().add(new Image(getClass().getResourceAsStream("images/button_menus/ZombieHead.png")));
         for(int i = 0; i < 6; i++){
             chargeTimes.add(0);
         }
         ChooseMultiOrSingle();
-        //ChooseState();
     }
-
     public static Game getInstance() {
         if (instance == null) {
             instance = new Game(new Stage());
@@ -114,17 +120,6 @@ public class Game {
         activeBullets.add(bullet);
         map.borderPane.getChildren().add(bullet.getView());
 
-    }
-    private void sleepRemainingFrameTime(double actualDelta) {
-        try {
-            double targetTime = 1_000_000_000 / 60.0; // 16.67ms
-            double elapsed = actualDelta * 1_000_000_000;
-            if (elapsed < targetTime) {
-                Thread.sleep((long)((targetTime - elapsed) / 1_000_000));
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
     public void updateBullets(double deltaTime) {
         Iterator<Bullet> iterator = activeBullets.iterator();
@@ -165,12 +160,10 @@ public class Game {
         }
         startGame();
     }
-    public void startGameAsClient() {// Client  ... this should be different from main startGame
-        getIPStage.close();
+    public void startGameAsClient() {  // Client  ... this should be different from main startGame
         try {
-            System.out.println("IP = "+ IP);
             client = new Client();
-            client.start(IP, 5555); // we should get the ip ; (127.0.0.1) is for lockal host
+            client.start("10.195.106.73", 5555); // we should get the ip ; (127.0.0.1) is for lockal host
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -188,7 +181,6 @@ public class Game {
 
         startGameLoop();  // ??!!
     }
-
     private void AddIpStage(){
         getIPStage = new Stage();
         StackPane pane = new StackPane();
@@ -211,32 +203,74 @@ public class Game {
     }
 
     public void ChooseMultiOrSingle(){
-        Button MultiPlayerButton = new Button("MultiPlayer");
+        ImageView MultiView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/MultiplayerButton.png")));
+        ImageView SingleView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/SingleplayerButton.png")));
+        MultiView.setFitHeight(50); MultiView.setFitWidth(150);
+        SingleView.setFitHeight(50); SingleView.setFitWidth(150);
+
+        Button MultiPlayerButton = new Button();
         MultiPlayerButton.setAlignment(Pos.CENTER);
-        Button SinglePlayerButton = new Button("SinglePlayer");
+        MultiPlayerButton.setGraphic(MultiView);
+        MultiPlayerButton.getStyleClass().add("button");
+
+        Button SinglePlayerButton = new Button();
         SinglePlayerButton.setAlignment(Pos.CENTER);
+        SinglePlayerButton.setGraphic(SingleView);
+        SinglePlayerButton.getStyleClass().add("button");
+
         MultiPlayerButton.setOnAction(e -> {
             ChooseServerOrClient();
         });
         SinglePlayerButton.setOnAction(e -> {
             ChooseState();
         });
-        HBox hBox = new HBox();
-        hBox.setSpacing(15);
-        hBox.getChildren().addAll(MultiPlayerButton, SinglePlayerButton);
-        hBox.setAlignment(Pos.CENTER);
-        StackPane pane = new StackPane();
-        pane.getChildren().add(hBox);
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(MultiPlayerButton, SinglePlayerButton);
+        vbox.setSpacing(15);
+        vbox.setAlignment(Pos.CENTER);
+
+        vbox.setLayoutX(195);
+        vbox.setLayoutY(295);
+
+        Pane pane = new Pane();
+        pane.getChildren().add(vbox);
+        BackgroundImage bgImage = new BackgroundImage(
+                frontYard,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
+        pane.setBackground(new Background(bgImage));
         Scene scene = new Scene(pane, 1024, 626);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
 
     public void ChooseServerOrClient(){
-        StackPane pane = new StackPane();
+        ImageView serverButtonView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/ServerButton.png")));
+        ImageView clientButtonView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/ClientButton.png")));
+
+        serverButtonView.setFitHeight(50); serverButtonView.setFitWidth(150);
+        clientButtonView.setFitHeight(50); clientButtonView.setFitWidth(150);
+
+        Pane pane = new Pane();
+        BackgroundImage bgImage = new BackgroundImage(
+                frontYard,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
+        pane.setBackground(new Background(bgImage));
         Scene chooseServerScene = new Scene(pane, 1024, 626);
-        Button serverButton = new Button("Server");
-        Button clientButton = new Button("Client");
+
+        Button serverButton = new Button();
+        serverButton.getStyleClass().add("button");
+        serverButton.setGraphic(serverButtonView);
+
+        Button clientButton = new Button();
+        clientButton.getStyleClass().add("button");
+        clientButton.setGraphic(clientButtonView);
         serverButton.setOnAction(e -> {
             isServer = true;
             //startGameAsServer();
@@ -249,15 +283,21 @@ public class Game {
             //ChooseCard();
             ChooseState();
         });
-        HBox hBox = new HBox();
-        hBox.setSpacing(15);
-        hBox.getChildren().addAll(serverButton, clientButton);
-        hBox.setAlignment(Pos.CENTER);
-        pane.getChildren().add(hBox);
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll();
+        vbox.setSpacing(15);
+        vbox.setAlignment(Pos.CENTER);
+
+        vbox.setLayoutX(195);
+        vbox.setLayoutY(295);
+
+        vbox.getChildren().addAll(serverButton, clientButton);
+
+        pane.getChildren().add(vbox);
+        chooseServerScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(chooseServerScene);
         stage.show();
     }
-
     public void ChooseState(){
         Pane pane = new Pane();
         Scene ChooseStateScene = new Scene(pane, 1024, 626);
@@ -766,7 +806,7 @@ public class Game {
         ChooseCardScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(ChooseCardScene);
         stage.show();
-        AddIpStage();
+        if(isClient) AddIpStage();
     }
     public Mapp getMap(){
         return map;
@@ -883,7 +923,7 @@ public class Game {
         map.borderPane.getChildren().add(zombie.getView());
         positionZombie(zombie);
 
-        if (server.getOut() != null) {
+        if (server != null && server.getOut() != null) {
             server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
         }
     }
@@ -891,7 +931,7 @@ public class Game {
 
         Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
         atTimeline.setCycleCount(3);
-        atTimeline.setDelay(Duration.seconds(15));
+        atTimeline.setDelay(Duration.seconds(16.5));
         atTimeline.play();
     }
     private void setupAttackPhaseS() {
@@ -901,7 +941,7 @@ public class Game {
         atTimeline.setCycleCount(3);
         atTimeline.jumpTo(Duration.millis(time - startAttackTime));
         if (startAttackTime == 0)
-            atTimeline.setDelay(Duration.millis(30000 - time));
+            atTimeline.setDelay(Duration.millis(31500 - time));
         atTimeline.play();
     }
     public void loadGame(){
@@ -952,26 +992,6 @@ public class Game {
 //        timeline.play();
 //        System.out.println(time);
 //    }
-    public void WinnerWinner() {
-        won = true;
-        StackPane pane = new StackPane();
-        Scene scene = new Scene(pane, 1024, 626);
-        Label label = new Label("Winner Winner Chicken Dinner");
-        pane.getChildren().add(label);
-        stage.setScene(scene);
-        /*if(isServer){
-            System.out.println("Server WON!");
-        }
-        else if(isClient){
-            System.out.println("Client WON!");
-        }
-        if(server.getOut() != null){
-            server.getOut().println("GAME_OVER LOSE"); // second word is the client state
-        }
-        else if(client.getOut() != null){
-            client.getOut().println("ClientWON");
-        }*/
-    }
     public void updateLSpawn() {
         lastSpawnTime = (int) time;
     }
@@ -985,7 +1005,7 @@ public class Game {
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
             positionZombie(zombie);
-            if(server.getOut() != null) {
+            if(server != null && server.getOut() != null) {
                 server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
             }
         }));
@@ -1002,7 +1022,7 @@ public class Game {
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
             positionZombie(zombie);
-            if(server.getOut() != null) {
+            if(server != null && server.getOut() != null) {
                 server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
             }
         }));
@@ -1059,26 +1079,18 @@ public class Game {
                 if (lost || won) gameLoop.stop();
                 if (time > 75000 && time - lastSpawnTime > 1900 && zombies.isEmpty()) {
                     if(isServer){
-                        won = true;
                         server.getOut().println("GAME_OVER LOST");
-                        WinnerWinner();
                     }
                     else if (isClient){
-                        won = true;
                         client.getOut().println("ClientWON");
-                        WinnerWinner();
                     }
-                    else {
-                        WinnerWinner();
-                    }
+                    won = true;
                     gameLoop.stop();
+                    showGameOver(won);
                 }
             }
         };
         gameLoop.start();
-    }
-    public AnimationTimer getGameLoopTimer() {
-        return gameLoop;
     }
 
     public void checkZombiePlantCollisions() {
@@ -1152,16 +1164,13 @@ public class Game {
                 if(isClient){
                     lost = true;
                     client.getOut().println("ClientLOST");
-                    lose();
                 }
                 else if(isServer){
                     lost = true;
                     server.getOut().println("GAME_OVER WIN");
-                    lose();
                 }
-                else{
-                    lose();
-                }
+                gameLoop.stop();
+                showGameOver(false);
             }
         }
     }

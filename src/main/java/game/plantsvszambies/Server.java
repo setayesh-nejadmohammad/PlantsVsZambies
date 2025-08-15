@@ -29,50 +29,23 @@ public class Server {
 
         new Thread(this::listenToClient).start();
 
-        // شروع تایمر زامبی
-        //new Thread(this::spawnLoop).start();
     }
-
-    public void spawnLoop() {
-        try {
-            while (true) {
-                Thread.sleep(3000);
-                String type = randomZombie();
-                int lane = random.nextInt(5);
-
-                // add zombie to server game
-                //Zombie z = ZombieFactory.createZombie(type, lane);
-                //Mapp.addZombie(z);
-
-                // send to client
-                out.println("SPAWN " + type + " " + lane);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String randomZombie() {
-        String[] types = {"Basic", "Conehead", "Buckethead"};
-        return types[random.nextInt(types.length)];
-    }
-
     private void listenToClient() {
         try {
             String msg;
             while ((msg = in.readLine()) != null) {
                 if (msg.equals("ClientWON")) {
                     //out.println("GAME_OVER WIN");
-                    Looooser();
-                    Game.getInstance().getGameLoopTimer().stop();
+                    Game.getInstance().getGameLoop().stop();
+                    Game.getInstance().showGameOver(false);
                     break;
                     // سرور بازنده = پایان بازی سمت خودش
                 }
                 else if(msg.equals("ClientLOST")) {
                     System.out.println("Client lost and I WONNNNNNNNNN");
                     //out.println("GAME_OVER LOST");
-                    WinnerWinner();
-                    Game.getInstance().getGameLoopTimer().stop();
+                    Game.getInstance().getGameLoop().stop();
+                    Game.getInstance().showGameOver(true);
                     break;
                 }
             }
@@ -97,6 +70,7 @@ public class Server {
             Scene scene = new Scene(pane, 1024, 626);
             Label label = new Label("Winner Winner Chicken Dinner (server WON)");
             pane.getChildren().add(label);
+            Game.getInstance().getGameLoop().stop();
             Game.getInstance().map.stage.setScene(scene);
         });
     }
@@ -107,6 +81,7 @@ public class Server {
             Scene scene = new Scene(pane, 1024, 626);
             Label label = new Label("LOOOOser (sever LOST)");
             pane.getChildren().add(label);
+            Game.getInstance().getGameLoop().stop();
             Game.getInstance().map.stage.setScene(scene);
         });
     }
