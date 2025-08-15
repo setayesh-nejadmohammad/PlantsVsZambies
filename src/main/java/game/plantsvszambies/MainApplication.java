@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
-//jj
+
 public class  MainApplication extends Application{
     public static int rowNum = 5;
     public static int colNum = 9;

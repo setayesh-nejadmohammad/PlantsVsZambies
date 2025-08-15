@@ -1,17 +1,23 @@
 package game.plantsvszambies;
-
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.util.Map;
+
+
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -29,13 +35,20 @@ public class Game {
     private ArrayList<Integer> chargeTimes = new ArrayList<>();
     private boolean[] clicked = new boolean[6];
     private int startAttackTime = 0;
+    public static boolean isServer = false;
+    public static boolean isClient = false;
+    private Server server;
+    private Client client;
+    private int lastSpawnTime = 0;
     private AnimationTimer gameLoop;
-    public int lastSpawnTime = 0;
+    private String IP = "";
+    private Stage getIPStage;
 
     public Image day = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     public Image night = new Image(getClass().getResourceAsStream("images/night1.png"));
     public Image ZombieStaring = new Image(getClass().getResourceAsStream("images/button_menus/StartgameBg.png"));
-    private boolean lost;
+    public static boolean lost = false;
+    public static boolean won = false;
 
     public void setStartAttackTime(int time) {
         this.startAttackTime = time;
@@ -53,7 +66,7 @@ public class Game {
     private static final double SPAWN_INTERVAL3 = 1.8;
     private int currentPhase = 0;
     private Timeline spawnTimeline;
-    private List<Zombie> zombies = new ArrayList<>();
+    private CopyOnWriteArrayList<Zombie> zombies = new CopyOnWriteArrayList<>();
     private List<Zombie> Hzombies = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
     private boolean durAt = false;
@@ -70,11 +83,23 @@ public class Game {
         }
         return null;
     }
-    public boolean getDurAt() {
-        return durAt;
+    public AnimationTimer getGameLoop() {
+        return gameLoop;
     }
     public List<Zombie> getHzombies() {
         return Hzombies;
+    }
+    public void showGameOver(boolean playerWon) {
+        Platform.runLater(() -> {
+            GameEndScreen endScreen = new GameEndScreen();
+            boolean playAgain = endScreen.show(playerWon, stage);
+
+            if (playAgain) {
+
+            } else {
+                Platform.exit();
+            }
+        });
     }
     public Game(Stage stage){
         frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
@@ -83,7 +108,7 @@ public class Game {
         for(int i = 0; i < 6; i++){
             chargeTimes.add(0);
         }
-        ChooseState();
+        ChooseMultiOrSingle();
     }
     public static Game getInstance() {
         if (instance == null) {
@@ -95,17 +120,6 @@ public class Game {
         activeBullets.add(bullet);
         map.borderPane.getChildren().add(bullet.getView());
 
-    }
-    private void sleepRemainingFrameTime(double actualDelta) {
-        try {
-            double targetTime = 1_000_000_000 / 60.0; // 16.67ms
-            double elapsed = actualDelta * 1_000_000_000;
-            if (elapsed < targetTime) {
-                Thread.sleep((long)((targetTime - elapsed) / 1_000_000));
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
     public void updateBullets(double deltaTime) {
         Iterator<Bullet> iterator = activeBullets.iterator();
@@ -135,6 +149,105 @@ public class Game {
     }
     public List<Plant> getPlants() {
         return plants;
+    }
+
+    public void startGameAsServer() { // Server
+        try {
+            server = new Server();
+            server.start(5555);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        startGame();
+    }
+    public void startGameAsClient() {  // Client  ... this should be different from main startGame
+        try {
+            client = new Client();
+            client.start("10.195.106.73", 5555); // we should get the ip ; (127.0.0.1) is for lockal host
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //startGame();
+        // new StartGame for Client:
+        startTime = System.currentTimeMillis();
+        time = 0;
+        if(chosenCards == null){
+            List<String> elementsToAdd = Arrays.asList("Sunflower", "Peashooter", "WallNut", "Jalapeno", "SnowPea", "TallNut");
+            chosenCards.addAll(elementsToAdd);
+        }
+        if(this.map == null)
+            this.map = new Mapp(stage, chosenCards, plants);
+        map.drawMap();
+
+        startGameLoop();  // ??!!
+    }
+    private void AddIpStage(){
+        getIPStage = new Stage();
+        StackPane pane = new StackPane();
+        TextField input = new TextField();
+        Label label = new Label("Enter the Server IP: ");
+        Button send = new Button("Submit");
+        send.setOnAction(e->{
+            IP = input.getText();
+            getIPStage.close();
+        });
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+        hbox.setAlignment(Pos.CENTER);
+        hbox.getChildren().addAll(label, input, send);
+        pane.getChildren().addAll(hbox);
+        pane.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(pane, 500, 200);
+        getIPStage.setScene(scene);
+        getIPStage.show();
+    }
+
+    public void ChooseMultiOrSingle(){
+        Button MultiPlayerButton = new Button("MultiPlayer");
+        MultiPlayerButton.setAlignment(Pos.CENTER);
+        Button SinglePlayerButton = new Button("SinglePlayer");
+        SinglePlayerButton.setAlignment(Pos.CENTER);
+        MultiPlayerButton.setOnAction(e -> {
+            ChooseServerOrClient();
+        });
+        SinglePlayerButton.setOnAction(e -> {
+            ChooseState();
+        });
+        HBox hBox = new HBox();
+        hBox.setSpacing(15);
+        hBox.getChildren().addAll(MultiPlayerButton, SinglePlayerButton);
+        hBox.setAlignment(Pos.CENTER);
+        StackPane pane = new StackPane();
+        pane.getChildren().add(hBox);
+        Scene scene = new Scene(pane, 1024, 626);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void ChooseServerOrClient(){
+        StackPane pane = new StackPane();
+        Scene chooseServerScene = new Scene(pane, 1024, 626);
+        Button serverButton = new Button("Server");
+        Button clientButton = new Button("Client");
+        serverButton.setOnAction(e -> {
+            isServer = true;
+            //startGameAsServer();
+            //ChooseCard();
+            ChooseState();
+        });
+        clientButton.setOnAction(e -> {
+            isClient = true;
+            //startGameAsClient();
+            //ChooseCard();
+            ChooseState();
+        });
+        HBox hBox = new HBox();
+        hBox.setSpacing(15);
+        hBox.getChildren().addAll(serverButton, clientButton);
+        hBox.setAlignment(Pos.CENTER);
+        pane.getChildren().add(hBox);
+        stage.setScene(chooseServerScene);
+        stage.show();
     }
     public void ChooseState(){
         Pane pane = new Pane();
@@ -185,9 +298,12 @@ public class Game {
             frontYard = night;
             ChooseCard();
         });
+        multiplayerButton.setOnAction(e -> {
+            ChooseServerOrClient();
+        });
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(chooseNight, chooseDay, chooseFog, multiplayerButton);
+        vbox.getChildren().addAll(chooseNight, chooseDay, chooseFog);
         vbox.setSpacing(15);
         vbox.setAlignment(Pos.CENTER);
 
@@ -588,7 +704,15 @@ public class Game {
         startButton.setOnAction(e->{
             if(chosenCards.size() == 6){
                 System.out.println("start Game");
-                startGame();
+                if(isServer){
+                    startGameAsServer();
+                }
+                else if(isClient){
+                    startGameAsClient();
+                }
+                else {
+                    startGame();
+                }
             }
         });
         Button loadButton = new Button();
@@ -633,6 +757,7 @@ public class Game {
         ChooseCardScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(ChooseCardScene);
         stage.show();
+        if(isClient) AddIpStage();
     }
     public Mapp getMap(){
         return map;
@@ -647,6 +772,10 @@ public class Game {
     public void startGame(){
         startTime = System.currentTimeMillis();
         time = 0;
+        if(chosenCards == null){
+            List<String> elementsToAdd = Arrays.asList("Sunflower", "Peashooter", "WallNut", "Jalapeno", "SnowPea", "TallNut");
+            chosenCards.addAll(elementsToAdd);
+        }
         if(this.map == null)
             this.map = new Mapp(stage, chosenCards, plants);
         map.drawMap();
@@ -711,7 +840,7 @@ public class Game {
                 new KeyFrame(Duration.seconds(du), e -> spawnZombie())
         );
         if(du != 0)
-        spawnTimeline.setCycleCount((int) (Math.ceil(15/du)));
+            spawnTimeline.setCycleCount((int) (Math.ceil(15/du)));
         spawnTimeline.play();
     }
     private void spawner(int remainingTimeMil) {
@@ -733,7 +862,7 @@ public class Game {
                 new KeyFrame(Duration.seconds(du), e -> spawnZombie())
         );
         if(du != 0)
-        spawnTimeline.setCycleCount((int) (Math.ceil(remainingTimeMil/(du * 1000))));
+            spawnTimeline.setCycleCount((int) (remainingTimeMil/(du * 1000)));
         spawnTimeline.play();
     }
     private void spawnZombie() {
@@ -744,22 +873,26 @@ public class Game {
         zombies.add(zombie);
         map.borderPane.getChildren().add(zombie.getView());
         positionZombie(zombie);
+
+        if (server != null && server.getOut() != null) {
+            server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
+        }
     }
     private void setupAttackPhases() {
 
         Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
         atTimeline.setCycleCount(3);
-        atTimeline.setDelay(Duration.seconds(15));
+        atTimeline.setDelay(Duration.seconds(16.5));
         atTimeline.play();
     }
     private void setupAttackPhaseS() {
         if (startAttackTime != 0)
-        createAttackPhaseS();
+            createAttackPhaseS();
         Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
         atTimeline.setCycleCount(3);
         atTimeline.jumpTo(Duration.millis(time - startAttackTime));
         if (startAttackTime == 0)
-        atTimeline.setDelay(Duration.millis(30000 - time));
+            atTimeline.setDelay(Duration.millis(31500 - time));
         atTimeline.play();
     }
     public void loadGame(){
@@ -798,14 +931,35 @@ public class Game {
         setupAttackPhaseS();
         //setupGraveZombies();
         startGameLoop();
+
+    }
+    //    private void createAttackPhase() {
+//        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
+//            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
+//            zombies.add(zombie);
+//            map.borderPane.getChildren().add(zombie.getView());
+//            positionZombie(zombie);}));
+//        timeline.setCycleCount(15);
+//        timeline.play();
+//        System.out.println(time);
+//    }
+    public void updateLSpawn() {
+        lastSpawnTime = (int) time;
     }
     private void createAttackPhase() {
         startAttackTime = (int)time;
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { updateLSpawn(); int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
-            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
+        int phase = getCurrentPhaseS();
+        if(time > 55000) phase = 4;
+        final int PHASE = phase;
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { updateLSpawn(); int row = (new Random()).nextInt(5);
+            Zombie zombie = ZombieFactory.createRandomZombie(PHASE, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
-            positionZombie(zombie);}));
+            positionZombie(zombie);
+            if(server != null && server.getOut() != null) {
+                server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
+            }
+        }));
         timeline.setCycleCount(15);
         //timeline.jumpTo(Duration.millis(time % 15000));
         timeline.play();
@@ -814,11 +968,15 @@ public class Game {
         int phase = getCurrentPhaseS();
         if (time > 55000) phase = 4;
         int finalPhase = phase;
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int row = (new Random()).nextInt(5);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> {updateLSpawn(); int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(finalPhase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
-            positionZombie(zombie);}));
+            positionZombie(zombie);
+            if(server != null && server.getOut() != null) {
+                server.getOut().println("SPAWN " + zombie.getClass().getSimpleName() + " " + zombie.getRow() + " ");
+            }
+        }));
         timeline.setCycleCount(15);
         timeline.jumpTo(Duration.millis(time - startAttackTime));
         timeline.play();
@@ -837,6 +995,7 @@ public class Game {
     public long getTime(){
         return time;
     }
+
     private void startGameLoop() {
         gameLoop = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -858,7 +1017,7 @@ public class Game {
                         map.gravePosPairs[i][1] = -1;
                     }
                 }
-                System.out.println("___________" + time);
+                //System.out.println("___________" + time);
                 currentPhase = getCurrentPhaseS();
                 updateChargeTimes((int) (deltaTime * 1000));
                 updatePlants(deltaTime);
@@ -867,39 +1026,34 @@ public class Game {
                 checkZombieHzombieCollisions();
                 updateBullets(deltaTime);
                 updateZombies(deltaTime);
-                if (lost) gameLoop.stop();
-                if (time > 75000 && time - lastSpawnTime > 1900) {
-                    WinnerWinner();
+
+                if (lost || won) gameLoop.stop();
+                if (time > 75000 && time - lastSpawnTime > 1900 && zombies.isEmpty()) {
+                    if(isServer){
+                        server.getOut().println("GAME_OVER LOST");
+                    }
+                    else if (isClient){
+                        client.getOut().println("ClientWON");
+                    }
+                    won = true;
                     gameLoop.stop();
+                    showGameOver(won);
                 }
             }
         };
         gameLoop.start();
     }
 
-    private void WinnerWinner() {
-        StackPane pane = new StackPane();
-        Scene scene = new Scene(pane, 600 ,800);
-        Label label = new Label("Winner Winner Chicken Dinner");
-        pane.getChildren().add(label);
-        stage.setScene(scene);
-        
-        
-    }
-
     public void checkZombiePlantCollisions() {
         for (Zombie zombie : zombies) {
             // Check if zombie reached a plant's cell
-            if (!zombie.isEating()) {
+            if (!zombie.isEating) {
                 Plant plant = findPlantAt(zombie.getRow(), zombie.getColumn());
                 if (plant != null) {
                     zombie.startEating();
                 }
             }
         }
-    }
-    public void updateLSpawn() {
-        lastSpawnTime = (int) time;
     }
     public void checkZombieHzombieCollisions() {
         for (Zombie zombie : zombies) {
@@ -957,12 +1111,27 @@ public class Game {
             }
             zombie.update(deltaTime);
             if(checkReachedEnd(zombie)) {
-                Scene scene = new Scene(new StackPane(new Label("LOOOOser")), 600, 800);
-                stage.setScene(scene);
                 map.borderPane.getChildren().remove(zombie.getView());
-                lost = true;
+                if(isClient){
+                    lost = true;
+                    client.getOut().println("ClientLOST");
+                }
+                else if(isServer){
+                    lost = true;
+                    server.getOut().println("GAME_OVER WIN");
+                }
+                gameLoop.stop();
+                showGameOver(false);
             }
         }
+    }
+    public void lose(){
+        Scene scene = new Scene(new StackPane(new Label("LOOOOser")), 1024, 626);
+        stage.setScene(scene);
+        lost = true;
+        /*if(!isClient && server != null && server.getOut() != null){
+            server.getOut().println("GAME_OVER WIN"); // second word = client state
+        }*/
     }
     private void updatePlants(double deltaTime) {
         for(Iterator<Plant> iterator = plants.iterator(); iterator.hasNext();) {
@@ -1102,6 +1271,7 @@ public class Game {
             Zombie zombie = ZombieFactory.createRandomZombie(4, map.getGravePosPairs()[i][0]);
             zombie.setColumn(map.getGravePosPairs()[i][1]+ 0.5);
             positionZombie(zombie);
+            updateLSpawn();
             zombie.getView().setLayoutX(map.getGridPane().getLayoutX() + zombie.getColumn() * 80 + 30);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
