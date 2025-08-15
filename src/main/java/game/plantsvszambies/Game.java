@@ -992,6 +992,9 @@ public class Game {
         startAttackTime = (int)time;
         int phase = getCurrentPhaseS();
         if(time > 55000) phase = 4;
+        else if(time > 28000 && time < 33000){
+            phase = 3;
+        }
         final int PHASE = phase;
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { updateLSpawn(); int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(PHASE, row);
@@ -1009,6 +1012,9 @@ public class Game {
     private void createAttackPhaseS() {
         int phase = getCurrentPhaseS();
         if (time > 55000) phase = 4;
+        else if(time > 28000 && time < 33000){
+            phase = 3;
+        }
         int finalPhase = phase;
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> {updateLSpawn(); int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(finalPhase, row);

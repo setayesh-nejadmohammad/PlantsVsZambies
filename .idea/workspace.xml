@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="HEHE">
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/CherryBomb.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/DoomShroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/DoomShroom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameEndScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/GameEndScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/IceShroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/IceShroom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/SaveLoadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/SaveLoadManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ScaredyShroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game/plantsvszambies/ScaredyShroom.java" afterDir="false" />
-    </list>
+    <list default="true" id="1f41f28f-705f-4186-a01a-a392ab39a168" name="Changes" comment="finalll" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -177,7 +170,7 @@
       <workItem from="1755236937756" duration="16043000" />
       <workItem from="1755263216492" duration="20972000" />
       <workItem from="1755284420864" duration="70000" />
-      <workItem from="1755284898871" duration="2365000" />
+      <workItem from="1755284898871" duration="2528000" />
     </task>
     <task id="LOCAL-00001" summary="HMMMMM">
       <option name="closed" value="true" />
@@ -555,7 +548,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755287280023</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="finalll">
+      <option name="closed" value="true" />
+      <created>1755287446229</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1755287446229</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,7 +591,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add doomShroom and fix IceShroom problems" />
     <MESSAGE value="GraveBuster" />
     <MESSAGE value="add the night frontyard pic" />
     <MESSAGE value="PuffShroom" />
@@ -615,6 +615,7 @@
     <MESSAGE value="final" />
     <MESSAGE value="score reduce control in map" />
     <MESSAGE value="HEHE" />
-    <option name="LAST_COMMIT_MESSAGE" value="HEHE" />
+    <MESSAGE value="finalll" />
+    <option name="LAST_COMMIT_MESSAGE" value="finalll" />
   </component>
 </project>
