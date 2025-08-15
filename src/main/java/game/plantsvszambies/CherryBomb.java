@@ -26,9 +26,6 @@ public class CherryBomb extends Plant{
     private static final int DAMAGE = 1800;
     private static final int EXPLOSION_RANGE = 1; // 1 tile in all directions (3x3 area)
 
-   /* private ImageView imageView;
-    private int row;
-    private int col;*/
 
     private Timeline explosionTimeline;
 
@@ -44,9 +41,6 @@ public class CherryBomb extends Plant{
 
         // Load cherry bomb image
         Image image = new Image(getClass().getResourceAsStream("images/Plants/cherrybomb.gif"));
-        //this.imageView = new ImageView(image);
-        //this.imageView.setFitWidth(80);
-        //this.imageView.setFitHeight(80);
         view.setImage(image);
         view.setFitWidth(80);
         view.setFitHeight(80);
@@ -106,24 +100,6 @@ public class CherryBomb extends Plant{
         );
         removeTimeline.play();
         Game.getInstance().getPlants().remove(this);
-
-        /*// Change to explosion image
-        Image explosionImage = new Image(getClass().getResourceAsStream("images/Plants/Boom.gif"));
-        view.setImage(explosionImage);
-
-        // Damage zombies in 3x3 area
-        for (Zombie zombie : Game.getInstance().getZombies()) {
-            if (isInExplosionRange(zombie)) {
-                System.out.println("cheery found a zombie to kill!");
-                zombie.die();
-            }
-        }
-
-        // Remove explosion image after animation
-        Timeline removeTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.7), e -> pane.getChildren().remove(view))
-        );
-        removeTimeline.play();*/
 
     }
 

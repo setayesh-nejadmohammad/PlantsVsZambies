@@ -240,10 +240,3 @@ public class SaveLoadManager {
 
 
 }
-
-// ----- Helper Classes (not public) -----
-
-/*class PlantData {
-    String type;
-    int row, col, health;
-}*/

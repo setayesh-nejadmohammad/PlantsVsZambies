@@ -55,7 +55,6 @@ public class DoomShroom extends Plant{
             z.die();
         });
 
-        // حذف تصویر پس از انفجار
         Timeline removeTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(1.3), e -> {
                     pane.getChildren().add(view);

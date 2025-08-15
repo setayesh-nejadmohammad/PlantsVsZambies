@@ -51,7 +51,7 @@ public class GameEndScreen {
             playAgainButton.setStyle("-fx-font-size: 18px; -fx-background-color: #4CAF50; -fx-text-fill: white;");
         });
         // Layout
-        VBox layout = new VBox(20, imageView, playAgainButton, exitButton);
+        VBox layout = new VBox(20, imageView, exitButton);
         layout.setAlignment(Pos.CENTER);
         layout.setStyle("-fx-background-color: rgba(0, 0, 0, 0.8); -fx-padding: 40px; -fx-border-color: gold; -fx-border-width: 5px;");
         FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), layout);

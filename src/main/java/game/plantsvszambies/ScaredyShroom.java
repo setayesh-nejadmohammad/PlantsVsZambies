@@ -9,7 +9,6 @@ public class ScaredyShroom extends ShooterPlant{
     public ScaredyShroom(int row, int col, ImageView imageView){
         super(row, col, 5, 25, 5, imageView);
         this.fireRate = 1.5;
-        //view.setImage(new Image(getClass().getResourceAsStream("images/Plants/ScaredyShroom.gif")));
         this.isNightPlant = true;
         if(!Game.isNight) {
             this.isSleeping = true;

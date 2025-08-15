@@ -88,10 +88,8 @@ public class IceShroom extends Plant{
     }
 
     private void SnowGif(StackPane pane){
-        //pane.getChildren().add(new ImageView(new Image(getClass().getResourceAsStream("images/Plants/snow.gif"))));
         view.setImage(new Image(getClass().getResourceAsStream("images/Plants/snow.gif")));
-        /*view.setFitHeight(1000);
-        view.setFitWidth(1000);*/
+
     }
 
     private void releaseZombie(){
