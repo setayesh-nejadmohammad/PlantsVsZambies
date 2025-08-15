@@ -1,11 +1,13 @@
 package game.plantsvszambies;
 
+import com.almasb.fxgl.input.Input;
 import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -18,6 +20,7 @@ import java.util.Map;
 
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class Game {
@@ -41,6 +44,8 @@ public class Game {
     private Client client;
     private int lastSpawnTime = 0;
     private AnimationTimer gameLoop;
+    private String IP = "";
+    private Stage getIPStage;
 
     public Image day = new Image(getClass().getResourceAsStream("images/frontyard.png"));
     public Image night = new Image(getClass().getResourceAsStream("images/night1.png"));
@@ -48,7 +53,7 @@ public class Game {
     public static boolean lost = false;
     public static boolean won = false;
 
-    public void setStartAttackTime(int time) {
+    public void setStartAttackTime(int time){
         this.startAttackTime = time;
     }
     public int getStartAttackTime(){
@@ -64,7 +69,7 @@ public class Game {
     private static final double SPAWN_INTERVAL3 = 1.8;
     private int currentPhase = 0;
     private Timeline spawnTimeline;
-    private List<Zombie> zombies = new ArrayList<>();
+    private CopyOnWriteArrayList<Zombie> zombies = new CopyOnWriteArrayList<>();
     private List<Zombie> Hzombies = new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
     private boolean durAt = false;
@@ -87,6 +92,7 @@ public class Game {
     public List<Zombie> getHzombies() {
         return Hzombies;
     }
+
     public Game(Stage stage){
         frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
         this.stage = stage;
@@ -94,8 +100,10 @@ public class Game {
         for(int i = 0; i < 6; i++){
             chargeTimes.add(0);
         }
-        ChooseState();
+        ChooseMultiOrSingle();
+        //ChooseState();
     }
+
     public static Game getInstance() {
         if (instance == null) {
             instance = new Game(new Stage());
@@ -157,10 +165,12 @@ public class Game {
         }
         startGame();
     }
-    public void startGameAsClient() {  // Client  ... this should be different from main startGame
+    public void startGameAsClient() {// Client  ... this should be different from main startGame
+        getIPStage.close();
         try {
+            System.out.println("IP = "+ IP);
             client = new Client();
-            client.start("127.0.0.1", 5555); // we should get the ip ; (127.0.0.1) is for lockal host
+            client.start(IP, 5555); // we should get the ip ; (127.0.0.1) is for lockal host
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -179,22 +189,68 @@ public class Game {
         startGameLoop();  // ??!!
     }
 
+    private void AddIpStage(){
+        getIPStage = new Stage();
+        StackPane pane = new StackPane();
+        TextField input = new TextField();
+        Label label = new Label("Enter the Server IP: ");
+        Button send = new Button("Submit");
+        send.setOnAction(e->{
+            IP = input.getText();
+            getIPStage.close();
+        });
+        HBox hbox = new HBox();
+        hbox.setSpacing(10);
+        hbox.setAlignment(Pos.CENTER);
+        hbox.getChildren().addAll(label, input, send);
+        pane.getChildren().addAll(hbox);
+        pane.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(pane, 500, 200);
+        getIPStage.setScene(scene);
+        getIPStage.show();
+    }
+
+    public void ChooseMultiOrSingle(){
+        Button MultiPlayerButton = new Button("MultiPlayer");
+        MultiPlayerButton.setAlignment(Pos.CENTER);
+        Button SinglePlayerButton = new Button("SinglePlayer");
+        SinglePlayerButton.setAlignment(Pos.CENTER);
+        MultiPlayerButton.setOnAction(e -> {
+            ChooseServerOrClient();
+        });
+        SinglePlayerButton.setOnAction(e -> {
+            ChooseState();
+        });
+        HBox hBox = new HBox();
+        hBox.setSpacing(15);
+        hBox.getChildren().addAll(MultiPlayerButton, SinglePlayerButton);
+        hBox.setAlignment(Pos.CENTER);
+        StackPane pane = new StackPane();
+        pane.getChildren().add(hBox);
+        Scene scene = new Scene(pane, 1024, 626);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void ChooseServerOrClient(){
-        Pane pane = new Pane();
+        StackPane pane = new StackPane();
         Scene chooseServerScene = new Scene(pane, 1024, 626);
         Button serverButton = new Button("Server");
         Button clientButton = new Button("Client");
         serverButton.setOnAction(e -> {
             isServer = true;
             //startGameAsServer();
-            ChooseCard();
+            //ChooseCard();
+            ChooseState();
         });
         clientButton.setOnAction(e -> {
             isClient = true;
             //startGameAsClient();
-            ChooseCard();
+            //ChooseCard();
+            ChooseState();
         });
         HBox hBox = new HBox();
+        hBox.setSpacing(15);
         hBox.getChildren().addAll(serverButton, clientButton);
         hBox.setAlignment(Pos.CENTER);
         pane.getChildren().add(hBox);
@@ -256,7 +312,7 @@ public class Game {
         });
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(chooseNight, chooseDay, chooseFog, multiplayerButton);
+        vbox.getChildren().addAll(chooseNight, chooseDay, chooseFog);
         vbox.setSpacing(15);
         vbox.setAlignment(Pos.CENTER);
 
@@ -710,6 +766,7 @@ public class Game {
         ChooseCardScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(ChooseCardScene);
         stage.show();
+        AddIpStage();
     }
     public Mapp getMap(){
         return map;
