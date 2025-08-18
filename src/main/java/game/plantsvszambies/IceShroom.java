@@ -28,10 +28,10 @@ public class IceShroom extends Plant{
     public void act(StackPane pane){
         freezAllZombies();
 
-        Timeline snowComing = new Timeline(
-                new KeyFrame(Duration.seconds(0.7), event -> {SnowGif(pane);})
-        );
-        snowComing.play();
+//        Timeline snowComing = new Timeline(
+//                new KeyFrame(Duration.seconds(0.7), event -> {SnowGif(pane);})
+//        );
+//        snowComing.play();
 
 
         Timeline removeTimeline = new Timeline(
@@ -83,12 +83,6 @@ public class IceShroom extends Plant{
         }
     }
 
-    private void SnowGif(StackPane pane){
-        //pane.getChildren().add(new ImageView(new Image(getClass().getResourceAsStream("images/Plants/snow.gif"))));
-        view.setImage(new Image(getClass().getResourceAsStream("images/Plants/snow.gif")));
-        /*view.setFitHeight(1000);
-        view.setFitWidth(1000);*/
-    }
 
     private void releaseZombie(){
         for(Zombie z: Game.getInstance().getZombies()){

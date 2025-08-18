@@ -11,6 +11,10 @@ public class HypnoShroom extends Plant {
     public HypnoShroom(int row, int col, ImageView imageView) {
         super(row, col, HEALTH, COST, 7.5F, imageView);
         this.view = imageView;
+        if (!Game.isNight) {
+            this.isSleeping = true;
+            view.setImage(new Image(getClass().getResourceAsStream("images/HypnoShroomSleep.gif")));
+        }
     }
 
     public void act() {

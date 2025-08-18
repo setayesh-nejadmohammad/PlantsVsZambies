@@ -1,7 +1,11 @@
 package game.plantsvszambies;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 public class ImpZombie extends Zombie{
     public ImpZombie(int row) {
@@ -15,8 +19,9 @@ public class ImpZombie extends Zombie{
     @Override
     protected ImageView createImageView() {
         ImageView view = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/imp.gif")));
-        view.setFitWidth(100);
-        view.setFitHeight(100);
+        view.setFitWidth(64);
+        view.setFitHeight(80);
+        view.setLayoutY(view.getLayoutY()-30);
         return view;
     }
     public void startEating() {
@@ -33,5 +38,66 @@ public class ImpZombie extends Zombie{
         hEat = false;
         isEating = false;
         view.setImage(new Image(getClass().getResourceAsStream("images/Zombie/imp.gif")));
+    }
+    public void die() {
+        if(isDead) return;
+        isDead = true;
+        //System.out.println("Zombie number "+ID+" died at row: " + row + ", col: " + column);
+
+        // change imageView to DEATH MOD
+        Image deathImage = new Image(getClass().getResourceAsStream("images/Zombie/BoomDieImp.gif"));
+        view.setImage(deathImage);
+        //view.setLayoutX(view.getLayoutX());
+
+        isEating = true;
+
+        // 2 sec pause before remove zombie
+        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+        delay.setOnFinished(event -> {
+            // remove Zombie's ImageView from the Main pane
+            if (view.getParent() != null) {
+                ((BorderPane)view.getParent()).getChildren().remove(view);
+            }
+
+            // remove the zombie from zombies List
+            Game.getInstance().getZombies().remove(this);
+
+        });
+        delay.play();
+    }
+
+
+    public void dieWithShooter() {
+        if(isDead) return;
+        if (isEating) {
+            Plant target = Game.getInstance().findPlantBeingEaten(this);
+            if (target != null) {
+                target.removeAttacker(this); // <-- HERE
+            }
+        }
+        isDead = true;
+        Game.getInstance().removeZombie(this);
+        Game.getInstance().removeHZombie(this);
+
+        // make the head
+        ImageView headGif = new ImageView(new Image(getClass().getResourceAsStream("images/Zombie/ImpDie.gif")));
+        headGif.setFitWidth(64);
+        headGif.setFitHeight(80);
+
+        // put in stackPane
+        StackPane animationPane = new StackPane();
+        animationPane.getChildren().addAll(headGif); // ترتیب مهمه: بدن زیر، کله بالا
+
+        // Put in Zombies Pos
+        animationPane.setLayoutX(view.getX());
+        animationPane.setLayoutY(view.getY());
+
+        // add it to the scene
+        Game.getInstance().map.grid.add(animationPane, (int)getColumn(), getRow());
+
+        // remove it after a few sec
+        PauseTransition delay = new PauseTransition(Duration.seconds(2.6));
+        delay.setOnFinished(e -> Game.getInstance().map.grid.getChildren().remove(animationPane));
+        delay.play();
     }
 }

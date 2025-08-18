@@ -49,15 +49,15 @@ public class Game {
     public Image ZombieStaring = new Image(getClass().getResourceAsStream("images/button_menus/StartgameBg.png"));
     public static boolean lost = false;
     public static boolean won = false;
+    private Timeline atTimeline;
+    private Timeline spawnerTimeline;
+    private Timeline timeline;
 
     public void setStartAttackTime(int time) {
         this.startAttackTime = time;
     }
     public int getStartAttackTime(){
         return startAttackTime;
-    }
-    public Server getServer() {
-        return server;
     }
     private static final double FRAME_TIME = 1.0 / 60.0;
     ArrayList<String> chosenCards = new ArrayList<String>();
@@ -96,16 +96,30 @@ public class Game {
         Platform.runLater(() -> {
             GameEndScreen endScreen = new GameEndScreen();
             boolean playAgain = endScreen.show(playerWon, stage);
-
             if (playAgain) {
-
+                spawnTimeline.stop();
+                atTimeline.stop();
+                zombies.clear();
+                plants.clear();
+                Hzombies.clear();
+                spawnerTimeline.stop();
+                timeline.stop();
+                map.sunSpawnTimeline.stop();
+                this.map = null;
+                instance = null;
+                Game newG = Game.getInstance();
+                if(instance == null) {
+                    Platform.exit();
+                }
             } else {
                 Platform.exit();
             }
         });
     }
     public Game(Stage stage){
-        frontYard = new Image(getClass().getResourceAsStream("images/frontyard.png"));
+        stage.setResizable(false);
+        stage.setFullScreen(false);
+        frontYard = new Image(getClass().getResourceAsStream("images/button_menus/startGameBg.png"));
         this.stage = stage;
         stage.getIcons().add(new Image(getClass().getResourceAsStream("images/button_menus/ZombieHead.png")));
         for(int i = 0; i < 6; i++){
@@ -206,32 +220,74 @@ public class Game {
     }
 
     public void ChooseMultiOrSingle(){
-        Button MultiPlayerButton = new Button("MultiPlayer");
+        ImageView MultiView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/MultiplayerButton.png")));
+        ImageView SingleView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/SingleplayerButton.png")));
+        MultiView.setFitHeight(50); MultiView.setFitWidth(150);
+        SingleView.setFitHeight(50); SingleView.setFitWidth(150);
+
+        Button MultiPlayerButton = new Button();
         MultiPlayerButton.setAlignment(Pos.CENTER);
-        Button SinglePlayerButton = new Button("SinglePlayer");
+        MultiPlayerButton.setGraphic(MultiView);
+        MultiPlayerButton.getStyleClass().add("button");
+
+        Button SinglePlayerButton = new Button();
         SinglePlayerButton.setAlignment(Pos.CENTER);
+        SinglePlayerButton.setGraphic(SingleView);
+        SinglePlayerButton.getStyleClass().add("button");
+
         MultiPlayerButton.setOnAction(e -> {
             ChooseServerOrClient();
         });
         SinglePlayerButton.setOnAction(e -> {
             ChooseState();
         });
-        HBox hBox = new HBox();
-        hBox.setSpacing(15);
-        hBox.getChildren().addAll(MultiPlayerButton, SinglePlayerButton);
-        hBox.setAlignment(Pos.CENTER);
-        StackPane pane = new StackPane();
-        pane.getChildren().add(hBox);
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(MultiPlayerButton, SinglePlayerButton);
+        vbox.setSpacing(15);
+        vbox.setAlignment(Pos.CENTER);
+
+        vbox.setLayoutX(195);
+        vbox.setLayoutY(295);
+
+        Pane pane = new Pane();
+        pane.getChildren().add(vbox);
+        BackgroundImage bgImage = new BackgroundImage(
+                frontYard,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
+        pane.setBackground(new Background(bgImage));
         Scene scene = new Scene(pane, 1024, 626);
+        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
 
     public void ChooseServerOrClient(){
-        StackPane pane = new StackPane();
+        ImageView serverButtonView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/ServerButton.png")));
+        ImageView clientButtonView = new ImageView(new Image(getClass().getResourceAsStream("images/button_menus/ClientButton.png")));
+
+        serverButtonView.setFitHeight(50); serverButtonView.setFitWidth(150);
+        clientButtonView.setFitHeight(50); clientButtonView.setFitWidth(150);
+
+        Pane pane = new Pane();
+        BackgroundImage bgImage = new BackgroundImage(
+                frontYard,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
+        pane.setBackground(new Background(bgImage));
         Scene chooseServerScene = new Scene(pane, 1024, 626);
-        Button serverButton = new Button("Server");
-        Button clientButton = new Button("Client");
+
+        Button serverButton = new Button();
+        serverButton.getStyleClass().add("button");
+        serverButton.setGraphic(serverButtonView);
+
+        Button clientButton = new Button();
+        clientButton.getStyleClass().add("button");
+        clientButton.setGraphic(clientButtonView);
         serverButton.setOnAction(e -> {
             isServer = true;
             //startGameAsServer();
@@ -244,11 +300,18 @@ public class Game {
             //ChooseCard();
             ChooseState();
         });
-        HBox hBox = new HBox();
-        hBox.setSpacing(15);
-        hBox.getChildren().addAll(serverButton, clientButton);
-        hBox.setAlignment(Pos.CENTER);
-        pane.getChildren().add(hBox);
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll();
+        vbox.setSpacing(15);
+        vbox.setAlignment(Pos.CENTER);
+
+        vbox.setLayoutX(195);
+        vbox.setLayoutY(295);
+
+        vbox.getChildren().addAll(serverButton, clientButton);
+
+        pane.getChildren().add(vbox);
+        chooseServerScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(chooseServerScene);
         stage.show();
     }
@@ -839,12 +902,12 @@ public class Game {
         else if (getCurrentPhase() == 4) {
             du = SPAWN_INTERVAL3;
         }
-        spawnTimeline = new Timeline(
+        spawnerTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(du), e -> spawnZombie())
         );
         if(du != 0)
-            spawnTimeline.setCycleCount((int) (Math.ceil(15/du)));
-        spawnTimeline.play();
+            spawnerTimeline.setCycleCount((int) (Math.ceil(15/du)));
+        spawnerTimeline.play();
     }
     private void spawner(int remainingTimeMil) {
         System.out.println("spawner");
@@ -861,12 +924,12 @@ public class Game {
         else if (getCurrentPhaseS() == 4) {
             du = SPAWN_INTERVAL3;
         }
-        spawnTimeline = new Timeline(
+        spawnerTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(du), e -> spawnZombie())
         );
         if(du != 0)
-            spawnTimeline.setCycleCount((int) (remainingTimeMil/(du * 1000)));
-        spawnTimeline.play();
+            spawnerTimeline.setCycleCount((int) (remainingTimeMil/(du * 1000)));
+        spawnerTimeline.play();
     }
     private void spawnZombie() {
         updateLSpawn();
@@ -874,6 +937,7 @@ public class Game {
         int row = (new Random()).nextInt(5);
         Zombie zombie = ZombieFactory.createRandomZombie(currentPhase, row);
         zombies.add(zombie);
+        if(map != null)
         map.borderPane.getChildren().add(zombie.getView());
         positionZombie(zombie);
 
@@ -883,7 +947,7 @@ public class Game {
     }
     private void setupAttackPhases() {
 
-        Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
+        atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
         atTimeline.setCycleCount(3);
         atTimeline.setDelay(Duration.seconds(16.5));
         atTimeline.play();
@@ -891,7 +955,7 @@ public class Game {
     private void setupAttackPhaseS() {
         if (startAttackTime != 0)
             createAttackPhaseS();
-        Timeline atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
+        atTimeline = new Timeline(new KeyFrame(Duration.seconds(15), e -> createAttackPhase()));
         atTimeline.setCycleCount(3);
         atTimeline.jumpTo(Duration.millis(time - startAttackTime));
         if (startAttackTime == 0)
@@ -936,9 +1000,6 @@ public class Game {
         startGameLoop();
 
     }
-    public boolean isClient() {
-        return isClient;
-    }
     //    private void createAttackPhase() {
 //        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { int phase = getCurrentPhaseS();int row = (new Random()).nextInt(5);
 //            Zombie zombie = ZombieFactory.createRandomZombie(phase, row);
@@ -956,8 +1017,10 @@ public class Game {
         startAttackTime = (int)time;
         int phase = getCurrentPhaseS();
         if(time > 55000) phase = 4;
+        else if (time > 28000 && time < 33000)
+            phase = 3;
         final int PHASE = phase;
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { updateLSpawn(); int row = (new Random()).nextInt(5);
+         timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> { updateLSpawn(); int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(PHASE, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
@@ -974,7 +1037,7 @@ public class Game {
         int phase = getCurrentPhaseS();
         if (time > 55000) phase = 4;
         int finalPhase = phase;
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> {updateLSpawn(); int row = (new Random()).nextInt(5);
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.28), e -> {updateLSpawn(); int row = (new Random()).nextInt(5);
             Zombie zombie = ZombieFactory.createRandomZombie(finalPhase, row);
             zombies.add(zombie);
             map.borderPane.getChildren().add(zombie.getView());
@@ -1270,6 +1333,12 @@ public class Game {
         spawnTimeline.setCycleCount(Timeline.INDEFINITE);
         spawnTimeline.play();
 
+    }
+    public boolean isClient() {
+        return isClient;
+    }
+    public Server getServer() {
+        return server;
     }
     private void spawnFromGrave() {
         for (int i = 0 ; i < 5 ; i++) {
