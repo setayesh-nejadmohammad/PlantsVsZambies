@@ -46,6 +46,13 @@ public class SaveLoadManager {
 
     public static void saveGame(String filename, int score) {
         try (FileWriter writer = new FileWriter(filename)) {
+            writer.write("DOOMS ");
+            for (String s: Game.getInstance().map.dooms) {
+                writer.write(s + " ");
+            }
+
+            writer.write("\n");
+
             writer.write("CARDS ");
             for(String s : Game.getInstance().chosenCards){
                 writer.write(s);
@@ -169,6 +176,16 @@ public class SaveLoadManager {
                     for(int i = 1; i <= 6; i++){
                         chosenCards.add(parts[i]);
                     }
+                }
+                else if (parts[0].equals("DOOMS")) {
+                   for (int i = 1 ; i < parts.length ; i++) {
+
+                       Game.getInstance().map.dooms.add(parts[i]);
+                   }
+
+
+
+
                 }
                 else if(parts[0].equals("SCORE")) {
                     if(score != null) score[0] = Integer.parseInt(parts[1]);

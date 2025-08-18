@@ -1,9 +1,8 @@
-CARDS Sunflower Peashooter SnowPea TallNut WallNut HypnoShroom 
-CTIMES 2421 1228 0 0 0 0 
-SCORE 50
-PLANT Sunflower 0 0 5
-PLANT Peashooter 1 1 5
+DOOMS 1*1 
+CARDS Sunflower Peashooter SnowPea DoomShroom CherryBomb Jalapeno 
+CTIMES 0 0 0 2723 0 0 
+SCORE 175
 STARTATTACK 0
-GR -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 
-TIME 5099
+GR 1 8 3 0 3 8 0 7 4 4 
+TIME 4512
 currentP 0

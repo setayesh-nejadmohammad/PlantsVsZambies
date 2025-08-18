@@ -20,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -63,7 +64,7 @@ public class Mapp {
     StackPane coffeeBeanPane = new StackPane(coffeeBeanButton);
 
     ArrayList<Fog> fogs = new ArrayList<>();
-    private int[][] dooms = new int[5][9];
+    public Set<String> dooms = new HashSet<>();
     Plant plantss[][] = new Plant[5][9];
     public static final int COLS = 9;
     public static final int CELL_SIZE = 80;
@@ -145,7 +146,6 @@ public class Mapp {
     public Timeline sunSpawnTimeline;
 
     public Mapp(Stage stage, ArrayList<String> chosenCards, List<Plant> plants) {
-
         this.chosenCards = chosenCards;
         this.stage = stage;
         this.grid = new GridPane();
@@ -182,9 +182,6 @@ public class Mapp {
         ImageCursor imageCursor = new ImageCursor(shovelCursor, shovelCursor.getWidth() / 2, shovelCursor.getHeight() / 2);
         shovelCurs = (Cursor) imageCursor;
     }
-    public int[][] getDooms() {
-        return dooms;
-    }
     public void setChosenCards(ArrayList<String> chosenCards) {
         this.chosenCards = chosenCards;
     }
@@ -200,6 +197,7 @@ public class Mapp {
         else if(Game.getInstance().getTime() < 300 && !Game.getInstance().isClient()) {
             findPosForGraves();
         }
+
 
         if(Game.isNight){
             frontYard = Game.getInstance().night;
@@ -241,6 +239,16 @@ public class Mapp {
                 grid.add(cell, col, row);
                 if (plantss[row][col] != null) {
                     cell.getChildren().add(plantss[row][col].view);
+                }
+            }
+        }
+        for (int i = 0 ; i < 5; i++) {
+            for (int j = 0 ; j < 9 ; j++) {
+                if (dooms.contains(i + "*" + j)) {
+                    ImageView doom = new ImageView(new Image(getClass().getResourceAsStream("images/Plants/crater.png")));
+                    doom.setFitWidth(CELL_SIZE);
+                    ((StackPane)getNodeFromGrid(grid, j, i)).getChildren().add(doom);
+
                 }
             }
         }
@@ -810,7 +818,7 @@ public class Mapp {
             //cell.getChildren().addAll(cherrybombView);
             gameController.reduceScore(150);
         }
-        else if(num.intValue() == 9 && cell.getChildren().size() != 0 && !isGrave && dooms[row][col] != 1) {
+        else if(num.intValue() == 9 && cell.getChildren().size() != 0 && !isGrave && !dooms.contains(row+ "*" + col)) {
             scene.setCursor(Cursor.DEFAULT);
             Game.getInstance().removePlant(findPlantAt(row, col));
             cell.getChildren().clear();
@@ -832,7 +840,7 @@ public class Mapp {
             num.set(0);
             DoomShroom doom = new DoomShroom(row, col, cell, doomShroomView);
             plants.add(doom);
-            dooms[row][col] = 1;
+            dooms.add(row+ "*" + col);
             gameController.reduceScore(125);
             Game.getInstance().getCT().set(chosenCards.indexOf("DoomShroom"), 0);
             int i = chosenCards.indexOf("DoomShroom");
