@@ -63,6 +63,7 @@ public class Mapp {
     StackPane coffeeBeanPane = new StackPane(coffeeBeanButton);
 
     ArrayList<Fog> fogs = new ArrayList<>();
+    private int[][] dooms = new int[5][9];
     Plant plantss[][] = new Plant[5][9];
     public static final int COLS = 9;
     public static final int CELL_SIZE = 80;
@@ -141,6 +142,7 @@ public class Mapp {
     ImageView repeaterView = new ImageView(repeater);
     ImageView jalapenoView = new ImageView(jalapeno);
     ImageView cherrybombView = new ImageView(cherrybomb);
+    public Timeline sunSpawnTimeline;
 
     public Mapp(Stage stage, ArrayList<String> chosenCards, List<Plant> plants) {
 
@@ -179,6 +181,9 @@ public class Mapp {
        }*/
         ImageCursor imageCursor = new ImageCursor(shovelCursor, shovelCursor.getWidth() / 2, shovelCursor.getHeight() / 2);
         shovelCurs = (Cursor) imageCursor;
+    }
+    public int[][] getDooms() {
+        return dooms;
     }
     public void setChosenCards(ArrayList<String> chosenCards) {
         this.chosenCards = chosenCards;
@@ -393,7 +398,7 @@ public class Mapp {
     }
 
     public void sunFalling() {
-        Timeline sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+        sunSpawnTimeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             double x = Math.random() * (borderPane.getWidth() - 50);
             new Sun(borderPane, x);
         }));
@@ -805,7 +810,7 @@ public class Mapp {
             //cell.getChildren().addAll(cherrybombView);
             gameController.reduceScore(150);
         }
-        else if(num.intValue() == 9 && cell.getChildren().size() != 0 && !isGrave) {
+        else if(num.intValue() == 9 && cell.getChildren().size() != 0 && !isGrave && dooms[row][col] != 1) {
             scene.setCursor(Cursor.DEFAULT);
             Game.getInstance().removePlant(findPlantAt(row, col));
             cell.getChildren().clear();
@@ -827,6 +832,7 @@ public class Mapp {
             num.set(0);
             DoomShroom doom = new DoomShroom(row, col, cell, doomShroomView);
             plants.add(doom);
+            dooms[row][col] = 1;
             gameController.reduceScore(125);
             Game.getInstance().getCT().set(chosenCards.indexOf("DoomShroom"), 0);
             int i = chosenCards.indexOf("DoomShroom");
